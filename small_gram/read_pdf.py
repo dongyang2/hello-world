@@ -6,7 +6,7 @@ from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from io import StringIO
 from io import open
-import  os
+import os
 import chardet
 
 
@@ -92,37 +92,68 @@ if __name__ == '__main__':
     #         outputString = read_pdf(pdf_file)
     #         write_txt(path2)
 
-    str3 = '''To get intuitions on how piggybacked apps are built,
-we consider samples from our ground truth and manu-
-ally investigate how the piggybacked app di↵erentiates
-from the original carrier app. Building on the character-
-istics of piggybacking that emerge, we propose a feature
-set for machine learning classification.
-ComponentCapabilitydeclarations. In Android, In-
-tents are the primary means for exchanging information
-between components. These objects contain fields such
-as the Component name to optionally indicate which app
-component to whom to deliver the object, some data
-(e.g., a phone number), or the action, which is a string
-that specifies the generic action to perform (such as view
-a contact, pick an image from the gallery, or send an
-SMS). When the Android OS resolves an intent which
-is not explicitly targeted to a specific component, it will
-look for all registered components that have Intent fil-
-ters with actions matching the intent action. Indeed, In-
-tent filters are used by apps to declare their capabilities
-(e.g., a Messaging app will indicate being able to pro-
-cess intents with the ACTION_SEND action). Our manual
-investigation into piggybacked apps has revealed that
-they usually declare additional capabilities to the orig-
-inal apps to support the needs of the added malicious
-code. Usually, such new capabilities are used for the ac-
-tivation of the malicious behaviour. For example, pig-
-gybacked apps may add a new broadcast receiver with
-an intent-filter that declares its intention for listening to
-a specific event. Listing 1 illustrates an example of pig-
-gybacked app from our ground truth. In this Manifest
-file, components CAdR (line 12) is inserted and accom-
-panied with the capability declaration for handling the
-PACKAGE_ADDED system event (line 13).'''
+    str3 = '''Malware binary, usually with a file name extension of “.exe”
+or “.bin”, is a malicious program that could harm computer
+operating systems. Sometimes, it may have many variations
+with highly reused basic pattern. This implies malware binaries
+could be categorized into multiple families (classes), and
+each variation inherits the characteristics of its own family.
+Therefore, it is important to effectively detect malware binary
+and recognize possible variations [1], [2].
+However, this is non-trivial but challenging. A malware
+binary file can be visualized to a digital gray image [3].
+After visualization, the malware binary detection turns into a
+multi-class image classification problem, which has been well
+studied in deep learning. One can manually extract features
+from malware images and feed them into classifiers such as
+SVM (support vector machine) or KNN (k-nearest neighbors
+algorithm) to detect malware binaries through classification.
+To be more discriminative, one can utilize CNN to automati-
+cally extract features as Razavian et al. did in [4] and perform
+classification in an end-to-end fashion. However, most deep
+CNNs are trained by properly designed balanced data [5],
+[6], while malware images dataset may be highly imbalanced:
+some malware has many variations while some other only has
+few variations. For instance, the dataset [3] used in our paper
+contains 25 classes, and some class contains more than 2000
+images while some other has only 80 images or so. As a result,
+even reputed pre-trained CNN models [7], [8], [9], [10] may
+perform poorly in our senario. Furthermore, pre-trained CNN
+models are originally designed for specific vision tasks, and
+they cannot be applied to malware binary detection directly.
+One may argue that data augmentation could be a possible
+approach to balance the data, such as oversampling the mi-
+nority classes and/or down-sampling the majority classes. It
+is, however, not suitable for our problem due to two reasons.
+First, down-sampling may miss many representative malware
+variations. Second, simply jittering the data cannot generate
+images corresponding to real malware binaries. Therefore,
+we aim to investigate how to train a CNN model with the
+imbalanced data in hand.
+To solve the above challenges, inspired by the work in [11],
+[12] which designed new loss function for CNN to improve
+training performance, we propose a weighted softmax loss for
+deep CNN on malware images classification. Based on the
+error rate given by softmax loss, we weight misclassifications
+by different values corresponding to class size. Intuitively,
+misclassification of minority class should be amplified, and
+that of majority class needs to be suppressed. Our weighted
+loss can achieve this goal and guide the CNN to update
+filters in a proper direction. We adopt a pre-trained verydeep-
+19 model [8] from VGG family (Visual Geometry Group at
+Oxford), and retrain it to achieve a promising result on the
+malware images classification. Once the proposed loss has
+been proven feasible with VGG models, it can be extended
+to other models, such as GoogleNet [9] and ResNet [10]. In
+a word, the contributions of this work are two-fold. First, we
+propose a weighted softmax loss to address the data imbalance
+issue in CNN training. Second, we apply the proposed loss to
+a pre-trained CNN model and fine tune it to solve the malware
+images classification problem.
+The rest of paper is organized as follows. Related work is
+discussed in Section II. Section III introduces the proposed
+weighted softmax loss. In Section IV, we describe how to
+deploy the proposed loss and fine-tune a deep CNN for
+malware images classification. We evaluate our method in
+Section V, and conclude this paper in Section VI.'''
     print(del_enter(str3))
