@@ -54,8 +54,6 @@ if __name__ == '__main__':
 
     train_data_dir = 'H:/infosec/train_image'
     validation_data_dir = 'H:/infosec/validate_image'
-    nb_train_samples = 2000
-    nb_validation_samples = 800
 
     input_shape = (img_width, img_height, 1)
 
@@ -77,13 +75,18 @@ if __name__ == '__main__':
     model.add(Convolution2D(64, (3, 3)))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
+    # model.add(Dropout(0.25))
 
     model.add(Flatten())
-    model.add(Dense(64, activation='relu'))
+    # model.add(Dense(64, activation='relu'))
+    # model.add(Dense(256, activation='relu'))
+    model.add(Dense(512, activation='relu'))
     model.add(Dropout(0.5))
 
-    model.add(Reshape((9, )))
+    # model.add(Dense(64, activation='relu'))
+    # model.add(Dropout(0.5))
+
+    # model.add(Reshape((9, )))
     model.add(Dense(9, activation='softmax'))
     # model.add(Activation('sigmoid'))
 
@@ -107,21 +110,24 @@ if __name__ == '__main__':
         train_data_dir,
         target_size=(img_width, img_height),
         color_mode='grayscale',
-        class_mode='sparse')
+        # class_mode='sparse'
+        class_mode='categorical'
+    )
 
     validation_generator = val_data_gen.flow_from_directory(
         validation_data_dir,
         target_size=(img_width, img_height),
         color_mode='grayscale',
-        class_mode='sparse')
+        # class_mode='sparse'
+        class_mode='categorical')
 
     model.fit_generator(
         train_generator,
-        steps_per_epoch=nb_train_samples // 32,
-        epochs=5,
+        steps_per_epoch=20,
+        epochs=50,
         validation_data=validation_generator,
-        validation_steps=nb_validation_samples // 32
+        validation_steps=50
     )
 
-    model.save_weights('second_try.h5')
+    model.save_weights('fifth_try.h5')
     # score = model.evaluate(x_test, y_test, batch_size=128)

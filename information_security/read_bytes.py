@@ -53,7 +53,7 @@ def write_in_image(content, filename):
         if h == len(content):
             ar = fill_up_list(ar, 950)
             arr.append(ar)
-        elif h % 50 == 0:
+        elif h % 50 == 0:       # 每50行合并为一行
             # print(ar)
             arr.append(ar)
             ar = []
