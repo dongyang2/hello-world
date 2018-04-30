@@ -2,6 +2,8 @@
   <dictionary name="Dongyang-ices">
     <words>
       <w>chardet</w>
+      <w>imshow</w>
+      <w>laplacian</w>
     </words>
   </dictionary>
 </component>
