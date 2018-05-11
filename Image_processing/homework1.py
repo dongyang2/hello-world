@@ -15,7 +15,7 @@ def reverse_gray(image):
 
 
 def erode_dilate(image, flag, ct=1, ks=5, blur=0):
-    """开运算，ct是循环次数，ks是腐蚀膨胀的窗口大小"""
+    """开运算或闭运算，ct是循环次数，ks是腐蚀膨胀的窗口大小"""
     k_size = (ks, ks)
     tmp = image
 
@@ -34,6 +34,7 @@ def erode_dilate(image, flag, ct=1, ks=5, blur=0):
 
 
 def repeat(image, flag, ct=1, ks=5, blur=0):
+    """重复腐蚀或者膨胀"""
     if ct < 1:
         return False
     if flag != 'dilate' and flag != 'erode':
@@ -58,10 +59,19 @@ def process(image, th=80):
     thr_ga = cv2.GaussianBlur(thr_4, (5, 5), 0.6)
     thr_ga_la = reverse_gray(cv2.convertScaleAbs(cv2.Laplacian(thr_ga, cv2.CV_16S, ksize=3)))
     thr_ga_la_r = repeat(thr_ga_la, 'erode', 1)
-    # thr_ga_la_rr = repeat(thr_ga_la_r,'dilate',5)
+    # thr_ga_la_rr = repeat(thr_ga_la_r,'dilate',3)
     # thr_ga_la_cl = erode_dilate(thr_ga_la, 'close', 10, 11)
     # thr_ga_la_ga = cv2.GaussianBlur(thr_ga_la, (11,11), 0.4)
-    result = thr_ga_la
+    result = thr_ga_la_r
+
+    # plt.subplot(1, 2, 1)
+    # plt.imshow(thr_ga_la)
+    #
+    # plt.subplot(1, 2, 2)
+    # plt.imshow(result)
+    #
+    # plt.show()
+    #
     plt.imshow(result)
     plt.show()
     return result
@@ -82,11 +92,11 @@ def process2(image, th=80):
 def process3(image):
     ga = cv2.GaussianBlur(image, (5, 5), 0.6)
     ga_la = reverse_gray(cv2.convertScaleAbs(cv2.Laplacian(ga, cv2.CV_16S, ksize=3)))
-    ga_la_cl_th = cv2.threshold(ga_la, 80, 255, cv2.THRESH_BINARY)[1]
+    # ga_la_cl_th = cv2.threshold(ga_la, 80, 255, cv2.THRESH_BINARY)[1]
 
-    ga_la_cl = erode_dilate(ga_la_cl_th, 'open', ct=5,blur=1)
+    # ga_la_cl = erode_dilate(ga_la_cl_th, 'open', ct=5, blur=1)
     # ga_la_cl_ga = cv2.GaussianBlur(ga_la_cl, (5, 5), 0.6)
-    result = ga_la_cl
+    result = ga_la
     plt.imshow(result)
     plt.show()
 
@@ -118,6 +128,7 @@ def ots(img_gray, th_begin=0, th_end=256, th_step=1):
 
 
 def together(image, ct):
+    """让指纹挤在一起，ct=100时效果不错"""
     r1 = cv2.GaussianBlur(image, (11, 11), 0.4)
     r2 = repeat(r1, 'erode', 10, 5)
     for i in range(ct - 1):
@@ -136,6 +147,9 @@ if __name__ == '__main__':
     img7 = cv2.imread('picture/21.bmp')
     img21 = cv2.imread('picture/21.bmp', 0)
 
+    # process(img7,100)
+    # process2(img5,75)
+    # process2(img1)
     process3(img7)
     # p1 = process2(img7,70)
     # p1 = cv2.threshold(img3, 60, 255, cv2.THRESH_BINARY)[1]
@@ -145,6 +159,7 @@ if __name__ == '__main__':
     # p4 = repeat(p3, 'erode', 10, 5)
     # p5 = repeat(p4,'erode',100,5)
 
+    # 边缘检测
     # xgrad = cv2.Sobel(p1, cv2.CV_16SC1, 1, 0)
     # ygrad = cv2.Sobel(p1, cv2.CV_16SC1, 0, 1)
     # edge_output = cv2.Canny(xgrad, ygrad, 50, 150)

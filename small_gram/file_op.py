@@ -2,13 +2,14 @@
 # -*- coding: UTF-8 -*-
 
 import os
-from information_security import read_bytes
+# from information_security import read_bytes
 from small_gram import num_op
 import shutil
 
 
 def each_file_or_dir_name(path):
     """ 遍历指定目录，显示目录下的所有文件或目录名
+
     :param path: 文件夹的绝对路径或者相对路径
     :return: 该文件夹下的所有文件或文件夹名字的列表
     """
@@ -50,8 +51,7 @@ def read_file(filename):
 
 
 def is_rectangle(file_path, file_type):
-    """判断一个文件内容每一行长度是不是一样
-    """
+    """判断一个文件内容每一行长度是不是一样"""
     file_content = []
     if file_type == 'influx':
         f_c = open(file_path, 'r')
@@ -88,6 +88,7 @@ def is_rectangle_byte(file_path):
 
 
 def divide_file(path_from, path_to, validate_ratio, label_file):
+    """分割一部分文件作为测试集，一部分作为验证集"""
     li_lab_file = read_acc_file(label_file)
     for h, i in enumerate(li_lab_file):
         li_lab_file[h] = num_op.get_first_ratio(i, validate_ratio)
@@ -174,6 +175,49 @@ def write_file(content, filename, w_type):
                 f.write(j + ' ' + str(h+1) + '\n')
             # f.write(' ' + str(h) + '\n')
     f.close()
+
+
+def write_file_li(li, filename, title=''):
+    """写一个数组到文件中
+
+    :param li       要写入的数组
+    :type li        list
+    :param filename 写入的文件名
+    :type filename  str
+    :param title    标题，会写入文件第一行
+    :type title     str
+    """
+    f = open(filename, 'w')
+    if title != '':
+        f.write(title + '\n')
+    if type(li[0]) is not list:
+        for i in li:
+            f.write(str(i) + ' ')
+        f.write('\n')
+    else:
+        for i in li:
+            for j in i:
+                f.write(str(j) + ' ')
+            f.write('\n')
+    f.close()
+
+
+def read_file_li(filename, title=0):
+    """读取文件内容，每一行存入一个数组，返回一个二维数组"""
+    if title != 0 and title != 1:
+        return False
+    with open(filename, 'r') as f_open:
+        file_content = []
+        for k, each_line in enumerate(f_open):
+            if k == 0 and title == 1:
+                # print(each_line)
+                file_content.append(each_line[:-1])
+            else:
+                word = []
+                for i in each_line.split(' ')[:-1]:
+                    word.append(i)
+                file_content.append(word)
+        return file_content
 
 
 if __name__ == '__main__':
