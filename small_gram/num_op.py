@@ -1,17 +1,20 @@
-def get_first_ratio(li, ratio):
-    """获得一个一维列表前(只看位置不看大小)百分之几（取决于ratio）的所有元素
+def get_first_ratio(li, ratio, rnd=True):
+    """获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素
 
-    :param li: 列表
-    :type li: list
+    :param li:    列表
     :param ratio: 比例
+    :param rnd:   是否对比例的结果四舍五入，True则将根据rat得到的个数四舍五入，否则按照整数部分来切割
 
-    :return: 前百分之几的所有元素
+    :return: 前几成的所有元素
     """
     len_li = len(li)
-    result_num = round(len_li * ratio / 10)
+    if rnd is True:
+        result_num = round(len_li * ratio / 10)
+    else:
+        result_num = len_li*ratio/10*1.0
     res_li = []
     for h, i in enumerate(li):
-        if h < result_num:
+        if h+1 <= result_num:
             res_li.append(i)
     return res_li
 
@@ -52,7 +55,7 @@ def li_precision_control(li, f, is_str=False):
     return li
 
 
-def get_min_from_2d_list(li):
+def get_min_2d_list(li):
     """获得二维列表中最小元素的值和下标
 
     :param li 二维数组
@@ -106,10 +109,74 @@ def get_li_size(li):
     return len_li
 
 
+def slice_li(li, rat, rnd=True):
+    """切分序列
+
+    :param  li: 原序列
+    :param rat: 比例（几成）
+    :param rnd: True则将根据rat得到的个数四舍五入，否则按照整数部分来切割
+
+    :return: 切分后的两个片段
+    """
+    len_li = len(li)
+    if rnd is True:
+        result_num = round(len_li * rat / 10)
+    else:
+        result_num = len_li*rat/10*1.0
+    prev_li = []
+    lat_li = []
+    for h, i in enumerate(li):
+        if h+1 <= result_num:
+            prev_li.append(i)
+        else:
+            lat_li.append(i)
+    return prev_li, lat_li
+
+
+def get_min_li(li):
+    """获得一维列表中最小元素的值和下标
+
+    :param li: 一维列表
+
+    :return: 最小元素的值，下标
+    """
+    if len(li) == 0:
+        print('The list has nothing.')
+        return False
+    m = li[0]
+    sub = 0
+    for ii, i in enumerate(li):
+        if m > i:
+            m = i
+            sub = ii
+    return m, sub
+
+
+def get_shi(num, shi=1):
+    """算num所在的十位段，比如255在250段，136在130段
+    shi=1 返回十位段
+    shi=0 返回没有0的十位段，比如255是25段，3是0段，136是13段，压缩数据"""
+    st = str(num)
+    ls = len(st)
+    if shi ==1:
+        if ls == 1:
+            return 0
+        else:
+            du = int(st[:-1])*10
+            return du
+    else:
+        if ls == 1:
+            return 0
+        else:
+            du = int(st[:-1])
+            return du
+
+
 if __name__ == '__main__':
-    # li1 = [1, 3, 45, 6, 4, 9]
-    # print(get_first_ratio(li1, 7))
-    #
+    li1 = [1, 3, 45, 6, 4, 9, 2]
+    # print(slice_li(li1, 5))
+    # print(get_first_ratio(range(10), 3))
+
     # li2 = [[1.236436, 2.3473724], 3.3472347, [4.324763427, 56], [3.23462, 6.346161]]
     # print(li_precision_control(li2, 0))
 
@@ -150,3 +217,5 @@ if __name__ == '__main__':
     li4 = [[], [1, 2], [4, 5, 6], [3], [1, 1, 1, 1, 1]]
     # top3 = get_size_top_n_li(li4, 3)
     # print(top3)
+
+    # print(get_min_li([]))

@@ -2,8 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 import os
+from PIL import Image
 # from information_security import read_bytes
-from small_gram import num_op
+from small_gram import num_op, text_op
 import shutil
 
 
@@ -165,7 +166,12 @@ def see_json(filename):
 
 
 def write_file(content, filename, w_type):
-    f = open(filename, 'w', encoding='utf-8')
+    try:
+        f = open(filename, 'w', encoding='utf-8')
+    except FileNotFoundError:
+        f = text_op.get_dir(filename)
+        os.makedirs(f)
+        f = open(filename, 'w', encoding='utf-8')
     if w_type == '1D list':
         for i in content:
             f.write(i)
@@ -187,17 +193,28 @@ def write_file_li(li, filename, title=''):
     :param title    标题，会写入文件第一行
     :type title     str
     """
-    f = open(filename, 'w')
+    try:
+        f = open(filename, 'w', encoding='utf-8')
+    except FileNotFoundError:
+        f = text_op.get_dir(filename)
+        os.makedirs(f)
+        f = open(filename, 'w', encoding='utf-8')
     if title != '':
         f.write(title + '\n')
     if type(li[0]) is not list:
-        for i in li:
-            f.write(str(i) + ' ')
+        for ii, i in enumerate(li):
+            if ii == len(li)-1:
+                f.write(str(i))
+            else:
+                f.write(str(i) + ',')
         f.write('\n')
     else:
         for i in li:
-            for j in i:
-                f.write(str(j) + ' ')
+            for jj, j in enumerate(i):
+                if jj == len(i)-1:
+                    f.write(str(j))
+                else:
+                    f.write(str(j) + ',')
             f.write('\n')
     f.close()
 
@@ -218,6 +235,64 @@ def read_file_li(filename, title=0):
                     word.append(i)
                 file_content.append(word)
         return file_content
+
+
+def write_file_pic_old(li, filename):
+    """把图片的RGB像素点写到文件中"""
+    try:
+        f = open(filename, 'w', encoding='utf-8')
+    except FileNotFoundError:
+        f = text_op.get_dir(filename)
+        os.makedirs(f)
+        f = open(filename, 'w', encoding='utf-8')
+    for i in li:
+        for jj, j in enumerate(i):
+            if jj != len(i)-1:
+                for k in j:
+                    f.write(str(k) + ' ')
+                f.write(',')
+            else:
+                f.write(j)
+        f.write('\n')
+    f.close()
+
+
+def read_pix_old(file):
+    """把每个RGB像素都读成一个9位的数字"""
+    f = read_file(file)
+    fil_li = []
+    for i in f:
+        s = i.split(',')
+        tmp_li = []
+        for jj, j in enumerate(s):
+            if jj != len(s)-1:
+                si = j.split(' ')
+                ss = ''
+                for k in si:
+                    if len(k) == 1:
+                        tmp_s = '00' + k
+                    elif len(k) == 2:
+                        tmp_s = '0' + k
+                    else:
+                        tmp_s = k
+                    ss = ss + tmp_s
+                tmp_li.append(int(ss))
+            else:
+                tmp_li.append(j)
+            # print(j)
+        fil_li.append(tmp_li)
+    return fil_li
+
+
+def save_pic(ar, fil):
+    """ar是numpy.uint8数组"""
+    im_gr = Image.fromarray(ar)
+    try:
+        im_gr.save(fil)
+    except FileNotFoundError:
+        f = text_op.get_dir(fil)
+        os.makedirs(f)
+        im_gr.save(fil)
 
 
 if __name__ == '__main__':
@@ -245,4 +320,9 @@ if __name__ == '__main__':
 
     # mov_file_to_dir(path3, path5)
     # shutil.move('H:/infosec/trainLabels.csv', 'H:/infosec/test')
-    mov_file_to_dir(path4, path5)
+    # mov_file_to_dir(path4, path5)
+
+    write_name = 'H:/lesson/image_process/result/features.txt'
+    fea1 = read_pix_old(write_name)
+    for i1 in fea1:
+        print(i1)
