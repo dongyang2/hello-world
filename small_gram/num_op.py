@@ -1,17 +1,17 @@
-def get_first_ratio(li, ratio, rnd=True):
+def get_first_ratio(li, rat, rnd=True):
     """获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素
 
-    :param li:    列表
-    :param ratio: 比例
-    :param rnd:   是否对比例的结果四舍五入，True则将根据rat得到的个数四舍五入，否则按照整数部分来切割
+    :param li:  列表
+    :param rat: 比例
+    :param rnd: 是否对比例的结果四舍五入，True则将根据rat得到的个数四舍五入，否则按照整数部分来切割
 
     :return: 前几成的所有元素
     """
     len_li = len(li)
     if rnd is True:
-        result_num = round(len_li * ratio / 10)
+        result_num = round(len_li * rat / 10)
     else:
-        result_num = len_li*ratio/10*1.0
+        result_num = len_li * rat / 10 * 1.0
     res_li = []
     for h, i in enumerate(li):
         if h+1 <= result_num:
@@ -23,11 +23,11 @@ def li_precision_control(li, f, is_str=False):
     """精度控制，将多维列表中所有元素都进行统一的精度控制
 
     :param li: 多维列表
-    :type li: list
-    :param f: 浮点数的控制精度
-    :type f: int
+    :type  li: list
+    :param f:  浮点数的控制精度
+    :type  f:  int
     :param is_str: 列表里的单个元素是否是字符串
-    :type is_str: bool
+    :type  is_str: bool
 
     :return: 一个统一精度的列表
     """
@@ -38,7 +38,7 @@ def li_precision_control(li, f, is_str=False):
     len_li = len(li)
     i = 0
     while i < len_li:
-        if type(li[i]) is list:
+        if isinstance(li[i], list):
             li[i] = li_precision_control(li[i], f, is_str)
         else:
             if f == 0:
@@ -102,21 +102,22 @@ def get_size_top_n_li(li, n):
 
 
 def get_li_size(li):
-    """li是二维数组"""
+    """返回li中各元素的长度"""
     len_li = []
     for i in li:
         len_li.append(len(i))
     return len_li
 
 
-def slice_li(li, rat, rnd=True):
+def slice_li(li, rat, rnd=True, lst=True):
     """切分序列
 
     :param  li: 原序列
     :param rat: 比例（几成）
     :param rnd: True则将根据rat得到的个数四舍五入，否则按照整数部分来切割
+    :param lst: True则返回切分后的两段，否则返回前面那段
 
-    :return: 切分后的两个片段
+    :return: 切分后的片段，每个片段都包装成列表
     """
     len_li = len(li)
     if rnd is True:
@@ -130,7 +131,10 @@ def slice_li(li, rat, rnd=True):
             prev_li.append(i)
         else:
             lat_li.append(i)
-    return prev_li, lat_li
+    if lst is True:
+        return prev_li, lat_li
+    else:
+        return prev_li
 
 
 def get_min_li(li):
@@ -158,7 +162,7 @@ def get_shi(num, shi=1):
     shi=0 返回没有0的十位段，比如255是25段，3是0段，136是13段，压缩数据"""
     st = str(num)
     ls = len(st)
-    if shi ==1:
+    if shi == 1:
         if ls == 1:
             return 0
         else:
@@ -170,6 +174,55 @@ def get_shi(num, shi=1):
         else:
             du = int(st[:-1])
             return du
+
+
+def flatten_li(li):
+    """把多维列表各元素放入一个一维列表"""
+    tmp_li = []
+    for i in li:
+        if isinstance(i, list):
+            cl = flatten_li(i)
+            for j in cl:
+                tmp_li.append(j)
+        else:
+            tmp_li.append(i)
+    return tmp_li
+
+
+def li_op(li, rat=-1, rnd=True, lst=True, f=-1, is_st=False, flat=False, small=-1):
+    """整合对多个列表的操作，现可做1切分列表，2精度控制，3展平列表，4返回列表最小值及其下标
+
+    :param li:    输入列表
+    :param rat:   切分的比例
+    :param rnd:   切分时True则将根据rat得到的个数四舍五入，否则按照整数部分来切割
+    :param lst:   切分后True则返回切分后的两段，否则返回前面那段
+    :param f:     精度控制
+    :param is_st: 精度控制时里面的元素是否为字符串
+    :param flat:  展平列表
+    :param small: 返回最小值和其下标，m=1时表示li是一维数组，m=2时表示二维数组
+    """
+    if -1 < rat < 11:
+        return slice_li(li, rat, rnd, lst)
+    elif rat == -1:
+        if f > -1:
+            return li_precision_control(li, f, is_st)
+        elif f == -1:
+            if flat is True:
+                return flatten_li(li)
+            else:
+                if small == 1:
+                    return get_min_li(li)
+                elif small == 2:
+                    return get_min_2d_list(li)
+                elif small == -1:
+                    print('There is nothing can do.')
+                else:
+                    print('Can not get the minimum elem with this parameter!')
+        else:
+            print('The precision is not correct!')
+    else:
+        print('The cut ratio is not correct!')
+    return False
 
 
 if __name__ == '__main__':
@@ -214,7 +267,8 @@ if __name__ == '__main__':
     # cc[a2[0]] = a2[1]
     # print(cc)
 
-    li4 = [[], [1, 2], [4, 5, 6], [3], [1, 1, 1, 1, 1]]
+    li4 = [[[], [1, 2]], [[4, 5, 6], [3]], [1, 1, 1, 1, 1]]
+    print(li_op(li4, flat=False))
     # top3 = get_size_top_n_li(li4, 3)
     # print(top3)
 

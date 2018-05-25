@@ -36,7 +36,7 @@ def get_last_dir_name(li, dn=-1):
 
 
 def get_dir(fil_nam):
-    """获得文件的整个目录"""
+    """获得文件的整个目录，即剔除了文件自己的名字"""
     s = fil_nam.split('/')[:-1]
     tmp_s = ''
     for i in s:
@@ -44,8 +44,12 @@ def get_dir(fil_nam):
     return tmp_s
 
 
-def dir_op(dr):
+def dir_op(fd):
     # 我觉得有时间应该写一个专门处理各种目录名的函数
+    """
+
+    :param fd: filename or directory name
+    """
     pass
 
 
@@ -70,5 +74,5 @@ if __name__ == '__main__':
     fil1 = 'H:/lesson/image_process/dataset'
     fil_li = file_op.each_file_or_dir_name(fil1)
     # print(fil_li)
-    names = get_last_dir_name(fil_li, dn=1)
-    print(names)
+    # names = get_last_dir_name(fil_li, dn=1)
+    # print(names)
