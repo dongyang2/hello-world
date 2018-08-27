@@ -6,16 +6,6 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
-      <webServer id="89c9ae30-13b9-4957-b83c-bf846829f114" name="zhaodongyang@gridsum.com@10.136.7.83:22" url="http:///">
-        <fileTransfer host="10.136.7.83" port="22" accessType="SFTP">
-          <option name="port" value="22" />
-        </fileTransfer>
-      </webServer>
-      <webServer id="89c9ae30-13b9-4957-b83c-bf846829f114" name="zhaodongyang@gridsum.com@10.136.7.83:22" url="http:///">
-        <fileTransfer host="10.136.7.83" port="22" accessType="SFTP">
-          <option name="port" value="22" />
-        </fileTransfer>
-      </webServer>
     </option>
   </component>
 </application>
