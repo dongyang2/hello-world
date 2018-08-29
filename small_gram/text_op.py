@@ -53,6 +53,56 @@ def dir_op(fd):
     pass
 
 
+def del_str_by_2char(s, co, ct, f=True):
+    """删除一个字符串中被2个子字符串包围的所有字符
+    f=True删除指定的那两个子字符串
+    f=False不删除指定的那两个子字符串
+    """
+    if co in s and ct in s:
+        ind_one = s.find(co)
+        ind_two = s.find(ct)
+        if f is True:
+            ind_end = ind_two+len(ct)
+            ca = s[ind_one: ind_end]
+            # print(ca)
+            return s.replace(ca, '')
+        else:
+            ind_start = ind_one+len(co)
+            ca = s[ind_start: ind_two]
+            return s.replace(ca, '')
+    else:
+        print('No such substring in this string!')
+        return s
+
+
+def regular_fil_nam(fil_nam):
+    """把影视作品的文件名规范化"""
+    ds = ['1280X720', '1280x720', '720p', '720P', 'KO_CN', 'TSKS',
+             '1080p', '1920x1080', '1920X1080', '1080P', '[', ']',
+             '(', ')', 'HDTVrip', '阳光电影', 'HDTV', 'x264', 'X264'
+             'AAC', '国语中字', 'HD', '中字', '  ']
+
+    remove_website = del_str_by_2char(fil_nam, 'www', 'com')
+    li_fil = remove_website.split('.')
+    nam = ' '.join(li_fil[:-1])
+    suffix = li_fil[-1]
+    remove_captions_group = del_str_by_2char(nam, '-', '字幕组')
+    nam_final = remove_captions_group
+    for i in ds:
+        # print(i)
+        nam_final = nam_final.replace(i, '')
+        # print(remove_website)
+
+    if nam_final:
+        if nam_final[0] == ' ':
+            nam_final = nam_final[1:]
+        if nam_final[-1] == ' ':
+            nam_final = nam_final[:-1]
+        return nam_final+'.'+suffix
+    else:  # 这里考虑到了没有文件后缀的情况
+        return suffix
+
+
 if __name__ == '__main__':
     str1 = '''[10930,10318,10595,10972,7706,6756,9092,10551,9722,10913,11151,8186,6422, 
 6337,11649,11652,10310,12043,7937,6476,9662,9570,9981,9331,9449,6773,6304,9355, 

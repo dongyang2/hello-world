@@ -1,6 +1,21 @@
 # operations about file
 # -*- coding: UTF-8 -*-
-
+# each_file_or_dir_name 遍历指定目录，显示目录下的所有文件或目录名
+# read_file_influx_db   读取文件内容，为influxDB导入时读数据定制
+# read_file             读取文件内容
+# is_rectangle          判断一个文件内容每一行长度是不是一样
+# is_rectangle_byte     对一个二进制文件，判断其内容每一行长度是不是一样
+# divide_file           分割一部分文件作为测试集，一部分作为验证集
+# read_acc_file         读取acc文件
+# mov_file_to_dir       把文件移动到一个目录
+# write_file            把一位或二维数组写入文件
+# write_file_li         把任意维度的数组写入文件
+# read_file_li          返回文件内容为一个数组
+# write_file_pic_old    把图片的RGB像素点写到文件中
+# read_pix_old          把每个RGB像素都读成一个9位的数字
+# save_pic              将数据存为图片，ar是numpy.uint8数组
+# ergodic_dir           遍历指定目录（新）
+# ergodic_and_regular   遍历指定目录且更改烦人的影视作品文件名
 import os
 from PIL import Image
 # from information_security import read_bytes
@@ -285,7 +300,7 @@ def read_pix_old(file):
 
 
 def save_pic(ar, fil):
-    """ar是numpy.uint8数组"""
+    """将数据存为图片，ar是numpy.uint8数组"""
     im_gr = Image.fromarray(ar)
     try:
         im_gr.save(fil)
@@ -293,6 +308,35 @@ def save_pic(ar, fil):
         f = text_op.get_dir(fil)
         os.makedirs(f)
         im_gr.save(fil)
+
+
+def ergodic_dir(path):
+    """遍历指定目录，显示目录下的所有文件或目录名
+    相对于each_file_or_dir_name，一名字短了，二处理了path
+    """
+    s = path[-1]
+    if s == '/':
+        path = path[:-1]
+    # print(path)
+    path_dir = os.listdir(path)
+    di_fi = []
+    for di_or_fi in path_dir:
+        each_path = os.path.join('%s/%s' % (path, di_or_fi))
+        print(each_path)
+        di_fi.append(each_path)
+    return di_fi
+
+
+def ergodic_and_regular(path):
+    """遍历指定目录且更改烦人的影视作品文件名"""
+    s = path[-1]
+    if s == '/':
+        path = path[:-1]
+    path_dir = os.listdir(path)
+    for di_or_fi in path_dir:
+        # each_path = os.path.join('%s/%s' % (path, di_or_fi))
+        new_name = text_op.regular_fil_nam(di_or_fi)
+        os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
 
 
 if __name__ == '__main__':
