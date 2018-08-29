@@ -1,0 +1,11 @@
+<application>
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="099cc76b-d7d8-4263-9905-72456f721ee2" name="zhaodongyang@gridsum.com@10.136.7.83:22" url="http:///">
+        <fileTransfer host="10.136.7.83" port="22" rootFolder="/home/zhaodongyang" accessType="SFTP">
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</application>
