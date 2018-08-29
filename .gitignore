@@ -5,3 +5,5 @@ information_security/fifth_try.h5
 *.json
 resource/
 resource/op-cleaver
+image_processing\homework2\result\feature.txt
+image_processing\homework2\rgb_xgb.model
