@@ -1,7 +1,7 @@
 <application>
   <component name="WebServers">
     <option name="servers">
-      <webServer id="4b88a233-07db-44f7-8df4-519b4219d176" name="Copy of project-level server '10.136.7.83'" url="http://10.136.7.83">
+      <webServer id="4b88a233-07db-44f7-8df4-519b4219d176" name="dl3 zdy" url="http://10.136.7.83">
         <fileTransfer host="10.136.7.83" port="22" rootFolder="/home/zhaodongyang" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
