@@ -267,9 +267,11 @@ if __name__ == '__main__':
     # cc[a2[0]] = a2[1]
     # print(cc)
 
-    li4 = [[[], [1, 2]], [[4, 5, 6], [3]], [1, 1, 1, 1, 1]]
-    print(li_op(li4, flat=False))
+    # li4 = [[[], [1, 2]], [[4, 5, 6], [3]], [1, 1, 1, 1, 1]]
+    # print(li_op(li4, flat=False))
     # top3 = get_size_top_n_li(li4, 3)
     # print(top3)
 
     # print(get_min_li([]))
+
+

@@ -90,5 +90,23 @@ if __name__ == '__main__':
     #         outputString = read_pdf(pdf_file)
     #         write_txt(path2)
 
-    str3 = ''''''
+    str3 = '''In order to demonstrate the characteristics of TWE models,
+we selected several example words and used TWE models to
+find the most similar words of these words in different top-
+ics. For comparison, we also used Skip-Gram to find similar
+words of these example words.
+In Table 4, we show the most similar words of three ex-
+ample words, bank, left and apple, which are typical poly-
+semous words. For each example word w, we first show the
+resultobtainedfromSkip-Gram,i.e.,thefirstlineofeachex-
+ample word; then we list the results under two representative
+topics of the example word obtained from TWE-2, denoted
+as w#1 and w#2.
+From Table 4, we can observe that, similar words returned
+by Skip-Gram contain similar words of multiple senses of
+example words. This indicates that Skip-Gram combines
+multiple senses of a polysemous word into a unique embed-
+ding vector. In contrast, with TWE models, we can success-
+fully discriminate word senses into multiple topics by topi-
+cal word embeddings.'''
     print(del_enter(str3))

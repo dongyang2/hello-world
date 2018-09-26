@@ -322,7 +322,7 @@ def ergodic_dir(path):
     di_fi = []
     for di_or_fi in path_dir:
         each_path = os.path.join('%s/%s' % (path, di_or_fi))
-        print(each_path)
+        # print(each_path)
         di_fi.append(each_path)
     return di_fi
 
@@ -337,6 +337,28 @@ def ergodic_and_regular(path):
         # each_path = os.path.join('%s/%s' % (path, di_or_fi))
         new_name = text_op.regular_fil_nam(di_or_fi)
         os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
+
+
+def mkdir(path):
+    path = path.strip()  # 去除首位空格
+    path = path.rstrip("\\")  # 去除尾部 \ 符号
+    is_exists = os.path.exists(path)
+
+    if not is_exists:
+        os.makedirs(path)
+        # print (path+' 创建成功')
+    else:
+
+        # print (path+' 目录已存在')# 如果目录存在则不创建，并提示目录已存在
+        return False
+
+
+def write_csv(w_path, arr):
+    """将类数组的变量成csv格式的文件"""
+    with open(w_path, 'w', encoding='utf-8')as f:
+        for i in arr:
+            s = ','.join(i)
+            f.write(s+'\n')
 
 
 if __name__ == '__main__':
