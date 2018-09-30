@@ -225,6 +225,14 @@ def li_op(li, rat=-1, rnd=True, lst=True, f=-1, is_st=False, flat=False, small=-
     return False
 
 
+def uniq(source):
+    li = []
+    for e in source:
+        if e not in li:
+            li.append(e)
+    return li
+
+
 if __name__ == '__main__':
     li1 = [1, 3, 45, 6, 4, 9, 2]
     # print(slice_li(li1, 5))
@@ -274,4 +282,8 @@ if __name__ == '__main__':
 
     # print(get_min_li([]))
 
+    # c2 = [i+1 for i in c]
+    # print(c2)
 
+    li5 = [[1, 1], [2, 2], [2, 3], [1, 1]]
+    print(uniq(li5))

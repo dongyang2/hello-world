@@ -76,8 +76,7 @@ def fill_up_list(li, num_len):
 
 def write_png(buf, width, height):
     """ buf: must be bytes or a bytearray in Python3.x,
-        a regular string in Python2.x.
-        """
+        a regular string in Python2.x."""
     import zlib
     import struct
 
