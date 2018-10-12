@@ -43,10 +43,11 @@ def sav_lda_vec(path, sav_place):  # train 16s, test 4s
     np.save(sav_place, li_vec)
 
 
-def val(path):
+def val(train_path, test_path):
     # content = np.loadtxt(path, delimiter=',', usecols=[1], encoding='utf-8', dtype=str)[1:]
-    # content = np.load(path)  # 测试集的向量
-    pass  # 还不知道抽出来的结果怎么用
+    train_vec = np.load(train_path)
+    test_vec = np.load(test_path)  # 测试集的向量
+    print(train_vec)
 
 
 def seg_word(sentence):
@@ -121,17 +122,18 @@ def train(score_train_path, train_path):
     label = read_scv_label(train_path).T[0]
     # print(score_train, '\n', label)
 
+    score_train_th = get_element_by_thr(score_train, 3)
     # eta = [0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
     average = 0
     for i in range(2, 32):
         import random
         random_stat = random.randint(1, 1000)
-        train_x, test_x, train_y, test_y = train_test_split(score_train, label, test_size=0.2,
+        train_x, test_x, train_y, test_y = train_test_split(score_train_th, label, test_size=0.2,
                                                             random_state=random_stat)
 
     #     train
     #     svm_cross_validation(train_x, train_y)
-
+    #
         average += xgboost(train_x, train_y, test_x, test_y)
     print(average*1.0/30)
 
@@ -149,6 +151,35 @@ def read_scv_label(path):
     arr = np.array(li)
     label = arr[:, 3].astype(np.int32).reshape(-1, 1)  # 类标
     return label
+
+
+def get_element_by_thr(li, th):
+    """保留li中tuple第二个值高于阈值的对应id，不会保留用于进行阈值分割的那个值
+    :param li: 三维数组，其中每一个二维数组中具有很多元组（此处把元组看为一维数组），元组的格式是(id, 与id相关的数字)
+    :param th: 阈值，th仅针对每个元组中第二个值，即上面说的“与id相关的数字”
+    :return    一个二维数组，之前的每个元组仅留下id
+    """
+    new_li = []
+    for i in li:
+        tmp = []
+        for j in i:
+            if j[1] > th:
+                tmp.append(j[0])
+        new_li.append(tmp)
+    return new_li
+
+
+def get_elem_top_k(li, k=2):
+    """保留li中tuple第二个值排名前三的对应id
+    :param li: 三维数组，其中每一个二维数组中具有很多元组（此处把元组看为一维数组），元组的格式是(id, 与id相关的数字)
+    :param k : 选几个
+    :return    一个二维数组，之前的每个元组仅留下id
+    """
+    new_li = []
+    for i in li:
+        tmp_i = sorted(i, key=lambda prob: prob[1])  # 按元组第二个值排序
+        new_li.append(tmp_i[-k:])
+    return new_li
 
 
 if __name__ == '__main__':
@@ -174,5 +205,5 @@ if __name__ == '__main__':
     # train_exp()
     # print(np.load(train_vec_loc))
     # print(read_scv_label(path1))
-    # train(train_vec_loc, path1)
+    train(train_vec_loc, path1)
     print('\n--------LDA-------END', time.ctime())

@@ -131,17 +131,22 @@ def write_test(path):  # 几十分钟
             # break
 
 
-def write_test_np(path):  # 十分钟
+def write_test_np(path, cut='jieba'):  # 十分钟
     test_data = np.loadtxt(path, delimiter=',', usecols=[1], encoding='utf-8', dtype=str)
     # print(test_data[1:])
 
     # di = path.split('/')[:-1][0]
     # di_test = di + '/test_public1'
-    di_test = rename(path, '/test_public1')
 
     li = []
-    for i in test_data[1:]:
-        li.append(word_seg(i))
+    if cut == 'pyltp':
+        di_test = rename(path, '/test_public1')
+        for i in test_data[1:]:
+            li.append(word_seg(i))
+    elif cut == 'jieba':
+        di_test = rename(path, '/test_public_jb_delStop')
+        for i in test_data[1:]:
+            li.append(clean_str(i))
 
     np.save(di_test, li)
 
@@ -176,20 +181,27 @@ def rename(di, add):
     return '/'.join(s_li)+add
 
 
-def clean_str(stri):
+def clean_str(stri, stop=True):
     import re
     stri = re.sub(u'[\s]+|[^\u4e00-\u9fa5A-Za-z0-9]+|<br />', '', stri)
     cut_str = jieba.cut(stri.strip())
-    # list_str = [word for word in cut_str if word not in stop_word]
-    stri = ' '.join(cut_str)
+    if stop is True:
+        list_str = [word for word in cut_str if word not in stop_word]
+        stri = ' '.join(list_str)
+    else:
+        stri = ' '.join(cut_str)
     return stri
 
 
 def write_train_sub_and_label(train_path, cut='pyltp'):  # 笔记本ltp 38min,服务器ltp 12min
-    data_train = read_scv(train_path)[0]
+    data_train = read_scv(train_path)
     # print(data_train)
 
-    di_tr = rename(train_path, '/train_SubAndLab.txt')  # 写到和train文件一个目录下
+    if cut == 'jieba':
+        file_name = '/train_SubAndLab_jb_delStop.txt'
+    elif cut == 'pyltp':
+        file_name = '/train_SubAndLab_ltp.txt'
+    di_tr = rename(train_path, file_name)  # 写到和train文件一个目录下
     with open(di_tr, 'w', encoding='utf-8') as f_t:
         k = 0
         while k < len(data_train):
@@ -198,6 +210,37 @@ def write_train_sub_and_label(train_path, cut='pyltp'):  # 笔记本ltp 38min,�
                 s = word_seg(data_train[k][0])+'\t__label__'+str(data_train[k][1])+',__label__'+str(data_train[k][2])
             elif cut == 'jieba':
                 s = clean_str(data_train[k][0])+'\t__label__'+str(data_train[k][1])+',__label__'+str(data_train[k][2])
+            else:
+                print('No such cut function')
+                break
+            f_t.write(s)
+            f_t.write('\n')
+            k += 1
+
+
+def write_train_sub_or_label(train_path, cut='jieba', c='sub'):
+    data_train = read_scv(train_path)
+    # print(data_train)
+
+    file_name = '/train_'+c+'_'+cut+'.txt'
+    di_tr = rename(train_path, file_name)  # 写到和train文件一个目录下
+    with open(di_tr, 'w', encoding='utf-8') as f_t:
+        k = 0
+        while k < len(data_train):
+            s = ''
+            if cut == 'pyltp':
+                if c == 'sub':
+                    s = word_seg(data_train[k][0])+'\t__label__'+str(data_train[k][1])
+                else:
+                    s = word_seg(data_train[k][0])+'\t__label__'+str(data_train[k][2])
+            elif cut == 'jieba':  # 默认去除停用词，具体可以看clean_str函数。去除停用词在fastText中表现更好
+                if c == 'sub':
+                    s = clean_str(data_train[k][0])+'\t__label__'+str(data_train[k][1])
+                else:
+                    s = clean_str(data_train[k][0])+'\t__label__'+str(data_train[k][2])
+            else:
+                print('No such cut function')
+                break
             f_t.write(s)
             f_t.write('\n')
             k += 1
@@ -216,8 +259,18 @@ if __name__ == '__main__':
     # write_test(path2)
     # write_test_np(path2)
     # write_train_np(path1)
-    write_train_sub_and_label(train_fil)
+    stop_word = []
+    stop_words_path = './stop.txt'
+
+    with open(stop_words_path, encoding='utf8') as f:
+        for line in f.readlines():
+            stop_word.append(line.strip())
+    stop_word.append(' ')
+    # write_train_sub_and_label(train_fil, cut='jieba')
+    # write_test_np(test_fil)
+    # print(np.load('H:\DF_emotion/test_public_jb.npy'))
     # for sentence in li_test:
     #     print(clean_str(sentence))
 
+    write_train_sub_or_label(train_fil)
     print('END-----df_data_pre ', time.ctime())

@@ -226,6 +226,7 @@ def li_op(li, rat=-1, rnd=True, lst=True, f=-1, is_st=False, flat=False, small=-
 
 
 def uniq(source):
+    """列表内元素去重"""
     li = []
     for e in source:
         if e not in li:
@@ -233,8 +234,24 @@ def uniq(source):
     return li
 
 
+def merge_core(li_subject, li_label):
+    """
+    :param li_subject: 必须是完整的二维数组，有id，subject，label
+    :param li_label:   两列，第一列是id，第二列是类标
+    :return: 合并的数组
+    """
+    # print(li_subject[:, 0])
+    for k1, i in enumerate(li_subject[:, 0][1:]):  # i subject_content_id
+        for k2, j in enumerate(li_label[:, 0][1:]):  # j li_label_content_id
+            if j == i:
+                li_subject[k1+1][2] = li_label[k2+1][1]
+                break
+    return li_subject
+
+
 if __name__ == '__main__':
     li1 = [1, 3, 45, 6, 4, 9, 2]
+    print(li1[-3:])
     # print(slice_li(li1, 5))
     # print(get_first_ratio(range(10), 3))
 
@@ -286,4 +303,7 @@ if __name__ == '__main__':
     # print(c2)
 
     li5 = [[1, 1], [2, 2], [2, 3], [1, 1]]
-    print(uniq(li5))
+    # print(uniq(li5))
+
+    li6 = [(18, 0.06783267), (37, 0.22998421), (62, 0.15872142), (92, 0.045642894), (113, 0.42936638)]
+    # print(sorted(li6, key=lambda prob: prob[1]))
