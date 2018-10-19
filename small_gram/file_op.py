@@ -7,7 +7,7 @@
 # is_rectangle_byte     对一个二进制文件，判断其内容每一行长度是不是一样
 # divide_file           分割一部分文件作为测试集，一部分作为验证集
 # read_acc_file         读取acc文件
-# mov_file_to_dir       把文件移动到一个目录
+# mov_file_to_dir_acc       把文件移动到一个目录
 # write_file            把一位或二维数组写入文件
 # write_file_li         把任意维度的数组写入文件
 # read_file_li          返回文件内容为一个数组
@@ -141,7 +141,7 @@ def read_acc_file(acc_file):
     return lf
 
 
-def mov_file_to_dir(path_from, acc_file):
+def mov_file_to_dir_acc(path_from, acc_file):
     li_lab_f = read_acc_file(acc_file)
     di_lab_f = {}
     for h, i in enumerate(li_lab_f):
@@ -322,7 +322,7 @@ def ergodic_dir(path):
     di_fi = []
     for di_or_fi in path_dir:
         each_path = os.path.join('%s/%s' % (path, di_or_fi))
-        print(each_path)
+        # print(each_path)
         di_fi.append(each_path)
     return di_fi
 
@@ -337,6 +337,58 @@ def ergodic_and_regular(path):
         # each_path = os.path.join('%s/%s' % (path, di_or_fi))
         new_name = text_op.regular_fil_nam(di_or_fi)
         os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
+
+
+def mkdir(path):
+    path = path.strip()  # 去除首位空格
+    path = path.rstrip("\\")  # 去除尾部 \ 符号
+    is_exists = os.path.exists(path)
+
+    if not is_exists:
+        os.makedirs(path)
+        # print (path+' 创建成功')
+    else:
+
+        # print (path+' 目录已存在')# 如果目录存在则不创建，并提示目录已存在
+        return False
+
+
+def write_csv(w_path, arr):
+    """将类数组的变量成csv格式的文件"""
+    with open(w_path, 'w', encoding='utf-8')as f:
+        for i in arr:
+            s = ','.join(i)
+            f.write(s+'\n')
+
+
+def move_file(from_path, to_dir_path):
+    """移动文件
+
+    :param from_path: 要移动的文件，这个参数必须指向文件
+    :param to_dir_path:   文件移动到的位置，必须是文件夹
+    """
+    if not os.path.isfile(from_path):
+        print("%s not exist!" % from_path)
+    else:
+        if not os.path.exists(to_dir_path):
+            os.makedirs(to_dir_path)  # 创建路径
+        shutil.move(from_path, to_dir_path)  # 移动文件
+        # print("move %s -> %s" % (from_path, to_path))
+
+
+def add_suffix_for_dir(path, suffix='.jpg'):
+    """为一个文件夹内所有文件添加后缀名
+
+    :param path:   文件夹地址
+    :param suffix: 想要加的后缀
+    """
+    s = path[-1]
+    if s == '/':
+        path = path[:-1]
+    path_dir = os.listdir(path)
+    for fi_name in path_dir:
+        new_name = fi_name + suffix
+        os.rename('%s/%s' % (path, fi_name), '%s/%s' % (path, new_name))
 
 
 if __name__ == '__main__':
@@ -362,9 +414,9 @@ if __name__ == '__main__':
     path5 = 'H:/infosec/trainLabels.csv'
     # divide_file(path3, path4, 3, path5)       # 用来把单一训练图片分为训练集和测试集的
 
-    # mov_file_to_dir(path3, path5)
+    # mov_file_to_dir_acc(path3, path5)
     # shutil.move('H:/infosec/trainLabels.csv', 'H:/infosec/test')
-    # mov_file_to_dir(path4, path5)
+    # mov_file_to_dir_acc(path4, path5)
 
     write_name = 'H:/lesson/image_process/result/features.txt'
     fea1 = read_pix_old(write_name)

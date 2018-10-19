@@ -1,0 +1,29 @@
+<application>
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="4b88a233-07db-44f7-8df4-519b4219d176" name="dl3 zdy" url="http://10.136.7.83">
+        <fileTransfer host="10.136.7.83" port="22" rootFolder="/home/zhaodongyang" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="a1692ece-f013-42b0-bd4a-4842656d008a" name="dl3 gs" url="http:///">
+        <fileTransfer host="10.136.7.83" port="22" rootFolder="/home/zhaodongyang" accessType="SFTP">
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="b319f7b4-82a2-431a-903f-4bdd67bd8bdd" name="zhaodongyang@gridsum.com@10.136.7.83:22" url="http:///">
+        <fileTransfer host="10.136.7.83" port="22" accessType="SFTP">
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="b319f7b4-82a2-431a-903f-4bdd67bd8bdd" name="zhaodongyang@gridsum.com@10.136.7.83:22" url="http:///">
+        <fileTransfer host="10.136.7.83" port="22" accessType="SFTP">
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</application>

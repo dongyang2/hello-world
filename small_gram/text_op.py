@@ -103,6 +103,17 @@ def regular_fil_nam(fil_nam):
         return suffix
 
 
+def split_num_from_str(s):
+    """
+    :return: 返回字符串中的数字与只包含字母的子字符串
+    """
+    import re
+    # return re.findall(r'([0-9][0-9]+)([a-z]+)', s)
+    int_num = r'(\-\d+|\+\d+|\d+)'
+    word = r'[a-zA-Z]+'
+    return re.findall(int_num, s), re.findall(word, s)
+
+
 if __name__ == '__main__':
     str1 = '''[10930,10318,10595,10972,7706,6756,9092,10551,9722,10913,11151,8186,6422, 
 6337,11649,11652,10310,12043,7937,6476,9662,9570,9981,9331,9449,6773,6304,9355, 
@@ -122,7 +133,10 @@ if __name__ == '__main__':
            '../dataset/海南香蕉/Snapshot000105.jpg',
            '../lesson/image_process/dataset/海南香蕉/Snapshot000106.jpg']
     fil1 = 'H:/lesson/image_process/dataset'
-    fil_li = file_op.each_file_or_dir_name(fil1)
+    # fil_li = file_op.each_file_or_dir_name(fil1)
     # print(fil_li)
     # names = get_last_dir_name(fil_li, dn=1)
     # print(names)
+
+    str2 = '235436niaohonafn-4363agbag'
+    print(split_num_from_str(str2))
