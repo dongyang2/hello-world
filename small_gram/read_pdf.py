@@ -1,3 +1,4 @@
+# Author: Dongyang
 # 用来把pdf转为txt的小程序，因特殊字符问题，未完待续······
 
 from pdfminer.pdfinterp import PDFResourceManager, process_pdf
@@ -64,6 +65,7 @@ def del_question_mark(content):
 
 
 def del_enter(content):
+    """删除各种符号"""
     li = content.split('\n')
     c_new = ''
     for i in li:
