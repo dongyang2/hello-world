@@ -12,3 +12,5 @@ small_gram/video_op.py
 _windows/
 codestyles/
 small_gram/__pycache__/
+language_process/rule_optimize.py
+language_process/train_rule_eval.py
