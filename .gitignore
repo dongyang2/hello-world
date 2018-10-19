@@ -8,6 +8,7 @@ resource/op-cleaver
 image_processing\homework2\result\feature.txt
 image_processing\homework2\rgb_xgb.model
 small_gram/all_zero.py
+small_gram/video_op.py
 _windows/
 codestyles/
 small_gram/__pycache__/
