@@ -194,6 +194,11 @@ def clean_str(stri, stop=True):
 
 
 def write_train_sub_and_label(train_path, cut='pyltp'):  # 笔记本ltp 38min,服务器ltp 12min
+    """把数据处理成可放入fastText的格式，既写入主题也写入情感分类
+
+    :param train_path: 训练文件的路径
+    :param cut:        切词方法。jieba或者pyltp二选一
+    """
     data_train = read_scv(train_path)
     # print(data_train)
 
@@ -219,6 +224,12 @@ def write_train_sub_and_label(train_path, cut='pyltp'):  # 笔记本ltp 38min,�
 
 
 def write_train_sub_or_label(train_path, cut='jieba', c='sub'):
+    """将数据处理成可放入fastText的格式，只写入主题（或情感分类）
+
+    :param train_path:  训练文件的路径
+    :param cut:         切词方法。jieba或者pyltp二选一
+    :param c:           只进行主题或者类标的多分类。sub或者lab二选一。
+    """
     data_train = read_scv(train_path)
     # print(data_train)
 
