@@ -16,5 +16,5 @@ information_security/__pycache__/
 image_processing/homework2/__pycache__/
 language_process/rule_optimize.py
 language_process/train_rule_eval.py
-
+small_gram/read_pdf.py
 
