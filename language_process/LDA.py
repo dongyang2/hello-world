@@ -187,8 +187,8 @@ if __name__ == '__main__':
     print('--------LDA-------START', time.ctime(), '\n')
 
     # common_dictionary = Dictionary(common_texts)
-    # for i in common_texts:
-    #     print(i)
+    # for num in common_texts:
+    #     print(num)
 
     # print(type(common_dictionary))
 

@@ -26,8 +26,8 @@ def merge_core(li_subject, li_label):
     :return: 合并的数组
     """
     # print(li_subject[:, 0])
-    for k1, i in enumerate(li_subject[:, 0][1:]):  # i subject_content_id
-        for k2, j in enumerate(li_label[:, 0][1:]):  # j li_label_content_id
+    for k1, i in enumerate(li_subject[:, 0][1:]):  # num subject_content_id
+        for k2, j in enumerate(li_label[:, 0][1:]):  # each_c li_label_content_id
             if j == i:
                 li_subject[k1+1][2] = li_label[k2+1][1]
                 break
@@ -97,7 +97,7 @@ def get_good_probability(test_path, threshold=0.3):
             for j in range(len(li_threshold[i])):
                 tmp_s = ','.join([content_id[i], li_threshold[i][j], '0'])
                 f.write(tmp_s+',\n')
-            # if i == 50:
+            # if num == 50:
             #     break
             i += 1
 

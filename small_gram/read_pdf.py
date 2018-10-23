@@ -85,9 +85,9 @@ if __name__ == '__main__':
     # pdfFile = urlopen(path1)
     # pdfFile.close()
     # li = each_file_or_dir_name(str1)
-    # for i in li:
-    #     path2 = i[:-3] + 'txt'
-    #     with open(i, 'rb') as pdf_file:
+    # for num in li:
+    #     path2 = num[:-3] + 'txt'
+    #     with open(num, 'rb') as pdf_file:
     #         # print(chardet.detect(pdf_file.read()))
     #         outputString = read_pdf(pdf_file)
     #         write_txt(path2)

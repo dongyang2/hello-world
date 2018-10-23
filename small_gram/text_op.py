@@ -89,7 +89,7 @@ def regular_fil_nam(fil_nam):
     remove_captions_group = del_str_by_2char(nam, '-', '字幕组')
     nam_final = remove_captions_group
     for i in ds:
-        # print(i)
+        # print(num)
         nam_final = nam_final.replace(i, '')
         # print(remove_website)
 

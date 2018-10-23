@@ -23,15 +23,15 @@ name_adj_matrix = turn_table_to_adjacency_matrix(NameTable)
 home_adj_matrix = turn_table_to_adjacency_matrix(HometownTable)
 dialect_adj_matrix = turn_table_to_adjacency_matrix(DialectTable)
 
-# for i in name_adj_matrix:
-#     print(i)
+# for num in name_adj_matrix:
+#     print(num)
 # print(len(NameTable.row_values(0)))
 # print(len(name_adj_matrix))
 
 # name_coreness = coreness(name_adj_matrix)
 # t_am = t_shortest_path(name_adj_matrix)
-#  for i in t_am:
-#     print(i)
+#  for num in t_am:
+#     print(num)
 # print(name_coreness)
 # cn_home = coreness(home_adj_matrix)
 # print(cn_home)
@@ -51,8 +51,8 @@ dialect_adj_matrix = turn_table_to_adjacency_matrix(DialectTable)
 # print('Average path length of dialect table ', apl_dialect)
 
 # t1 = get_weight_matrix(name_adj_matrix)
-# for i in t1:
-#     print(i)
+# for num in t1:
+#     print(num)
 # print(len(t1))
 
 # node_number_of_subgraph(name_adj_matrix)

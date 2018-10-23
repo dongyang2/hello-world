@@ -10,7 +10,7 @@ def turn_table_to_adjacency_matrix(t):
         # print(len(row))
         k = 0
         for j in row:
-            # print(k)
+            # print(elem)
             if j == 'y':
                 l_2d[i-1][k] = 1
             k = k+1
@@ -21,41 +21,41 @@ def turn_table_to_adjacency_matrix(t):
 # 这是之前没做table转adj_matrix时用的函数，可以看出，没有邻接矩阵写起来方便，并且后面需要算coreness，最短路径之类的，这个也不方便
 # def node_degree(l):
 #     count = 0
-#     for i in l:
-#         if i == 'y':
+#     for num in l:
+#         if num == 'y':
 #             count = count+1
 #     return count
 #
 #
 # def list_node_degree(t):              # 返回的那个list是从0开始的，也就是说，list[0]代表第一个点,list[62]代表最后一个
-#     i = 1
+#     num = 1
 #     list_degree = []
-#     while i < 64:
-#         row = t.row_values(i)
+#     while num < 64:
+#         row = t.row_values(num)
 #         list_degree.append(node_degree(row))
-#         i = i + 1
+#         num = num + 1
 #     return list_degree
 
 
 # def cluster_coefficient(t):
 #     lnd = list_node_degree(t)
-#     i = 1
+#     num = 1
 #     # print(len(lnd))
 #     all_cluster_coefficient = 0
-#     while i < 64:
+#     while num < 64:
 #         sums = 0
-#         row = t.row_values(i)[1:]
-#         k = 0
-#         for j in row:
-#             if j == 'y':
-#                 sums = sums+lnd[k]
-#             k = k+1
+#         row = t.row_values(num)[1:]
+#         elem = 0
+#         for each_c in row:
+#             if each_c == 'y':
+#                 sums = sums+lnd[elem]
+#             elem = elem+1
 #         if node_degree(row):
 #             i_cl_co = 2*sums/node_degree(row)*(node_degree(row)-1)
 #         else:
 #             i_cl_co = 0
 #         all_cluster_coefficient = all_cluster_coefficient+i_cl_co
-#         i = i+1
+#         num = num+1
 #     last_cluster_coefficient = all_cluster_coefficient/63
 #     return last_cluster_coefficient
 
@@ -160,20 +160,20 @@ def t_shortest_path(t_am):
     t1 = get_weight_matrix(t_am)
     len_t = len(t1)
     # print(t_am)
-    # k = 0
+    # elem = 0
     # t1 = [[0 for c in range(63)] for r in range(63)]
-    # for i in t_am:
-    #     t1[k] = i[:]
-    #     k = k + 1
-    # i = 0
-    # while i < 63:
-    #     j = 0
-    #     while j < 63:
-    #         if t1[i][j] == 0:
-    #             t1[i][j] = 999
-    #         j = j+1
-    #     # print(t_am[i])
-    #     i = i+1
+    # for num in t_am:
+    #     t1[elem] = num[:]
+    #     elem = elem + 1
+    # num = 0
+    # while num < 63:
+    #     each_c = 0
+    #     while each_c < 63:
+    #         if t1[num][each_c] == 0:
+    #             t1[num][each_c] = 999
+    #         each_c = each_c+1
+    #     # print(t_am[num])
+    #     num = num+1
     k = 0
     while k < len_t:
         i = 0
@@ -198,9 +198,9 @@ def average_path_length(t_am):
         while j < len_t:
             if tsp[i][j] != 999:   # 我这里之前设置了一个if等于999就continue，结果发现程序死循环了，看来我还是不太会用continue
                 sums = sums+tsp[i][j]
-                # print(tsp[i][j])
+                # print(tsp[num][each_c])
             j = j+1
-            # print(tsp[i][j])
+            # print(tsp[num][each_c])
         i = i+1
         # print(sums)
     if len_t < 2:
@@ -227,7 +227,7 @@ def get_weight_matrix(t_am):
             if t1[i][j] == 0:
                 t1[i][j] = 999
             j = j + 1
-        # print(t_am[i])
+        # print(t_am[num])
         i = i + 1
     return t1
 
@@ -276,7 +276,7 @@ def node_number_of_subgraph(t_am):
         while j < len2:
             if twm[i][j] != 999 and j != i:
                 a[j] = k
-                # print(twm[i][j])
+                # print(twm[num][each_c])
             j = j+1
         k = k+1
         f = finish_go_through(a)
@@ -292,7 +292,7 @@ def node_number_of_subgraph(t_am):
             i = i+1
         j = j+1
     # print(b)
-    return a, b, k-1                      # a下标代表着节点，值代表该节点的子图，b下标代表子图，值代表节点数，k-1代表子图数
+    return a, b, k-1                      # a下标代表着节点，值代表该节点的子图，b下标代表子图，值代表节点数，elem-1代表子图数
 
 
 def node_num_of_max_subgraph(t_am):
@@ -309,7 +309,7 @@ def internet_attack(t_am):
     li_apl = []
     t = get_matrix_copy(t_am)
     num = len(t)
-    # k = 0
+    # elem = 0
     while num > 1:
         lnd = list_node_degree_am(t)
         max_i = 0
@@ -324,8 +324,8 @@ def internet_attack(t_am):
         li_nns.append(nns)
         li_apl.append(apl)
         # print('最大连通子图的节点数=', nns, '平均最短路径=', apl)
-        # print('最大连通子图的节点数=', nns, '平均最短路径=', apl, k)
-        # k = k+1
+        # print('最大连通子图的节点数=', nns, '平均最短路径=', apl, elem)
+        # elem = elem+1
         num = len(t)
     li_nns.append(1)
     li_nns.append(0)

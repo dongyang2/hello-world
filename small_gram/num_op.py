@@ -241,8 +241,8 @@ def merge_core(li_subject, li_label):
     :return: 合并的数组
     """
     # print(li_subject[:, 0])
-    for k1, i in enumerate(li_subject[:, 0][1:]):  # i subject_content_id
-        for k2, j in enumerate(li_label[:, 0][1:]):  # j li_label_content_id
+    for k1, i in enumerate(li_subject[:, 0][1:]):  # num subject_content_id
+        for k2, j in enumerate(li_label[:, 0][1:]):  # each_c li_label_content_id
             if j == i:
                 li_subject[k1+1][2] = li_label[k2+1][1]
                 break
@@ -299,7 +299,7 @@ if __name__ == '__main__':
 
     # print(get_min_li([]))
 
-    # c2 = [i+1 for i in c]
+    # c2 = [num+1 for num in c]
     # print(c2)
 
     li5 = [[1, 1], [2, 2], [2, 3], [1, 1]]

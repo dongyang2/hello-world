@@ -113,8 +113,8 @@ def divide_file(path_from, path_to, validate_ratio, label_file):
     ct = 0
     for i in li_lab_file:
         for j in i:
-            # print(j[1:-1])
-            # k = j[1:-1]
+            # print(each_c[1:-1])
+            # elem = each_c[1:-1]
             str1 = path_from + '/' + j + '.png'
             str2 = path_to + '/'
             if str1 in efo:
@@ -169,8 +169,8 @@ def see_json(filename):
     with open(filename, 'r')as f:
         arr_new = []
         for i in f:     # i是str类型
-            # print(i, type(i))
-            # print(i.find('{'))
+            # print(num, type(num))
+            # print(num.find('{'))
             j = 1           # 这里是1因为for循环是从第一个开始的，细想下就理解了
             for k in i:
                 if k == '{':
@@ -294,7 +294,7 @@ def read_pix_old(file):
                 tmp_li.append(int(ss))
             else:
                 tmp_li.append(j)
-            # print(j)
+            # print(each_c)
         fil_li.append(tmp_li)
     return fil_li
 
