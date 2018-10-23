@@ -17,6 +17,6 @@ image_processing/homework2/__pycache__/
 language_process/rule_optimize.py
 language_process/train_rule_eval.py
 small_gram/read_pdf.py
-webServer.xml
-proxy.setting.xml
+webServers.xml
+proxy.settings.xml
 
