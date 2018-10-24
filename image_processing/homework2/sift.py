@@ -70,7 +70,7 @@ if __name__ == '__main__':
     sift = cv2.xfeatures2d.SIFT_create()
     keypoints = sift.detect(img4, None)
 
-    # kp, des = sift.detectAndCompute(gray,None)  #des是描述子，for match， should use des, bf = cv2.BFMatcher();smatches = bf.knnMatch(des1,des2, k=2
+    # kp, des = sift.detectAndCompute(gray,None)  #des是描述子，for match， should use des, bf = cv2.BFMatcher();smatches = bf.knnMatch(des1,des2, elem=2
     cv2.drawKeypoints(img4, keypoints, img4)
     cv2.imshow('testSift', img4)
 

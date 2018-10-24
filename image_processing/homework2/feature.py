@@ -72,8 +72,8 @@ def write_feature(in_file, out_file, nl, nt=50):
             color.append(str(ind))
             line.append(color)
             # m += 1
-    # for i in line:
-    #     print(i)
+    # for num in line:
+    #     print(num)
     write_file_new(line, out_file)
 
 
@@ -87,7 +87,7 @@ def write_rgb_f(in_fil, out_fil, nl=0):
         for k in j:
             # if m == 30:
             #     break
-            # pic = img.imread(k)
+            # pic = img.imread(elem)
             color = histogram.get_rgb(k)
             if nl != 0:
                 s = k.split('/')[-2]  # 获得水果种类
@@ -96,8 +96,8 @@ def write_rgb_f(in_fil, out_fil, nl=0):
                 color.append(str(ind))
             line.append(color)
             # m += 1
-    # for i in line:
-    #     print(i)
+    # for num in line:
+    #     print(num)
     write_file_li(line, out_fil)
 
 
@@ -120,7 +120,7 @@ def read_pix_old(file):
                     tmp_s = k
                 ss = ss + tmp_s
             tmp_li.append(ss)
-            # print(j)
+            # print(each_c)
         fil_li.append(tmp_li)
     return fil_li
 

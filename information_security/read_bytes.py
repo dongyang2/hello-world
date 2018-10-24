@@ -47,7 +47,7 @@ def write_in_image(content, filename):
             elif k == '??':
                 ar.append(0)
             elif k != '':
-                # print(h, k)
+                # print(h, elem)
                 ar.append(int(k, 16))
         # print(ar)
         if h == len(content):

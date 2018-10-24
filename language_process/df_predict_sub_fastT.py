@@ -26,8 +26,8 @@ def merge_core(li_subject, li_label):
     :return: 合并的数组
     """
     # print(li_subject[:, 0])
-    for k1, i in enumerate(li_subject[:, 0][1:]):  # i subject_content_id
-        for k2, j in enumerate(li_label[:, 0][1:]):  # j li_label_content_id
+    for k1, i in enumerate(li_subject[:, 0][1:]):  # num subject_content_id
+        for k2, j in enumerate(li_label[:, 0][1:]):  # each_c li_label_content_id
             if j == i:
                 li_subject[k1+1][2] = li_label[k2+1][1]
                 break
@@ -41,12 +41,12 @@ def get_predict(train_path, test_path):
     """
     import fastText
     classifier = fastText.train_supervised(train_path,
-                                           lr=0.325,
-                                           dim=10,
-                                           epoch=10,
+                                           lr=0.3,
+                                           dim=200,
+                                           epoch=8,
                                            minn=1,
                                            maxn=4,
-                                           wordNgrams=1,
+                                           wordNgrams=2,
                                            loss='hs',
                                            )
     test_data = np.load(test_path)
@@ -81,14 +81,14 @@ def get_good_probability(test_path, threshold=0.3):
     # print(li_threshold)
     content_id = np.loadtxt(test_path, dtype=str, delimiter=',', usecols=[0], encoding='utf-8')[1:]
     w_path = rename(test_path, '/result/fastT_sub_th'+str(threshold) +
-                               '_lr0.325'
+                               '_lr0.3'
                                # '_hs'
-                               '_dim10'
-                               '_epoch10'
+                               '_dim200'
+                               '_epoch8'
                                '_gram(1,4)'
-                               '_ngram1'
+                               '_ngram2'
                                '_cutjb'
-                               '_delStop'
+                               '_delStop3'
                                '.csv')
     with open(w_path, 'w', encoding='utf-8') as f:
         f.write('content_id,subject,sentiment_value,sentiment_word\n')
@@ -97,7 +97,7 @@ def get_good_probability(test_path, threshold=0.3):
             for j in range(len(li_threshold[i])):
                 tmp_s = ','.join([content_id[i], li_threshold[i][j], '0'])
                 f.write(tmp_s+',\n')
-            # if i == 50:
+            # if num == 50:
             #     break
             i += 1
 
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     train_sunOnly_jb_delStop_fil = 'H:/DF_emotion/train_sub_jieba.txt'
     test_seg_jb_delStop_fil = 'H:/DF_emotion/test_public_jb_delStop.npy'
     # print(rename(test_fil, '/result/fastTextLabel_svmSub.csv'))
-    # get_predict(train_sunOnly_jb_delStop_fil, test_seg_jb_delStop_fil)
-    get_good_probability(test_fil, 0.1)
+    get_predict(train_sunOnly_jb_delStop_fil, test_seg_jb_delStop_fil)
+    get_good_probability(test_fil, 0.3)
 
     # all_zero('H:/DF_emotion/result/fastT_multiLabel_th0.3_lr0.325_hs_dim200_epoch10_gram(1,4)_ngram1_cutjb_delStop.csv')

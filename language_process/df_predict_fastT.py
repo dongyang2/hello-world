@@ -10,8 +10,8 @@ def write_predict(train_path, test_path):
     classifier = fastText.train_supervised(train_path, loss='hs', label="__label__")
 
     # with open(test_path, 'r', encoding='utf-8') as f:
-    #     for i in f:
-    #         pre = classifier.predict(i[:-1])
+    #     for num in f:
+    #         pre = classifier.predict(num[:-1])
     #         print(pre)
     #         break
 
@@ -82,8 +82,8 @@ def merge_core(li_subject, li_label):
     :return: 合并的数组
     """
     # print(li_subject[:, 0])
-    for k1, i in enumerate(li_subject[:, 0][1:]):  # i subject_content_id
-        for k2, j in enumerate(li_label[:, 0][1:]):  # j label_content_id
+    for k1, i in enumerate(li_subject[:, 0][1:]):  # num subject_content_id
+        for k2, j in enumerate(li_label[:, 0][1:]):  # each_c label_content_id
             if j == i:
                 li_subject[k1+1][2] = li_label[k2+1][1]
                 break
@@ -113,7 +113,7 @@ def get_predict(train_path, test_path):
         pre = classifier.predict(i[:-1], k=10)
         # print(pre)
         result = handle_ft_predict_result(pre)  # 每一个句子对应一个二维数组，形如[['价格,' '0' '0.65184933']...]
-        # if j == 10:
+        # if each_c == 10:
         #     break
         li.append(result)
     # print(li)
@@ -153,12 +153,12 @@ def get_good_probability(test_path):
             tmp.append(prob[i][0])
         li_threshold.append(tmp)
         i += 1
-        # if i == 20:
+        # if num == 20:
         #     break
     # li_np = np.array(li_threshold)
     #
-    # for i in li_threshold:
-    #     print(i)
+    # for num in li_threshold:
+    #     print(num)
     content_id = np.loadtxt(test_path, dtype=str, delimiter=',', usecols=[0], encoding='utf-8')[1:]
     w_path = rename(test_path, '/result/fastT_multiLabel_th0.3'
                                '_lr0.325'
@@ -184,7 +184,7 @@ def get_good_probability(test_path):
                     f.write(tmp_s+',\n')
                     tmp = sub
             i += 1
-            # if i == 5:
+            # if num == 5:
             #     break
     # print(len(prob), len(content_id))
 
@@ -200,8 +200,8 @@ def change_to_30_labels(path):
             tmp_s = '__label__'+li_label[1][:-1]+li_label[2]  # 这里[:-1]是为了去掉逗号
             tmp.append(tmp_s)
             if row[0] == train_data[i+1][0]:
-                # print(i)
-                # next_label = train_data[i+1][1].split('__label__')
+                # print(num)
+                # next_label = train_data[num+1][1].split('__label__')
                 # tmp_s = '__label__'+next_label[1][:-1]+next_label[2]
                 # tmp.append(tmp_s)  # 加入下个类标
                 continue
@@ -212,7 +212,7 @@ def change_to_30_labels(path):
                 # print(s[:-1])
                 f.write(s[:-1]+'\n')  # 这里[:-1]也是为了去掉逗号
                 tmp = []
-            # if i == 50:
+            # if num == 50:
             #     break
     # print(train_data.shape)
 
@@ -228,7 +228,7 @@ def get_good_probability_30l(test_path):
         j = 0
         tmp = []
         while j < len(prob[i]):
-            # print(prob[i][j])
+            # print(prob[num][each_c])
             if float(prob[i][j][-1]) > threshold:
                 tmp.append(prob[i][j][0])
             j += 1
@@ -256,7 +256,7 @@ def get_good_probability_30l(test_path):
         while i < len(prob):
             tmp = ''
             for j in range(len(li_threshold[i])):
-                # print(li_threshold[i][j])
+                # print(li_threshold[num][each_c])
                 lab = split_num_from_str(li_threshold[i][j])[0][0]
                 sub = li_threshold[i][j].split(lab)
                 if tmp == sub:
@@ -267,7 +267,7 @@ def get_good_probability_30l(test_path):
                     tmp = sub
                 # print(tmp_s)
             i += 1
-            # if i == 100:
+            # if num == 100:
             #     break
 
 

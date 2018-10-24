@@ -33,7 +33,7 @@ def read(path, fl='train', sep=True):
             for i in f:
                 j += 1
                 if j != 1:
-                    # print(i)
+                    # print(num)
                     li.append(i[:-1].split(','))  # 读scv文件标准切法
             # print(li)
             arr = np.array(li)
@@ -53,7 +53,7 @@ def read(path, fl='train', sep=True):
             for i in f:
                 j += 1
                 if j != 1:
-                    # print(i)
+                    # print(num)
                     li.append(i[:-1].split(',')[1])
             # print(li)
             arr = np.array(li)
@@ -98,8 +98,8 @@ def write(path):  # 按照fastText的格式改写原数据,写预处理的训练
 
     with open(di_train, 'w', encoding='utf-8') as f_t:
         for j, i in enumerate(x_train):
-            # print(word_seg(i))
-            # print(type(word_seg(i)))
+            # print(word_seg(num))
+            # print(type(word_seg(num)))
             s = word_seg(i)+'\t__label__'+str(y_train[j])  # 注意这里__label__前面要加至少一个空格，否则fastText读不出标签
             # print(s)
             f_t.write(s)
@@ -165,7 +165,7 @@ def write_train_np(path):  # 40分钟
         k = 0
         while k < len(d):
             # 留类标
-            # s = word_seg(d[k][1])+'\t__label__'+str(d[k][3])
+            # s = word_seg(d[elem][1])+'\t__label__'+str(d[elem][3])
 
             # 留主题
             s = word_seg(d[k][1])+'\t__label__'+str(d[k][2])
@@ -194,6 +194,11 @@ def clean_str(stri, stop=True):
 
 
 def write_train_sub_and_label(train_path, cut='pyltp'):  # 笔记本ltp 38min,服务器ltp 12min
+    """把数据处理成可放入fastText的格式，既写入主题也写入情感分类
+
+    :param train_path: 训练文件的路径
+    :param cut:        切词方法。jieba或者pyltp二选一
+    """
     data_train = read_scv(train_path)
     # print(data_train)
 
@@ -219,6 +224,12 @@ def write_train_sub_and_label(train_path, cut='pyltp'):  # 笔记本ltp 38min,�
 
 
 def write_train_sub_or_label(train_path, cut='jieba', c='sub'):
+    """将数据处理成可放入fastText的格式，只写入主题（或情感分类）
+
+    :param train_path:  训练文件的路径
+    :param cut:         切词方法。jieba或者pyltp二选一
+    :param c:           只进行主题或者类标的多分类。sub或者lab二选一。
+    """
     data_train = read_scv(train_path)
     # print(data_train)
 
