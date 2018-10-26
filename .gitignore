@@ -22,4 +22,6 @@ proxy.settings.xml
 debugger.xml
 filetypes.xml
 notifications.xml
+interview_q/PAT/generate_daily_log.py
+interview_q/PAT/计算train和test的内容重复率.py
 
