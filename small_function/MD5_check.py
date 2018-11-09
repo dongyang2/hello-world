@@ -57,7 +57,7 @@ def ergodic_dir(path):
 
 def get_each_file_md5(path, show_file=True):
     """
-    :param path:        目录地址
+    :param path:        目录（文件夹）地址
     :param show_file:   是否显示MD5重复的文件
     """
     li_fi = ergodic_dir(path)
@@ -87,4 +87,3 @@ if __name__ == "__main__":
     # print(md5sum('E:/常用文档/日志/20181024.txt'))
     # print(md5sum('E:/常用文档/日志/20181022.txt'))
     get_each_file_md5('E:/常用文档/日志/')
-
