@@ -311,8 +311,8 @@ def save_pic(ar, fil):
 
 
 def ergodic_dir(path):
-    """遍历指定目录，显示目录下的所有文件或目录名
-    相对于each_file_or_dir_name，一名字短了，二处理了path
+    """遍历指定目录，返回目录下的所有文件或目录名
+    相对于each_file_or_dir_name，改进有二，一函数名短了，二处理了path
     """
     s = path[-1]
     if s == '/':
