@@ -225,7 +225,7 @@ def li_op(li, rat=-1, rnd=True, lst=True, f=-1, is_st=False, flat=False, small=-
     return False
 
 
-def uniq(source):
+def unique(source):
     """列表内元素去重"""
     li = []
     for e in source:
@@ -303,7 +303,7 @@ if __name__ == '__main__':
     # print(c2)
 
     li5 = [[1, 1], [2, 2], [2, 3], [1, 1]]
-    # print(uniq(li5))
+    # print(unique(li5))
 
     li6 = [(18, 0.06783267), (37, 0.22998421), (62, 0.15872142), (92, 0.045642894), (113, 0.42936638)]
     # print(sorted(li6, key=lambda prob: prob[1]))

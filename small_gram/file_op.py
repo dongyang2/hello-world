@@ -2,13 +2,13 @@
 # -*- coding: UTF-8 -*-
 # each_file_or_dir_name 遍历指定目录，显示目录下的所有文件或目录名
 # read_file_influx_db   读取文件内容，为influxDB导入时读数据定制
-# read_file             读取文件内容
+# read_file             按行读取文件内容且返回一个二维数组
 # is_rectangle          判断一个文件内容每一行长度是不是一样
 # is_rectangle_byte     对一个二进制文件，判断其内容每一行长度是不是一样
 # divide_file           分割一部分文件作为测试集，一部分作为验证集
 # read_acc_file         读取acc文件
-# mov_file_to_dir_acc       把文件移动到一个目录
-# write_file            把一位或二维数组写入文件
+# mov_file_to_dir_acc       把acc文件移动到一个目录
+# write_file            把一维或二维数组写入文件
 # write_file_li         把任意维度的数组写入文件
 # read_file_li          返回文件内容为一个数组
 # write_file_pic_old    把图片的RGB像素点写到文件中
@@ -16,6 +16,8 @@
 # save_pic              将数据存为图片，ar是numpy.uint8数组
 # ergodic_dir           遍历指定目录（新）
 # ergodic_and_regular   遍历指定目录且更改烦人的影视作品文件名
+# mkdir                 创建目录
+
 import os
 from PIL import Image
 # from information_security import read_bytes
@@ -234,19 +236,19 @@ def write_file_li(li, filename, title=''):
     f.close()
 
 
-def read_file_li(filename, title=0):
-    """读取文件内容，每一行存入一个数组，返回一个二维数组"""
-    if title != 0 and title != 1:
+def read_file_li(filename, have_title=0, split=' '):
+    """读取文件内容，每一行存入一个数组，返回一个二维数组，可以指定文件第一行是否有标题，可以指定分隔符"""
+    if have_title != 0 and have_title != 1:
         return False
     with open(filename, 'r') as f_open:
         file_content = []
         for k, each_line in enumerate(f_open):
-            if k == 0 and title == 1:
+            if k == 0 and have_title == 1:
                 # print(each_line)
                 file_content.append(each_line[:-1])
             else:
                 word = []
-                for i in each_line.split(' ')[:-1]:
+                for i in each_line.split(split)[:-1]:
                     word.append(i)
                 file_content.append(word)
         return file_content
@@ -340,6 +342,7 @@ def ergodic_and_regular(path):
 
 
 def mkdir(path):
+    """创建目录"""
     path = path.strip()  # 去除首位空格
     path = path.rstrip("\\")  # 去除尾部 \ 符号
     is_exists = os.path.exists(path)
@@ -348,7 +351,6 @@ def mkdir(path):
         os.makedirs(path)
         # print (path+' 创建成功')
     else:
-
         # print (path+' 目录已存在')# 如果目录存在则不创建，并提示目录已存在
         return False
 
@@ -377,7 +379,7 @@ def move_file(from_path, to_dir_path):
 
 
 def add_suffix_for_dir(path, suffix='.jpg'):
-    """为一个文件夹内所有文件添加后缀名
+    """为一个文件夹内所有文件添加统一后缀名
 
     :param path:   文件夹地址
     :param suffix: 想要加的后缀

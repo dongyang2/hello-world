@@ -1,4 +1,3 @@
-from small_gram import file_op
 
 
 def add_blank_after_comma(txt):
@@ -44,15 +43,6 @@ def get_dir(fil_nam):
     return tmp_s
 
 
-def dir_op(fd):
-    # 我觉得有时间应该写一个专门处理各种目录名的函数
-    """
-
-    :param fd: filename or directory name
-    """
-    pass
-
-
 def del_str_by_2char(s, co, ct, f=True):
     """删除一个字符串中被2个子字符串包围的所有字符
     f=True删除指定的那两个子字符串
@@ -76,11 +66,11 @@ def del_str_by_2char(s, co, ct, f=True):
 
 
 def regular_fil_nam(fil_nam):
-    """把影视作品的文件名规范化"""
+    """把影视作品的文件名规范化，最新的版本详见small_function/rename_movie_file.py"""
     ds = ['1280X720', '1280x720', '720p', '720P', 'KO_CN', 'TSKS',
-             '1080p', '1920x1080', '1920X1080', '1080P', '[', ']',
-             '(', ')', 'HDTVrip', '阳光电影', 'HDTV', 'x264', 'X264'
-             'AAC', '国语中字', 'HD', '中字', '  ']
+          '1080p', '1920x1080', '1920X1080', '1080P', '[', ']',
+          '(', ')', 'HDTVrip', '阳光电影', 'HDTV', 'x264', 'X264'
+          'AAC', '国语中字', 'HD', '中字', '  ']
 
     remove_website = del_str_by_2char(fil_nam, 'www', 'com')
     li_fil = remove_website.split('.')
@@ -114,6 +104,29 @@ def split_num_from_str(s):
     return re.findall(int_num, s), re.findall(word, s)
 
 
+def add_in_same_dir(di_fi, add, slash='/'):
+    """返回一个和di_fi在一个目录中的路径
+    :param di_fi: 文件路径或者文件夹路径
+    :param add:   指定的文件名
+    :param slash: 正斜杠"/"或者反斜杠"\"
+    :return 一个文件名叫add的，与di_fi在同一个文件夹下的路径
+    """
+    if slash != '/' and slash != '\\':
+        print('\033[31m%s is Invalid slash!\33[0m' % slash)
+        return False
+    if add[0] == '\\':
+        print('''\033[31mPlease use '/' but not '\\' to prevent bad things from happening!\33[0m''')
+        return False
+    if add[0] == '/':
+        add = add[1:]
+
+    if di_fi[-1] == '/' or di_fi[-1] == '\\':
+        return di_fi+add
+
+    s_li = di_fi.replace('\\', '/').split('/')[:-1]
+    return slash.join(s_li+[add])
+
+
 if __name__ == '__main__':
     str1 = '''[10930,10318,10595,10972,7706,6756,9092,10551,9722,10913,11151,8186,6422, 
 6337,11649,11652,10310,12043,7937,6476,9662,9570,9981,9331,9449,6773,6304,9355, 
@@ -133,10 +146,14 @@ if __name__ == '__main__':
            '../dataset/海南香蕉/Snapshot000105.jpg',
            '../lesson/image_process/dataset/海南香蕉/Snapshot000106.jpg']
     fil1 = 'H:/lesson/image_process/dataset'
+#     from small_gram import file_op
     # fil_li = file_op.each_file_or_dir_name(fil1)
     # print(fil_li)
     # names = get_last_dir_name(fil_li, dn=1)
     # print(names)
 
     str2 = '235436niaohonafn-4363agbag'
-    print(split_num_from_str(str2))
+    # print(split_num_from_str(str2))
+
+    dir2 = 'H:\DF_emotion\\xy\\'
+    print(add_in_same_dir(dir2, '\ok', '3'))
