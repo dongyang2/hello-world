@@ -1,8 +1,7 @@
 from small_gram import file_op as fo
-from image_processing.homework2 import cut, histogram, text_op as to
+from lessons.image_processing.homework2 import text_op as to, histogram
 import matplotlib.image as img
 import os
-import cv2
 import datetime
 
 

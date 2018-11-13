@@ -1,12 +1,4 @@
-import numpy as np
-from skimage import exposure, data
-import cv2
 import matplotlib.image as img
-from matplotlib import pyplot as plt
-from collections import Counter
-from image_processing.homework2 import con_RGB as cr
-import operator
-from image_processing.homework2 import cut
 
 
 def cnt(li, top=50, del_white=True, turn_li=True):

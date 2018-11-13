@@ -1,11 +1,8 @@
 import cv2
 import numpy as np
-import os
 import matplotlib.image as img
 from matplotlib import pyplot as plt
 from small_gram import file_op as fo
-from PIL import Image as im
-from image_processing.homework2 import histogram, text_op as to
 
 
 def cut_by_thr(pic, thr=80):

@@ -24,5 +24,3 @@ def turn_print(f_path):
 if __name__ == '__main__':
     path1 = 'E:/常用文档/日志/181112.txt'
     turn_print(path1)
-
-

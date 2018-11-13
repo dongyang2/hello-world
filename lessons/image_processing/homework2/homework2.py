@@ -1,13 +1,10 @@
 #! python3
 # coding: utf-8
 
-import pickle
 import xgboost as xgb
-import pandas as pd
 import numpy as np
 from sklearn.cross_validation import train_test_split
-from image_processing.homework2 import cut, feature, text_op, file_op
-import datetime
+from lessons.image_processing.homework2 import cut, text_op, file_op, feature
 
 
 def get_elem_from_li(li):
