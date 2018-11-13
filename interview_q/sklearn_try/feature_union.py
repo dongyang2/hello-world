@@ -1,7 +1,6 @@
 # Concatenating multiple feature extraction methods
 
 # Author: Andreas Mueller <amueller@ais.uni-bonn.de>
-#
 # License: BSD 3 clause
 
 from sklearn.pipeline import Pipeline, FeatureUnion
