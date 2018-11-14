@@ -5,7 +5,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.datasets import load_digits
+from sklearn.datasets import load_digits  # 也是一个手写数字数据集
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
@@ -34,26 +34,31 @@ param_grid = [
 reducer_labels = ['PCA', 'NMF', 'KBest(chi2)']
 
 grid = GridSearchCV(pipe, cv=3, n_jobs=1, param_grid=param_grid)
-digits = load_digits()
-grid.fit(digits.data, digits.target)
-
-mean_scores = np.array(grid.cv_results_['mean_test_score'])
-# scores are in the order of param_grid iteration, which is alphabetical
-mean_scores = mean_scores.reshape(len(C_OPTIONS), -1, len(N_FEATURES_OPTIONS))
-# select score for best C
-mean_scores = mean_scores.max(axis=0)
-bar_offsets = (np.arange(len(N_FEATURES_OPTIONS)) *
-               (len(reducer_labels) + 1) + .5)
-
-plt.figure()
-COLORS = 'bgrcmyk'
-for i, (label, reducer_scores) in enumerate(zip(reducer_labels, mean_scores)):
-    plt.bar(bar_offsets + i, reducer_scores, label=label, color=COLORS[i])
-
-plt.title("Comparing feature reduction techniques")
-plt.xlabel('Reduced number of features')
-plt.xticks(bar_offsets + len(reducer_labels) / 2, N_FEATURES_OPTIONS)
-plt.ylabel('Digit classification accuracy')
-plt.ylim((0, 1))
-plt.legend(loc='upper left')
-plt.show()
+digits = load_digits()  # DESCR, images (1797,8,8), data (1797,64), target (1797,), target_names (10,)
+print(digits.DESCR)
+print(digits.images.shape)
+print(digits.data.shape)
+print(digits.target.shape)
+print(digits.target_names.shape)
+# grid.fit(digits.data, digits.target)
+#
+# mean_scores = np.array(grid.cv_results_['mean_test_score'])
+# # scores are in the order of param_grid iteration, which is alphabetical
+# mean_scores = mean_scores.reshape(len(C_OPTIONS), -1, len(N_FEATURES_OPTIONS))
+# # select score for best C
+# mean_scores = mean_scores.max(axis=0)
+# bar_offsets = (np.arange(len(N_FEATURES_OPTIONS)) *
+#                (len(reducer_labels) + 1) + .5)
+#
+# plt.figure()
+# COLORS = 'bgrcmyk'
+# for i, (label, reducer_scores) in enumerate(zip(reducer_labels, mean_scores)):
+#     plt.bar(bar_offsets + i, reducer_scores, label=label, color=COLORS[i])
+#
+# plt.title("Comparing feature reduction techniques")
+# plt.xlabel('Reduced number of features')
+# plt.xticks(bar_offsets + len(reducer_labels) / 2, N_FEATURES_OPTIONS)
+# plt.ylabel('Digit classification accuracy')
+# plt.ylim((0, 1))
+# plt.legend(loc='upper left')
+# plt.show()
