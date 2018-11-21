@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
+from matplotlib.ticker import MultipleLocator
 
 x = np.arange(0, 50, 0.1)
 y = np.sin(x)
@@ -10,6 +11,8 @@ y = np.sin(x)
 
 plt.title('sin function')  # 加了标题
 ax = plt.axes()
+
+ax.xaxis.set_major_locator(MultipleLocator(5))  # 设置刻度粒度，要导MultipleLocator函数
 
 plt.plot(x, y)
 # 加字体了plt才能正确显示中文，title那里也可以加fontproperties

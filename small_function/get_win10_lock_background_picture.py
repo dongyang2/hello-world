@@ -1,6 +1,7 @@
 # py3.5
 # utf-8
 # author: github.com/dongyang2
+# 获取选择Windows聚焦的锁屏壁纸（win10）
 import os
 import shutil
 import getpass
