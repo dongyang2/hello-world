@@ -12,6 +12,7 @@ __all__ = ['file_op',
            'num_op',
            'read_pdf',
            'text_op',
+
            # file_op
            'read_file',             # 按行读取文件内容且返回一个二维数组
            'mkdir',                 # 创建目录
@@ -25,6 +26,7 @@ __all__ = ['file_op',
            'write_csv',             # 将类数组的变量保存成csv格式的文件
            'move_file',             # 移动文件到目录
            'add_suffix_for_dir',    # 为一个文件夹内所有文件添加统一后缀名
+
            # num_op
            'get_first_ratio',       # 获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素
            'li_precision_control',  # 精度控制，将多维列表中所有元素都进行统一的精度控制
@@ -36,6 +38,7 @@ __all__ = ['file_op',
            'get_shi',               # 算一个整数所在的十位段，比如255在250段，136在130段
            'flatten_li',            # 把多维列表各元素放入一个一维列表
            'unique',                # 一维列表内元素去重
+
            # text_op
            'add_blank_after_comma',  # 在逗号后面加空格
            'get_last_dir_name',     # 从一个文件列表中获得最深层的目录名，目前最大只能支持二维数组
