@@ -19,7 +19,7 @@ __all__ = ['file_op',
            'is_rectangle',          # 判断一个文件内容每一行长度是不是一样
            'is_rectangle_byte',     # 对一个二进制文件，判断其内容每一行长度是不是一样
            'divide_file',           # 分割一部分文件作为测试集，一部分作为验证集
-           'write_file',            # 把一维或二维数组写入文件
+           'write_file',            # 把一维或二维数组写入文件，需要指定w_type，'1D list'和'2D list'二选一
            'write_file_li',         # 把任意维度的数组写入文件
            'read_file_li',          # 读取文件内容，返回一个二维数组，可以指定文件第一行是否有标题，可以指定分隔符
            'ergodic_dir',           # 遍历指定目录（新）
