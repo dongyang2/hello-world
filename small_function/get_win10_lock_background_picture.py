@@ -50,7 +50,7 @@ def get_picture(to_dir):
                                              'Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets'
     li_file_name = each_file_or_dir_name(path)
     for file in li_file_name:
-        fi_size = os.path.getsize(file)/float(1024)
+        fi_size = os.path.getsize(file)/float(1024)  # 文件大小
         fi_size_kb = round(fi_size, 2)
         if fi_size_kb > 200:
             # copy_file(file, to_dir)  # 这里本来是想复制的，但是提示没有权限，就只好移动了

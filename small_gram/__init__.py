@@ -1,11 +1,11 @@
 # 一些可能比较实用的基本操作
 
 from .file_op import read_file, mkdir, is_rectangle, is_rectangle_byte, divide_file, write_file, write_file_li, \
-    read_file_li, ergodic_dir, write_csv, move_file, add_suffix_for_dir
+    read_file_li, ergodic_dir, write_csv, move_file, add_suffix_for_dir, get_picture
 from .num_op import get_first_ratio, li_precision_control, get_min_2d_list, get_size_top_n_li, get_li_size, slice_li, \
     get_min_li, get_shi, flatten_li, unique, merge_core
 from .text_op import add_blank_after_comma, get_last_dir_name, get_dir, del_str_by_2char, split_num_from_str, \
-    add_in_same_dir
+    add_in_same_dir, get_suffix
 
 __all__ = ['file_op',
            'date_op',
@@ -26,6 +26,7 @@ __all__ = ['file_op',
            'write_csv',             # 将类数组的变量保存成csv格式的文件
            'move_file',             # 移动文件到目录
            'add_suffix_for_dir',    # 为一个文件夹内所有文件添加统一后缀名
+           'get_picture',           # 复制一个源文件夹下的所有子文件夹中的指定后缀文件，到目标文件夹，且保留源文件夹下子文件夹的结构
 
            # num_op
            'get_first_ratio',       # 获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素
@@ -45,5 +46,6 @@ __all__ = ['file_op',
            'get_dir',               # 获得文件的整个目录，即剔除了文件自己的名字
            'del_str_by_2char',      # 删除一个字符串中被2个子字符串包围的所有字符
            'split_num_from_str',    # 返回字符串中的数字与只包含字母的子字符串
-           'add_in_same_dir'        # 返回一个和给定路径在同一个目录（文件夹）中的路径
+           'add_in_same_dir',       # 返回一个和给定路径在同一个目录（文件夹）中的路径
+           'get_suffix'             # 获得一个文件的后缀名
            ]

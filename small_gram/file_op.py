@@ -19,10 +19,11 @@
 # mkdir                 创建目录
 
 import os
-from PIL import Image
-# from information_security import read_bytes
-from small_gram import num_op, text_op
 import shutil
+
+from PIL import Image
+
+from small_gram import num_op, text_op, get_suffix
 
 
 def each_file_or_dir_name(path):
@@ -391,6 +392,25 @@ def add_suffix_for_dir(path, suffix='.jpg'):
     for fi_name in path_dir:
         new_name = fi_name + suffix
         os.rename('%s/%s' % (path, fi_name), '%s/%s' % (path, new_name))
+
+
+def get_picture(path, to_dir, sf='jpg'):
+    """复制一个源文件夹下的所有子文件夹中的指定后缀文件，到目标文件夹，且保留源文件夹下子文件夹的结构
+
+    :param path:   指定的源文件夹
+    :param to_dir: 目标文件夹
+    :param sf:     想要复制的文件的后缀名，也可以不是图片
+    """
+    li_dir_name = ergodic_dir(path)
+    for dir_ in li_dir_name:
+        li_fi = ergodic_dir(dir_)
+        folder = dir_.split('/')[-1]
+        to_dir_path = to_dir+'/'+folder
+        if not os.path.exists(to_dir_path):
+            os.makedirs(to_dir_path)
+        for fi in li_fi:
+            if get_suffix(fi) == sf:
+                shutil.copy(fi, to_dir_path)
 
 
 if __name__ == '__main__':
