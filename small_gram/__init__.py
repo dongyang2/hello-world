@@ -14,19 +14,19 @@ __all__ = ['file_op',
            'text_op',
 
            # file_op
-           'read_file',             # 按行读取文件内容且返回一个二维数组
+           'add_suffix_for_dir',    # 为一个文件夹内所有文件添加统一后缀名
+           'divide_file',           # 分割一部分文件作为测试集，一部分作为验证集
+           'ergodic_dir',           # 遍历指定目录（新）r_full=True返回全路径，r_full=False仅返回文件和目录名
+           'get_picture',           # 复制一个源文件夹下的所有子文件夹中的指定后缀文件，到目标文件夹，且保留源文件夹下子文件夹的结构
            'mkdir',                 # 创建目录
+           'move_file',             # 移动文件到目录
            'is_rectangle',          # 判断一个文件内容每一行长度是不是一样
            'is_rectangle_byte',     # 对一个二进制文件，判断其内容每一行长度是不是一样
-           'divide_file',           # 分割一部分文件作为测试集，一部分作为验证集
+           'read_file',             # 按行读取文件内容且返回一个二维数组
+           'read_file_li',          # 读取文件内容，返回一个二维数组，可以指定文件第一行是否有标题，可以指定分隔符
            'write_file',            # 把一维或二维数组写入文件，需要指定w_type，'1D list'和'2D list'二选一
            'write_file_li',         # 把任意维度的数组写入文件
-           'read_file_li',          # 读取文件内容，返回一个二维数组，可以指定文件第一行是否有标题，可以指定分隔符
-           'ergodic_dir',           # 遍历指定目录（新）
            'write_csv',             # 将类数组的变量保存成csv格式的文件
-           'move_file',             # 移动文件到目录
-           'add_suffix_for_dir',    # 为一个文件夹内所有文件添加统一后缀名
-           'get_picture',           # 复制一个源文件夹下的所有子文件夹中的指定后缀文件，到目标文件夹，且保留源文件夹下子文件夹的结构
 
            # num_op
            'get_first_ratio',       # 获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素

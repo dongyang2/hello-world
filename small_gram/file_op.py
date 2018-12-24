@@ -23,7 +23,7 @@ import shutil
 
 from PIL import Image
 
-from small_gram import num_op, text_op, get_suffix
+from small_gram import num_op, text_op
 
 
 def each_file_or_dir_name(path):
@@ -313,15 +313,19 @@ def save_pic(ar, fil):
         im_gr.save(fil)
 
 
-def ergodic_dir(path):
+def ergodic_dir(path, r_full=True):
     """遍历指定目录，返回目录下的所有文件或目录名
     相对于each_file_or_dir_name，改进有二，一函数名短了，二处理了path
+    r_full=True返回全路径，比如C:/abc/d.txt
+    r_full=False仅返回文件和目录名，比如d.txt
     """
     s = path[-1]
     if s == '/':
         path = path[:-1]
     # print(path)
     path_dir = os.listdir(path)
+    if not r_full:
+        return path_dir
     di_fi = []
     for di_or_fi in path_dir:
         each_path = os.path.join('%s/%s' % (path, di_or_fi))
@@ -409,7 +413,7 @@ def get_picture(path, to_dir, sf='jpg'):
         if not os.path.exists(to_dir_path):
             os.makedirs(to_dir_path)
         for fi in li_fi:
-            if get_suffix(fi) == sf:
+            if text_op.get_suffix(fi) == sf:
                 shutil.copy(fi, to_dir_path)
 
 
