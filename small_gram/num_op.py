@@ -249,9 +249,18 @@ def merge_core(li_subject, li_label):
     return li_subject
 
 
+def gen_random_order(num, seed=None):
+    import random
+    if seed is not None:
+        random.seed(seed)
+    li = list(range(num))
+    random.shuffle(li)
+    return li
+
+
 if __name__ == '__main__':
     li1 = [1, 3, 45, 6, 4, 9, 2]
-    print(li1[-3:])
+    # print(li1[-3:])
     # print(slice_li(li1, 5))
     # print(get_first_ratio(range(10), 3))
 
@@ -307,3 +316,5 @@ if __name__ == '__main__':
 
     li6 = [(18, 0.06783267), (37, 0.22998421), (62, 0.15872142), (92, 0.045642894), (113, 0.42936638)]
     # print(sorted(li6, key=lambda prob: prob[1]))
+
+    print(gen_random_order(10))
