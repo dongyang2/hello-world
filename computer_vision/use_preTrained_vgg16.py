@@ -1,4 +1,5 @@
 # 使用基于slim的VGG16预训练模型得到图片特征
+# py3.5 TensorFlow 1.10 CUDA9.0 cudnn7.2.1.38
 import tensorflow.contrib.slim as slim
 import tensorflow as tf
 import numpy as np
