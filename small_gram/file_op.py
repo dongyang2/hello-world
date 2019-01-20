@@ -417,6 +417,19 @@ def get_picture(path, to_dir, sf='jpg'):
                 shutil.copy(fi, to_dir_path)
 
 
+def ergodic_all_file(path):
+    """想象一个树结构，以path为根节点，文件为叶子结点，返回所有叶子结点的路径"""
+    li_tmp = []
+    li_fi = []
+    for i in ergodic_dir(path):
+        if os.path.isdir(i):
+            li_tmp += ergodic_all_file(i)
+        else:
+            li_fi.append(i)
+
+    return li_tmp+li_fi
+
+
 if __name__ == '__main__':
     # path1 = "../resource"
     # each_name = each_file_or_dir_name(path1)
@@ -445,6 +458,9 @@ if __name__ == '__main__':
     # mov_file_to_dir_acc(path4, path5)
 
     write_name = 'H:/lesson/image_process/result/features.txt'
-    fea1 = read_pix_old(write_name)
-    for i1 in fea1:
-        print(i1)
+    # fea1 = read_pix_old(write_name)
+    # for i1 in fea1:
+    #     print(i1)
+
+    for i2 in ergodic_all_file('../interview_q'):
+        print(i2)
