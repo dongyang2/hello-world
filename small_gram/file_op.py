@@ -24,6 +24,7 @@ import shutil
 from PIL import Image
 
 from small_gram import num_op, text_op
+from small_gram.text_op import tc
 
 
 def each_file_or_dir_name(path):
@@ -356,7 +357,7 @@ def mkdir(path):
         os.makedirs(path)
         # print (path+' 创建成功')
     else:
-        # print (path+' 目录已存在')# 如果目录存在则不创建，并提示目录已存在
+        print(tc['yellow']+path+' 目录已存在')  # 如果目录存在则不创建，并提示目录已存在
         return False
 
 
@@ -462,5 +463,8 @@ if __name__ == '__main__':
     # for i1 in fea1:
     #     print(i1)
 
-    for i2 in ergodic_all_file('../interview_q'):
-        print(i2)
+    # for i2 in ergodic_all_file('../interview_q'):
+    #     print(i2)
+
+    path6 = 'G:/project_loc/rubbishbin/aabb'
+    mkdir(path6)

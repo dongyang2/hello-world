@@ -132,6 +132,13 @@ def get_suffix(fi):
     return fi.split('/')[-1].split('.')[-1]
 
 
+# text color
+tc = {
+    'red': '\033[31;0m',
+    'green': '\033[32;0m',
+    'yellow': '\033[33;0m',
+    'blue': '\033[34;0m'
+}
 if __name__ == '__main__':
     str1 = '''[10930,10318,10595,10972,7706,6756,9092,10551,9722,10913,11151,8186,6422, 
 6337,11649,11652,10310,12043,7937,6476,9662,9570,9981,9331,9449,6773,6304,9355, 
@@ -163,4 +170,6 @@ if __name__ == '__main__':
     dir2 = 'H:\DF_emotion\\xy\\'
     # print(add_in_same_dir(dir2, '\ok', '3'))
 
-    print(get_suffix(li2[0]))
+    # print(get_suffix(li2[0]))
+
+    print(tc['yellow'] + 'aaa')
