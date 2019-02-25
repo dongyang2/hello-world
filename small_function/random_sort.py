@@ -13,8 +13,8 @@ def gen_random_order(num, seed=None):
 
 if __name__ == '__main__':
     import time
+    print('-'*16, 'Start', time.ctime(), '-'*16, '\n')
 
-    print(time.ctime(), '\n')
     li1 = ['33', '许婕', '松涛', 'Nick', '雨杰', '吴刚', '杨帆', 'Aloha', '思棋', '冬']  # 输入列表
     len_li = len(li1)
     order = gen_random_order(len_li, seed=319754)
@@ -31,3 +31,5 @@ if __name__ == '__main__':
         else:
             s += d[i]
     print(s)
+    
+    print('\n', '-'*16, 'End', time.ctime(), '-'*16)
