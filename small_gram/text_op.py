@@ -132,7 +132,7 @@ def get_suffix(fi):
     return fi.split('/')[-1].split('.')[-1]
 
 
-# text color
+# txt color
 tc = {
     'red': '\033[31;0m',
     'green': '\033[32;0m',

@@ -70,13 +70,44 @@ def del_enter(content):
     c_new = ''
     for i in li:
         i = del_question_mark(i)
-        if i[-1] == '-':
-            c_new += i[:-1]
-        elif i[-1] == '.':
-            c_new += i + '\n'
-        else:
-            c_new += i + ' '
+        # print('-'*18, i, len(i))
+        if len(i) != 0:
+            if i[-1] == '-':
+                c_new += i[:-1]
+            elif i[-1] == '.' or judge_title(i):
+                c_new += i + '\n'
+            else:
+                c_new += i + ' '
     return c_new
+
+
+def judge_title(s):
+    ls = s.split(' ')
+    if ls[0] is '':
+        return False
+    elif ls[0][0].isdigit() and ls[0][-1] is '.':
+        return True
+    else:
+        return False
+
+
+def rm_formula(content):
+    import re
+    return re.sub('(\n.{0,3}){3,}', ' ', content)
+
+
+def read_pdf_real(path):
+    with open(path, mode='rb') as f:
+        txt = read_pdf(f)
+        # print(txt)
+        ab_ind = txt.find('Abstract')
+        ref_ind = txt.rfind('References')
+        need_txt = txt[ab_ind:ref_ind]
+
+        txt_rf = rm_formula(need_txt)  # 移除数学公式导致的奇怪回车
+        # print(txt3)
+        # print(del_enter(txt_rf))
+        return del_enter(txt_rf)
 
 
 if __name__ == '__main__':
@@ -92,5 +123,9 @@ if __name__ == '__main__':
     #         outputString = read_pdf(pdf_file)
     #         write_txt(path2)
 
-    str3 = ''''''
-    print(del_enter(str3))
+    # str3 = ''''''
+    # print(del_enter(str3))
+
+    path1 = 'E:/下载/cvprw15.pdf'
+
+    # print(judge_title('5. Conclusions'))

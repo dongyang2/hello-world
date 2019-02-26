@@ -44,7 +44,7 @@ def sav_lda_vec(path, sav_place):  # train 16s, test 4s
 
 
 def val(train_path, test_path):
-    # content = np.loadtxt(path, delimiter=',', usecols=[1], encoding='utf-8', dtype=str)[1:]
+    # txt = np.loadtxt(path, delimiter=',', usecols=[1], encoding='utf-8', dtype=str)[1:]
     train_vec = np.load(train_path)
     test_vec = np.load(test_path)  # 测试集的向量
     print(train_vec)

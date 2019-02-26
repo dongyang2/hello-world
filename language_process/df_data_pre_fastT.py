@@ -84,7 +84,7 @@ def write(path):  # 按照fastText的格式改写原数据,写预处理的训练
     content = x[:, 0]  # 内容
     label = y[:, 0]
 
-    # print(content)
+    # print(txt)
     # print(label)
     x_train, x_test, y_train, y_test = train_test_split(
         content, label, test_size=0.2, random_state=666)

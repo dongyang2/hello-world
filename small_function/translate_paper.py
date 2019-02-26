@@ -1,119 +1,230 @@
+# pip install PyExecJS
+# pip install bs4
+
+import urllib.parse
+import execjs
 import requests
-import json
-from bs4 import BeautifulSoup
-import execjs  # 必须，需要先用pip 安装，用来执行js脚本
 
 
-class Py4Js:
+class ReturnTk:
+
     def __init__(self):
-        self.ctx = execjs.compile(""" 
-        function TL(a) { 
-        var k = ""; 
-        var b = 406644; 
-        var b1 = 3293161072;       
-        var jd = "."; 
-        var $b = "+-a^+6"; 
-        var Zb = "+-3^+b+-f";    
-        for (var e = [], f = 0, g = 0; g < a.length; g++) { 
-            var m = a.charCodeAt(g); 
-            128 > m ? e[f++] = m : (2048 > m ? e[f++] = m >> 6 | 192 : (55296 == (m & 64512) && g + 1 < a.length &&
-             56320 == (a.charCodeAt(g + 1) & 64512) ? (m = 65536 + ((m & 1023) << 10) + (a.charCodeAt(++g) & 1023), 
-            e[f++] = m >> 18 | 240, 
-            e[f++] = m >> 12 & 63 | 128) : e[f++] = m >> 12 | 224, 
-            e[f++] = m >> 6 & 63 | 128), 
-            e[f++] = m & 63 | 128) 
-        } 
-        a = b; 
-        for (f = 0; f < e.length; f++) a += e[f], 
-        a = RL(a, $b); 
-        a = RL(a, Zb); 
-        a ^= b1 || 0; 
-        0 > a && (a = (a & 2147483647) + 2147483648); 
-        a %= 1E6; 
-        return a.toString() + jd + (a ^ b) 
-      };      
-      function RL(a, b) { 
-        var t = "a"; 
-        var Yb = "+"; 
-        for (var c = 0; c < b.length - 2; c += 3) { 
-            var d = b.charAt(c + 2), 
-            d = d >= t ? d.charCodeAt(0) - 87 : Number(d), 
-            d = b.charAt(c + 1) == Yb ? a >>> d: a << d; 
-            a = b.charAt(c) == Yb ? a + d & 4294967295 : a ^ d 
-        } 
-        return a 
-      } 
-     """)
+        self.ctx = execjs.compile("""
+        function TL(a) {
+        var k = "";
+        var b = 406644;
+        var b1 = 3293161072;
+        var jd = ".";
+        var $b = "+-a^+6";
+        var Zb = "+-3^+b+-f";
+        for (var e = [], f = 0, g = 0; g < a.length; g++) {
+            var m = a.charCodeAt(g);
+            128 > m ? e[f++] = m : (2048 > m ? e[f++] = m >> 6 | 192 : (55296 == (m & 64512) && g + 1 < 
+            a.length && 56320 == (a.charCodeAt(g + 1) & 64512) ? 
+            (m = 65536 + ((m & 1023) << 10) + (a.charCodeAt(++g) & 1023),
+            e[f++] = m >> 18 | 240,
+            e[f++] = m >> 12 & 63 | 128) : e[f++] = m >> 12 | 224,
+            e[f++] = m >> 6 & 63 | 128),
+            e[f++] = m & 63 | 128)
+        }
+        a = b;
+        for (f = 0; f < e.length; f++) a += e[f],
+        a = RL(a, $b);
+        a = RL(a, Zb);
+        a ^= b1 || 0;
+        0 > a && (a = (a & 2147483647) + 2147483648);
+        a %= 1E6;
+        return a.toString() + jd + (a ^ b)
+    };
+    function RL(a, b) {
+        var t = "a";
+        var Yb = "+";
+        for (var c = 0; c < b.length - 2; c += 3) {
+            var d = b.charAt(c + 2),
+            d = d >= t ? d.charCodeAt(0) - 87 : Number(d),
+            d = b.charAt(c + 1) == Yb ? a >>> d: a << d;
+            a = b.charAt(c) == Yb ? a + d & 4294967295 : a ^ d
+        }
+        return a
+    }
+    """)
 
     def get_tk(self, text):
         return self.ctx.call("TL", text)
 
 
-def build_url(text, tk):
-    base_url = 'https://translate.google.cn/translate_a/single'
-    base_url += '?client=t&'
-    base_url += 's1=auto&'
-    base_url += 't1=zh-CN&'
-    base_url += 'h1=zh-CN&'
-    base_url += 'dt=at&'
-    base_url += 'dt=bd&'
-    base_url += 'dt=ex&'
-    base_url += 'dt=ld&'
-    base_url += 'dt=md&'
-    base_url += 'dt=qca&'
-    base_url += 'dt=rw&'
-    base_url += 'dt=rm&'
-    base_url += 'dt=ss&'
-    base_url += 'dt=t&'
-    base_url += 'ie=UTF-8&'
-    base_url += 'oe=UTF-8&'
-    base_url += 'otf=1&'
-    base_url += 'pc=1&'
-    base_url += 'ssel=0&'
-    base_url += 'tsel=0&'
-    base_url += 'kc=2&'
-    base_url += 'tk=' + str(tk) + '&'
-    base_url += 'q=' + text
-    return base_url
+def open_url(url):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko)'
+                      ' Chrome/68.0.3440.106 Safari/537.36'}
+    req = requests.get(url=url, headers=headers)
+    return req.content.decode('utf-8')
 
 
-def translate(text):
-    header = {'authority': 'translate.google.cn', 'method': 'GET', 'path': '', 'scheme': 'https', 'accept': '*/*',
-              'accept-encoding': 'gzip, deflate, br', 'accept-language': 'zh-CN,zh;q=0.9', 'cookie': '',
-              'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64)  AppleWebKit/537.36 (KHTML, like Gecko) '
-                            'Chrome/63.0.3239.108 Safari/537.36',
-              'x-client-data': 'CIa2yQEIpbbJAQjBtskBCPqcygEIqZ3KAQioo8oBGJGjygE='
-              }
-    url = build_url(text, js.get_tk(text))
-    res = ''
-    try:
-        r = requests.get(url)
-        result = json.loads(r.text)
-        if result[7] is not None:  # 如果我们文本输错，提示你是不是要找xxx的话，那么重新把xxx正确的翻译之后返回
-            try:
-                correct_text = result[7][0].replace('<b><i>', ' ').replace('</i></b>', '')
-                print(correct_text)
-                correct_url = build_url(correct_text, js.get_tk(correct_text))
-                correct_r = requests.get(correct_url)
-                new_result = json.loads(correct_r.text)
-                res = new_result[0][0][0]
-            except Exception as e:
-                print(e)
-                res = result[0][0][0]
+def max_length(content):
+    if len(content) > 4891:
+        print("翻译文本超过限制！")
+        return
+
+
+def output_result(parm):
+    str_end = parm.find("]],")
+    need_str = parm[2:str_end]
+
+    li_s = need_str.split('],[')[:-1]
+    res = []
+    for i in li_s:
+        res.append(find_result_content(i))
+    # print(''.join(res))
+    return ''.join(res)
+
+
+def en_to_zn_translate(content, tk):
+    max_length(content)
+    content = urllib.parse.quote(content)
+    # 英译汉
+    url = "http://translate.google.cn/translate_a/single?client=t" \
+          "&sl=en&tl=zh-CN&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca" \
+          "&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&clearbtn=1&otf=1&pc=1" \
+          "&srcrom=0&ssel=0&tsel=0&kc=2&tk=%s&q=%s" % (tk, content)
+    result = open_url(url)
+    # output_result(result)
+    return result
+
+
+def zn_to_en_translate(content, tk):
+    max_length(content)
+    content = urllib.parse.quote(content)
+    # 汉译英
+    url = "http://translate.google.cn/translate_a/single?client=t" \
+          "&sl=zh-CN&tl=en&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca" \
+          "&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8" \
+          "&source=btn&ssel=3&tsel=3&kc=0&tk=%s&q=%s" % (tk, content)
+    result = open_url(url)
+    output_result(result)
+
+
+def main():
+    import termcolor
+    js = ReturnTk()
+    while True:
+        print(termcolor.colored("请先输入要进行的操作：q表示退出；e表示英文翻译成中文；z表示中文翻译成英文。", "red"))
+        change = input("请选择翻译选项：")
+        if change == 'q':
+            break
+        elif change == 'e':
+            txt = input("请输入要翻译的英文：")
+            tk = js.get_tk(txt)
+            en_to_zn_translate(txt, tk)
+        elif change == 'z':
+            txt = input("请输入要翻译的中文：")
+            tk = js.get_tk(txt)
+            zn_to_en_translate(txt, tk)
         else:
-            res = result[0][0][0]
-    except Exception as e:
-        res = ''
-        print(url)
-        print("翻译" + text + "失败")
-        print("错误信息:")
-        print(e)
-    finally:
-        return res
+            print("请输入正确的选项！")
 
 
-if __name__ == '__main__':
-    js = Py4Js()
-    # res_t = translate('Всё качественно и быстро!')
-    res_t = translate('How are you?')
-    print(res_t)
+def find_result_content(s):
+    """找到第一个匹配的双引号里面的内容"""
+    if type(s) is not str:
+        raise TypeError('{} is not a string.'.format(s))
+    first_quote = s.find('\"')
+    s = s[first_quote + 1:]
+    second_quote = s.find('\"')
+    s = s[:second_quote]
+    return s
+
+
+def cut_input(content, e=4891):
+    """每4891个字符翻译一次"""
+    length = len(content)
+    li = []
+    while length >= e:
+        tmp = content[:e]
+        # print(tmp)
+        while content[0] is '.':
+            content = content[1:]
+        period_ind = tmp.rfind('.')
+        if period_ind == -1:
+            period_ind = tmp.rfind('!')
+        li.append(content[:period_ind + 1])
+        content = content[period_ind + 1:]  # 这句话不改变content
+        length = len(content)
+        # print(length)
+
+    li.append(content)
+    return li
+
+
+def write_file_li(li, filename, title=''):
+    """写一个数组到文件中
+
+    :param li       要写入的数组
+    :type li        list
+    :param filename 写入的文件名
+    :type filename  str
+    :param title    标题，会写入文件第一行
+    :type title     str
+    """
+    import os
+    try:
+        f = open(filename, 'w', encoding='utf-8')
+    except FileNotFoundError:
+        f = get_dir(filename)
+        os.makedirs(f)
+        f = open(filename, 'w', encoding='utf-8')
+    if title != '':
+        f.write(title + '\n')
+    for i in li:
+        i = str(i)
+        li = i.split('\\n')
+        for j in li:
+            f.write(j+'\n')
+        f.write('\n')
+    f.close()
+
+
+def get_dir(fil_nam):
+    """获得文件的整个目录，即剔除了文件自己的名字"""
+    s = fil_nam.split('/')[:-1]
+    tmp_s = ''
+    for i in s:
+        tmp_s += i + '/'
+    return tmp_s
+
+
+if __name__ == "__main__":
+    from small_function.read_pdf import read_pdf_real
+
+    # js1 = ReturnTk()
+
+    txt1 = '''Hi! I'm Byron. I'm from Changchun. where are you from?
+    Hi! I'm Byron. I'm from Changchun. where are you from?
+    Hi! I'm Byron. I'm from Changchun. where are you from?
+    Hi! I'm Byron. I'm from Changchun. where are you from?
+    '''
+    # txt2 = del_enter(txt1)
+
+    # tk1 = js1.get_tk(txt2)
+    # result1 = en_to_zn_translate(txt2, tk1)
+    # output_result(result1)
+
+    # ci = cut_input(txt1, 50)
+    # for i1 in ci:
+    #     print(i1)
+
+    path1 = 'E:/下载/cvprw15.pdf'
+    read = read_pdf_real(path1)
+    cut_read = cut_input(read)
+    tl = []
+    js2 = ReturnTk()
+    for i2 in cut_read:
+        tk2 = js2.get_tk(i2)
+        trans = output_result(en_to_zn_translate(i2, tk2))
+        tl.append(trans)
+    # for i3 in tl:
+    #     print(i3)
+
+    path2 = 'E:/下载/cvprw15.txt'
+    # li3 = ['a', 'b', 'c']
+    write_file_li(tl, path2)
