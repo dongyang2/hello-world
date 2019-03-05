@@ -166,7 +166,6 @@ def write_file_li(li, filename, title=''):
     :param title    标题，会写入文件第一行
     :type title     str
     """
-    import os
     try:
         f = open(filename, 'w', encoding='utf-8')
     except FileNotFoundError:
@@ -184,17 +183,16 @@ def write_file_li(li, filename, title=''):
     f.close()
 
 
-def get_dir(fil_nam):
-    """获得文件的整个目录，即剔除了文件自己的名字"""
-    s = fil_nam.split('/')[:-1]
-    tmp_s = ''
-    for i in s:
-        tmp_s += i + '/'
-    return tmp_s
-
-
 if __name__ == "__main__":
+    import argparse
+    import os
+    import sys
+    now_path = os.getcwd()
+    dir_path = '/'.join(now_path.split('\\')[:-1])
+    sys.path.append(dir_path)  # 把这个加入环境变量
+
     from small_function.read_pdf import read_pdf_real
+    from small_gram import get_dir, get_name
 
     # js1 = ReturnTk()
 
@@ -213,18 +211,35 @@ if __name__ == "__main__":
     # for i1 in ci:
     #     print(i1)
 
-    path1 = 'E:/下载/cvprw15.pdf'
-    read = read_pdf_real(path1)
+    path1 = 'E:\常用文档\毕业/DEEP HASH LEARNING FOR EFFICIENT IMAGE RETRIEVAL.pdf'
+
+    parser = argparse.ArgumentParser(description='Translate English paper to Chinese.')
+
+    parser.add_argument('input', metavar='input_file', help='The input pdf file')
+    parser.add_argument('--out', '-o', metavar='output_dir', help='Output directory.', default='E:/下载/')
+    args = parser.parse_args()
+
+    file = args.input
+    if not os.path.exists(file):
+        raise FileNotFoundError('The input file {} not exists.'.format(file))
+    read = read_pdf_real(file)
+    print('文章读取完毕。长度 %s 。' % len(read))
     cut_read = cut_input(read)
+    print('文章裁剪完毕。分为了%s段。' % len(cut_read))
     tl = []
     js2 = ReturnTk()
     for i2 in cut_read:
         tk2 = js2.get_tk(i2)
         trans = output_result(en_to_zn_translate(i2, tk2))
+        print(trans)
         tl.append(trans)
     # for i3 in tl:
     #     print(i3)
 
     path2 = 'E:/下载/cvprw15.txt'
+    out_dir = args.out
+    out_name = get_name(file)[0]
+    out_dir = out_dir+out_name+'.txt'
     # li3 = ['a', 'b', 'c']
-    write_file_li(tl, path2)
+    write_file_li(tl, out_dir)
+    print('保存完毕。')

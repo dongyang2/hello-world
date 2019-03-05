@@ -7,6 +7,7 @@ from pdfminer.layout import LAParams
 from io import StringIO
 from io import open
 import os
+import re
 
 
 def read_pdf(file):
@@ -92,22 +93,33 @@ def judge_title(s):
 
 
 def rm_formula(content):
-    import re
     return re.sub('(\n.{0,3}){3,}', ' ', content)
 
 
 def read_pdf_real(path):
     with open(path, mode='rb') as f:
         txt = read_pdf(f)
-        # print(txt)
-        ab_ind = txt.find('Abstract')
-        ref_ind = txt.rfind('References')
+        # print(len(txt))
+        abs_mode = re.compile('abstract', re.I)  # 忽略大小写
+        ab_ind = abs_mode.search(txt).end()
+        ref_mode = re.compile('reference', re.I)
+        ref_ind = ref_mode.search(txt).start()
+
         need_txt = txt[ab_ind:ref_ind]
+        # print(need_txt)
 
         txt_rf = rm_formula(need_txt)  # 移除数学公式导致的奇怪回车
         # print(txt3)
         # print(del_enter(txt_rf))
         return del_enter(txt_rf)
+
+
+def del_xax(content):
+    li_xx = ['\xa0', '\xa1', '\xa2', '\xa3', '\xa4', '\xa5', '\xa6', '\xa7',
+             '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf']
+    for i in content:
+        if i in li_xx:
+            pass
 
 
 if __name__ == '__main__':
@@ -129,3 +141,21 @@ if __name__ == '__main__':
     path1 = 'E:/下载/cvprw15.pdf'
 
     # print(judge_title('5. Conclusions'))
+
+    # ptext = 'abc'
+    # text = 'ABCd'
+    # # p = re.compile(ptext, re.IGNORECASE)
+    # p = re.compile(ptext, re.I) #for short
+    # r = p.match(text)
+    # print(r)
+    # r2 = re.match(ptext, text, re.IGNORECASE)
+    # print(r2)
+    # r3 = p.search(text)
+    # print(r3.start())
+
+    s = '''abcdefg,hijklmn'''
+    news = ''
+    for i4 in s:
+        if i4 is 'j':
+            news = s.strip(i4)
+    print(news)

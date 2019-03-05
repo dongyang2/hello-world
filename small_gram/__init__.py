@@ -5,7 +5,7 @@ from .file_op import read_file, mkdir, is_rectangle, is_rectangle_byte, divide_f
 from .num_op import get_first_ratio, li_precision_control, get_min_2d_list, get_size_top_n_li, get_li_size, slice_li, \
     get_min_li, get_shi, flatten_li, unique, merge_core, gen_random_order
 from .text_op import add_blank_after_comma, get_last_dir_name, get_dir, del_str_by_2char, split_num_from_str, \
-    add_in_same_dir, get_suffix
+    add_in_same_dir, get_suffix, get_name
 
 __all__ = ['file_op',
            'date_op',
@@ -46,8 +46,9 @@ __all__ = ['file_op',
            'add_blank_after_comma',  # 在逗号后面加空格
            'add_in_same_dir',        # 返回一个和给定路径在同一个目录（文件夹）中的路径
            'del_str_by_2char',       # 删除一个字符串中被2个子字符串包围的所有字符
-           'get_last_dir_name',      # 从一个文件列表中获得最深层的目录名，目前最大只能支持二维数组
            'get_dir',                # 获得文件的整个目录，即剔除了文件自己的名字
+           'get_last_dir_name',      # 从一个文件列表中获得最深层的目录名，目前最大只能支持二维数组
+           'get_name',               # 输入是路径，返回名字和后缀
            'get_suffix'              # 获得一个文件的后缀名
            'split_num_from_str',     # 返回字符串中的数字与只包含字母的子字符串
            ]
