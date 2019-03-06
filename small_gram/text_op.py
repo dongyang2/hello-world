@@ -148,6 +148,17 @@ def get_name(s):
     return f_name, suffix
 
 
+def del_the_elem(content, li):
+    """删除content中所有出现在li中的元素，li若是单个字符，请以列表的形式指定。
+    比如要删除content中所有的j，则li指定为['j']。"""
+    lc = len(content)-1  # 指针从最后一个元素开始往前跑
+    while lc != 0:
+        if content[lc] in li:
+            content = content[:lc]+content[lc+1:]
+        lc -= 1
+    return content
+
+
 if __name__ == '__main__':
     str1 = '''[10930,10318,10595,10972,7706,6756,9092,10551,9722,10913,11151,8186,6422, 
 6337,11649,11652,10310,12043,7937,6476,9662,9570,9981,9331,9449,6773,6304,9355, 
@@ -181,4 +192,10 @@ if __name__ == '__main__':
 
     # print(get_suffix(li2[0]))
 
-    print(tc['yellow'] + 'aaa')
+    # print(tc['yellow'] + 'aaa')
+
+    li_xxx = ['\xa0', '\xa1', '\xa2', '\xa3', '\xa4', '\xa5', '\xa6', '\xa7',
+              '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf',
+              '\ufffd', '\u2022']
+    for i3 in li_xxx:
+        print(i3)

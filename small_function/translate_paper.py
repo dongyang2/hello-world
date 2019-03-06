@@ -68,10 +68,12 @@ def max_length(content):
 
 
 def output_result(parm):
-    str_end = parm.find("]],")
+    # print(parm)
+
+    str_end = parm.find(",[null,null")
     need_str = parm[2:str_end]
 
-    li_s = need_str.split('],[')[:-1]
+    li_s = need_str.split('],[')
     res = []
     for i in li_s:
         res.append(find_result_content(i))
@@ -191,27 +193,24 @@ if __name__ == "__main__":
     dir_path = '/'.join(now_path.split('\\')[:-1])
     sys.path.append(dir_path)  # 把这个加入环境变量
 
-    from small_function.read_pdf import read_pdf_real
+    from small_function.read_pdf import read_pdf_real, del_xax
     from small_gram import get_dir, get_name
 
-    # js1 = ReturnTk()
-
     txt1 = '''Hi! I'm Byron. I'm from Changchun. where are you from?
-    Hi! I'm Byron. I'm from Changchun. where are you from?
-    Hi! I'm Byron. I'm from Changchun. where are you from?
-    Hi! I'm Byron. I'm from Changchun. where are you from?
+    Hi! I'm Alice. I'm from Paris. where are you from?
+    Hi! I'm Bill. I'm from LA. where are you from?
+    Hi! I'm Cameron. I'm from Ontario. where are you from?
     '''
     # txt2 = del_enter(txt1)
 
-    # tk1 = js1.get_tk(txt2)
-    # result1 = en_to_zn_translate(txt2, tk1)
+    # js1 = ReturnTk()
+    # tk1 = js1.get_tk(txt1)
+    # result1 = en_to_zn_translate(txt1, tk1)
     # output_result(result1)
 
     # ci = cut_input(txt1, 50)
     # for i1 in ci:
     #     print(i1)
-
-    path1 = 'E:\常用文档\毕业/DEEP HASH LEARNING FOR EFFICIENT IMAGE RETRIEVAL.pdf'
 
     parser = argparse.ArgumentParser(description='Translate English paper to Chinese.')
 
@@ -231,7 +230,8 @@ if __name__ == "__main__":
     for i2 in cut_read:
         tk2 = js2.get_tk(i2)
         trans = output_result(en_to_zn_translate(i2, tk2))
-        print(trans)
+        # print(trans)
+        # print('\n'*3)
         tl.append(trans)
     # for i3 in tl:
     #     print(i3)

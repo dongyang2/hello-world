@@ -1,5 +1,5 @@
 # Author: github.com/Dongyang2
-# 用来把pdf转为txt的小程序，因特殊字符问题，未完待续······
+# 用来把pdf转为txt的小程序
 
 from pdfminer.pdfinterp import PDFResourceManager, process_pdf
 from pdfminer.converter import TextConverter
@@ -73,7 +73,7 @@ def del_enter(content):
         i = del_question_mark(i)
         # print('-'*18, i, len(i))
         if len(i) != 0:
-            if i[-1] == '-':
+            if i[-1] == '-' or i[-1] == '\xad':
                 c_new += i[:-1]
             elif i[-1] == '.' or judge_title(i):
                 c_new += i + '\n'
@@ -97,8 +97,12 @@ def rm_formula(content):
 
 
 def read_pdf_real(path):
+    li_xx = ['\xa0', '\xa1', '\xa2', '\xa3', '\xa4', '\xa5', '\xa6', '\xa7',
+             '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf',
+             '\ufffd', '\u2022']
     with open(path, mode='rb') as f:
         txt = read_pdf(f)
+        txt = del_xax(txt, li_xx)
         # print(len(txt))
         abs_mode = re.compile('abstract', re.I)  # 忽略大小写
         ab_ind = abs_mode.search(txt).end()
@@ -114,15 +118,22 @@ def read_pdf_real(path):
         return del_enter(txt_rf)
 
 
-def del_xax(content):
-    li_xx = ['\xa0', '\xa1', '\xa2', '\xa3', '\xa4', '\xa5', '\xa6', '\xa7',
-             '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf']
-    for i in content:
-        if i in li_xx:
-            pass
+def del_xax(content, li):
+    """删除content中所有出现在li中的元素，li若是单个字符，请以列表的形式指定。
+    比如要删除content中所有的j，则li指定为['j']。"""
+    lc = len(content)-1  # 指针从最后一个元素开始往前跑
+    while lc != 0:
+        if content[lc] in li:
+            content = content[:lc]+content[lc+1:]
+        lc -= 1
+    return content
 
 
 if __name__ == '__main__':
+    import argparse
+    import warnings
+    import sys
+    warnings.filterwarnings('ignore')
     str1 = u'D:/文档/info secu'
 
     # pdfFile = urlopen(path1)
@@ -153,9 +164,31 @@ if __name__ == '__main__':
     # r3 = p.search(text)
     # print(r3.start())
 
-    s = '''abcdefg,hijklmn'''
-    news = ''
-    for i4 in s:
-        if i4 is 'j':
-            news = s.strip(i4)
-    print(news)
+    # li_xx = ['\xa0', '\xa1', '\xa2', '\xa3', '\xa4', '\xa5', '\xa6', '\xa7',
+    #          '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf']
+    # s4 = '''abcjdefg,hijklmjn'''
+    # s5 = del_xax(s4, ['j'])
+    # print(s5)
+
+    parser = argparse.ArgumentParser(description='Read PDF')
+
+    parser.add_argument('input', metavar='input_file', help='The input pdf file')
+    parser.add_argument('--out', '-o', metavar='output_dir', help='Output directory.', default='E:/下载/')
+    args = parser.parse_args()
+
+    file = args.input
+    if not os.path.exists(file):
+        raise FileNotFoundError('The input file {} not exists.'.format(file))
+    article = read_pdf_real(file)
+    print(article)
+    # for i5 in article:
+    #     print(sys.getdefaultencoding())
+    #     print(i5)
+
+    # a = 'bbbbb\xe5\x90\xb4\xe5\x85\xb6\xe6\x98\xa5aaaaa'
+    # print(a.encode('latin1').decode('utf8'))
+
+    # sys.getdefaultencoding()
+
+    # print('\xa9')
+
