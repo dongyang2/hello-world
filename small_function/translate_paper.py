@@ -67,7 +67,7 @@ def max_length(content):
         return
 
 
-def output_result(parm):
+def output_result(parm, prt=False):
     # print(parm)
 
     str_end = parm.find(",[null,null")
@@ -77,8 +77,10 @@ def output_result(parm):
     res = []
     for i in li_s:
         res.append(find_result_content(i))
-    # print(''.join(res))
-    return ''.join(res)
+    com_res = ''.join(res)
+    if prt is True:
+        print(com_res)
+    return com_res
 
 
 def en_to_zn_translate(content, tk):
@@ -193,7 +195,7 @@ if __name__ == "__main__":
     dir_path = '/'.join(now_path.split('\\')[:-1])
     sys.path.append(dir_path)  # 把这个加入环境变量
 
-    from small_function.read_pdf import read_pdf_real, del_xax
+    from small_function.read_pdf import read_pdf_real, del_enter
     from small_gram import get_dir, get_name
 
     txt1 = '''Hi! I'm Byron. I'm from Changchun. where are you from?
@@ -219,27 +221,34 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     file = args.input
-    if not os.path.exists(file):
-        raise FileNotFoundError('The input file {} not exists.'.format(file))
-    read = read_pdf_real(file)
-    print('文章读取完毕。长度 %s 。' % len(read))
-    cut_read = cut_input(read)
-    print('文章裁剪完毕。分为了%s段。' % len(cut_read))
-    tl = []
-    js2 = ReturnTk()
-    for i2 in cut_read:
-        tk2 = js2.get_tk(i2)
-        trans = output_result(en_to_zn_translate(i2, tk2))
-        # print(trans)
-        # print('\n'*3)
-        tl.append(trans)
-    # for i3 in tl:
-    #     print(i3)
 
-    path2 = 'E:/下载/cvprw15.txt'
-    out_dir = args.out
-    out_name = get_name(file)[0]
-    out_dir = out_dir+out_name+'.txt'
-    # li3 = ['a', 'b', 'c']
-    write_file_li(tl, out_dir)
-    print('保存完毕。')
+    if os.path.exists(file):  # 先判断是否为文件
+        read = read_pdf_real(file)
+        print('文章读取完毕。长度 %s 。' % len(read))
+        cut_read = cut_input(read)
+        print('文章裁剪完毕。分为了%s段。' % len(cut_read))
+        tl = []
+        js2 = ReturnTk()
+        for i2 in cut_read:
+            tk2 = js2.get_tk(i2)
+            trans = output_result(en_to_zn_translate(i2, tk2))
+            # print(trans)
+            # print('\n'*3)
+            tl.append(trans)
+        # for i3 in tl:
+        #     print(i3)
+
+        path2 = 'E:/下载/cvprw15.txt'
+        out_dir = args.out
+        out_name = get_name(file)[0]
+        out_dir = out_dir+out_name+'.txt'
+        # li3 = ['a', 'b', 'c']
+        write_file_li(tl, out_dir)
+        print('保存完毕。')
+    elif isinstance(file, str):  # 不是文件就按照一段PDF样式的字符串处理输入
+        js3 = ReturnTk()
+        tk3 = js3.get_tk(file)
+        trans_res = en_to_zn_translate(file, tk3)
+        output_result(trans_res, True)
+    else:
+        raise IOError('Input must be a string or file path')

@@ -132,7 +132,8 @@ def del_xax(content, li):
 if __name__ == '__main__':
     import argparse
     import warnings
-    import sys
+    # import sys
+    # sys.getdefaultencoding()
     warnings.filterwarnings('ignore')
     str1 = u'D:/文档/info secu'
 
@@ -177,18 +178,21 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     file = args.input
-    if not os.path.exists(file):
-        raise FileNotFoundError('The input file {} not exists.'.format(file))
-    article = read_pdf_real(file)
-    print(article)
+
+    if os.path.exists(file):  # 先判断是否为文件
+        article = read_pdf_real(file)
+        print(article)
+    elif isinstance(file, str):  # 不是文件就按照一段PDF样式的字符串处理输入
+        out = del_enter(file)
+        print(out)
+    else:
+        raise IOError('Input must be a string or file path')
     # for i5 in article:
     #     print(sys.getdefaultencoding())
     #     print(i5)
 
     # a = 'bbbbb\xe5\x90\xb4\xe5\x85\xb6\xe6\x98\xa5aaaaa'
     # print(a.encode('latin1').decode('utf8'))
-
-    # sys.getdefaultencoding()
 
     # print('\xa9')
 
