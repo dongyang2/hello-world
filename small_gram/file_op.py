@@ -184,13 +184,13 @@ def see_json(filename):
         return arr_new
 
 
-def write_file(content, filename, w_type):
+def write_file(content, path, w_type):
     try:
-        f = open(filename, 'w', encoding='utf-8')
+        f = open(path, 'w', encoding='utf-8')
     except FileNotFoundError:
-        f = text_op.get_dir(filename)
+        f = text_op.get_dir(path)
         os.makedirs(f)
-        f = open(filename, 'w', encoding='utf-8')
+        f = open(path, 'w', encoding='utf-8')
     if w_type == '1D list':
         for i in content:
             f.write(i)
@@ -202,22 +202,22 @@ def write_file(content, filename, w_type):
     f.close()
 
 
-def write_file_li(li, filename, title=''):
+def write_file_li(li, path, title=''):
     """写一个数组到文件中
 
-    :param li       要写入的数组
-    :type li        list
-    :param filename 写入的文件名
-    :type filename  str
-    :param title    标题，会写入文件第一行
-    :type title     str
+    :param li      要写入的数组
+    :type li       list
+    :param path    写入的文件名
+    :type path     str
+    :param title   标题，会写入文件第一行
+    :type title    str
     """
     try:
-        f = open(filename, 'w', encoding='utf-8')
+        f = open(path, 'w', encoding='utf-8')
     except FileNotFoundError:
-        f = text_op.get_dir(filename)
+        f = text_op.get_dir(path)
         os.makedirs(f)
-        f = open(filename, 'w', encoding='utf-8')
+        f = open(path, 'w', encoding='utf-8')
     if title != '':
         f.write(title + '\n')
     if type(li[0]) is not list:
@@ -432,16 +432,6 @@ def ergodic_all_file(path):
 
 
 if __name__ == '__main__':
-    # path1 = "../resource"
-    # each_name = each_file_or_dir_name(path1)
-    # for l in each_name:
-    #     # print(read_file(l))
-    #     # write_file(see_json(l), l[:-4] + 'txt', '1D list')
-    #     m = read_file(l)
-    #     for n in m:
-    #         # print(n)
-    #         break
-    #     break
 
     # path2 = 'H:/infosec/lan'
     # each_name2 = read_bytes.each_byte_file_name_info_sec(path2)
@@ -467,4 +457,4 @@ if __name__ == '__main__':
     #     print(i2)
 
     path6 = 'G:/project_loc/rubbishbin/aabb'
-    mkdir(path6)
+    # mkdir(path6)
