@@ -61,9 +61,9 @@ def read_file_influx_db(filename, encode):
     return file_content
 
 
-def read_file(filename):
+def read_file(path):
     """读取文件内容"""
-    with open(filename, 'r', encoding='utf-8') as f_open:
+    with open(path, 'r', encoding='utf-8') as f_open:
         file_content = []
         for each_line in f_open:
             file_content.append(each_line[:-1])     # 去掉回车符
@@ -238,11 +238,11 @@ def write_file_li(li, path, title=''):
     f.close()
 
 
-def read_file_li(filename, have_title=0, split=' '):
+def read_file_li(path, have_title=0, split=' '):
     """读取文件内容，每一行存入一个数组，返回一个二维数组，可以指定文件第一行是否有标题，可以指定分隔符"""
     if have_title != 0 and have_title != 1:
         return False
-    with open(filename, 'r') as f_open:
+    with open(path, 'r') as f_open:
         file_content = []
         for k, each_line in enumerate(f_open):
             if k == 0 and have_title == 1:
@@ -303,15 +303,15 @@ def read_pix_old(file):
     return fil_li
 
 
-def save_pic(ar, fil):
+def save_pic(ar, path):
     """将数据存为图片，ar是numpy.uint8数组"""
     im_gr = Image.fromarray(ar)
     try:
-        im_gr.save(fil)
+        im_gr.save(path)
     except FileNotFoundError:
-        f = text_op.get_dir(fil)
+        f = text_op.get_dir(path)
         os.makedirs(f)
-        im_gr.save(fil)
+        im_gr.save(path)
 
 
 def ergodic_dir(path, r_full=True):
@@ -468,6 +468,6 @@ if __name__ == '__main__':
     path6 = 'G:/project_loc/rubbishbin/aabb'
     # mkdir(path6)
 
-    s_li = search_by_name('E:\下载/18年7月毕业信息采集/', '199401')
+    s_li = search_by_name('E:\下载/', '1995')
     for fil in s_li:
-        shutil.copy(fil, 'E:/下载/1995/')
+        shutil.copy(fil, 'E:/下载/')
