@@ -431,6 +431,15 @@ def ergodic_all_file(path):
     return li_tmp+li_fi
 
 
+def search_by_name(path, nam):
+    li_fi = ergodic_all_file(path)
+    li = []
+    for i in li_fi:
+        if nam in i:
+            li.append(i)
+    return li
+
+
 if __name__ == '__main__':
 
     # path2 = 'H:/infosec/lan'
@@ -458,3 +467,7 @@ if __name__ == '__main__':
 
     path6 = 'G:/project_loc/rubbishbin/aabb'
     # mkdir(path6)
+
+    s_li = search_by_name('E:\下载/18年7月毕业信息采集/', '199401')
+    for fil in s_li:
+        shutil.copy(fil, 'E:/下载/1995/')
