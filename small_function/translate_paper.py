@@ -1,3 +1,4 @@
+# UTF-8
 # pip install PyExecJS
 # pip install bs4
 
@@ -79,7 +80,7 @@ def output_result(parm, prt=False):
         res.append(find_result_content(i))
     com_res = ''.join(res)
     if prt is True:
-        print(com_res)
+        print(com_res.encode('utf-8'))
     return com_res
 
 
@@ -216,14 +217,14 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Translate English paper to Chinese.')
 
-    parser.add_argument('input', metavar='input_file', help='The input pdf file')
+    parser.add_argument('input', metavar='input', help='The input must be a pdf inp or a string.')
     parser.add_argument('--out', '-o', metavar='output_dir', help='Output directory.', default='E:/下载/')
     args = parser.parse_args()
 
-    file = args.input
+    inp = args.input
 
-    if os.path.exists(file):  # 先判断是否为文件
-        read = read_pdf_real(file)
+    if os.path.exists(inp):  # 先判断是否为文件
+        read = read_pdf_real(inp)
         print('文章读取完毕。长度 %s 。' % len(read))
         cut_read = cut_input(read)
         print('文章裁剪完毕。分为了%s段。' % len(cut_read))
@@ -240,15 +241,16 @@ if __name__ == "__main__":
 
         path2 = 'E:/下载/cvprw15.txt'
         out_dir = args.out
-        out_name = get_name(file)[0]
+        out_name = get_name(inp)[0]
         out_dir = out_dir+out_name+'.txt'
         # li3 = ['a', 'b', 'c']
         write_file_li(tl, out_dir)
         print('保存完毕。')
-    elif isinstance(file, str):  # 不是文件就按照一段PDF样式的字符串处理输入
+    elif isinstance(inp, str):  # 不是文件就按照一段PDF样式的字符串处理输入
         js3 = ReturnTk()
-        tk3 = js3.get_tk(file)
-        trans_res = en_to_zn_translate(file, tk3)
+        inp = del_enter(inp)
+        tk3 = js3.get_tk(inp)
+        trans_res = en_to_zn_translate(inp, tk3)
         output_result(trans_res, True)
     else:
         raise IOError('Input must be a string or file path')

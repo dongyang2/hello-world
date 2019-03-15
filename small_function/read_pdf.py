@@ -173,20 +173,20 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Read PDF')
 
-    parser.add_argument('input', metavar='input_file', help='The input pdf file')
+    parser.add_argument('input', metavar='input', help='The input pdf inp')
     parser.add_argument('--out', '-o', metavar='output_dir', help='Output directory.', default='E:/下载/')
     args = parser.parse_args()
 
-    file = args.input
+    inp = args.input
 
-    if os.path.exists(file):  # 先判断是否为文件
-        article = read_pdf_real(file)
+    if os.path.exists(inp):  # 先判断是否为文件
+        article = read_pdf_real(inp)
         print(article)
-    elif isinstance(file, str):  # 不是文件就按照一段PDF样式的字符串处理输入
-        out = del_enter(file)
+    elif isinstance(inp, str):  # 不是文件就按照一段PDF样式的字符串处理输入
+        out = del_enter(inp)
         print(out)
     else:
-        raise IOError('Input must be a string or file path')
+        raise IOError('Input must be a string or inp path')
     # for i5 in article:
     #     print(sys.getdefaultencoding())
     #     print(i5)

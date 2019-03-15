@@ -53,7 +53,7 @@ def get_picture(to_dir):
         fi_size = os.path.getsize(file)/float(1024)  # 文件大小
         fi_size_kb = round(fi_size, 2)
         if fi_size_kb > 200:
-            # copy_file(file, to_dir)  # 这里本来是想复制的，但是提示没有权限，就只好移动了
+            # copy_file(inp, to_dir)  # 这里本来是想复制的，但是提示没有权限，就只好移动了
             move_file(file, to_dir)
     # print(li_file_name)
 
