@@ -217,7 +217,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Translate English paper to Chinese.')
 
-    parser.add_argument('input', metavar='input', help='The input must be a pdf inp or a string.')
+    parser.add_argument('input', metavar='input', help='The input must be a pdf file or a string.')
     parser.add_argument('--out', '-o', metavar='output_dir', help='Output directory.', default='E:/下载/')
     args = parser.parse_args()
 

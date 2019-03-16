@@ -173,7 +173,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Read PDF')
 
-    parser.add_argument('input', metavar='input', help='The input pdf inp')
+    parser.add_argument('input', metavar='input', help='The input pdf file')
     parser.add_argument('--out', '-o', metavar='output_dir', help='Output directory.', default='E:/下载/')
     args = parser.parse_args()
 
@@ -186,7 +186,7 @@ if __name__ == '__main__':
         out = del_enter(inp)
         print(out)
     else:
-        raise IOError('Input must be a string or inp path')
+        raise IOError('Input must be a string or file path')
     # for i5 in article:
     #     print(sys.getdefaultencoding())
     #     print(i5)
