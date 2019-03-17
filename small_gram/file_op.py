@@ -62,7 +62,7 @@ def read_file_influx_db(filename, encode):
 
 
 def read_file(path):
-    """读取文件内容"""
+    """读取文件内容，返回二维数组"""
     with open(path, 'r', encoding='utf-8') as f_open:
         file_content = []
         for each_line in f_open:
@@ -432,12 +432,21 @@ def ergodic_all_file(path):
 
 
 def search_by_name(path, nam):
+    """寻找一个路径下所有 文件名包含nam 的文件"""
     li_fi = ergodic_all_file(path)
     li = []
     for i in li_fi:
         if nam in i:
             li.append(i)
     return li
+
+
+def read_file_to_str(path):
+    with open(path, 'r', encoding='utf-8') as f_open:
+        file_content = ''
+        for each_line in f_open:
+            file_content += each_line
+        return file_content
 
 
 if __name__ == '__main__':

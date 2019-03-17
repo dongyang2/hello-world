@@ -1,7 +1,8 @@
 # 一些可能比较实用的基本操作
 
 from .file_op import read_file, mkdir, is_rectangle, is_rectangle_byte, divide_file, write_file, write_file_li, \
-    read_file_li, ergodic_dir, write_csv, move_file, add_suffix_for_dir, get_picture, ergodic_all_file
+    read_file_li, ergodic_dir, write_csv, move_file, add_suffix_for_dir, get_picture, ergodic_all_file, \
+    read_file_to_str
 from .num_op import get_first_ratio, li_precision_control, get_min_2d_list, get_size_top_n_li, get_li_size, slice_li, \
     get_min_li, get_shi, flatten_li, unique, merge_core, gen_random_order
 from .text_op import add_blank_after_comma, get_last_dir_name, get_dir, del_str_by_2char, split_num_from_str, \
@@ -25,6 +26,7 @@ __all__ = ['file_op',
            'is_rectangle_byte',   # 对一个二进制文件，判断其内容每一行长度是不是一样
            'read_file',           # 按行读取文件内容且返回一个二维数组
            'read_file_li',        # 读取文件内容，返回一个二维数组，可以指定文件第一行是否有标题，可以指定分隔符
+           'read_file_to_str',    # 按行读取文件内容且返回一个字符串
            'write_file',          # 把一维或二维数组写入文件，需要指定w_type，'1D list'和'2D list'二选一
            'write_file_li',       # 把任意维度的数组写入文件
            'write_csv',           # 将类数组的变量保存成csv格式的文件
@@ -50,6 +52,6 @@ __all__ = ['file_op',
            'get_dir',                # 获得文件的整个目录，即剔除了文件自己的名字
            'get_last_dir_name',      # 从一个文件列表中获得最深层的目录名，目前最大只能支持二维数组
            'get_name',               # 输入是路径，返回名字和后缀
-           'get_suffix'              # 获得一个文件的后缀名
+           'get_suffix',             # 获得一个文件的后缀名
            'split_num_from_str',     # 返回字符串中的数字与只包含字母的子字符串
            ]
