@@ -418,11 +418,11 @@ def get_picture(path, to_dir, sf='jpg'):
                 shutil.copy(fi, to_dir_path)
 
 
-def ergodic_all_file(path):
+def ergodic_all_file(path, rf=True):
     """想象一个树结构，以path为根节点，文件为叶子结点，返回所有叶子结点的路径"""
     li_tmp = []
     li_fi = []
-    for i in ergodic_dir(path):
+    for i in ergodic_dir(path, r_full=rf):
         if os.path.isdir(i):
             li_tmp += ergodic_all_file(i)
         else:
