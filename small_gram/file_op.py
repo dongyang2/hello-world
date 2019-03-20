@@ -442,6 +442,7 @@ def search_by_name(path, nam):
 
 
 def read_file_to_str(path):
+    """按行读取文件内容且返回一个字符串，每行之间没有分隔符"""
     with open(path, 'r', encoding='utf-8') as f_open:
         file_content = ''
         for each_line in f_open:
