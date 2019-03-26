@@ -80,7 +80,7 @@ def output_result(parm, prt=False):
         res.append(find_result_content(i))
     com_res = ''.join(res)
     if prt is True:
-        print(com_res.encode('utf-8'))
+        print(com_res)
     return com_res
 
 
