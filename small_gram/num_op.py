@@ -189,42 +189,6 @@ def flatten_li(li):
     return tmp_li
 
 
-def li_op(li, rat=-1, rnd=True, lst=True, f=-1, is_st=False, flat=False, small=-1):
-    """整合对多个列表的操作，现可做1切分列表，2精度控制，3展平列表，4返回列表最小值及其下标
-
-    :param li:    输入列表
-    :param rat:   切分的比例
-    :param rnd:   切分时True则将根据rat得到的个数四舍五入，否则按照整数部分来切割
-    :param lst:   切分后True则返回切分后的两段，否则返回前面那段
-    :param f:     精度控制
-    :param is_st: 精度控制时里面的元素是否为字符串
-    :param flat:  展平列表
-    :param small: 返回最小值和其下标，m=1时表示li是一维数组，m=2时表示二维数组
-    """
-    if -1 < rat < 11:
-        return slice_li(li, rat, rnd, lst)
-    elif rat == -1:
-        if f > -1:
-            return li_precision_control(li, f, is_st)
-        elif f == -1:
-            if flat is True:
-                return flatten_li(li)
-            else:
-                if small == 1:
-                    return get_min_li(li)
-                elif small == 2:
-                    return get_min_2d_list(li)
-                elif small == -1:
-                    print('There is nothing can do.')
-                else:
-                    print('Can not get the minimum elem with this parameter!')
-        else:
-            print('The precision is not correct!')
-    else:
-        print('The cut ratio is not correct!')
-    return False
-
-
 def unique(source):
     """列表内元素去重"""
     li = []
@@ -250,6 +214,7 @@ def merge_core(li_subject, li_label):
 
 
 def gen_random_order(num, seed=None):
+    """生成一个乱序的列表，列表内元素的区间可以指定"""
     import random
     if seed is not None:
         random.seed(seed)
