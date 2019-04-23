@@ -1,6 +1,7 @@
-# UTF-8
+﻿# UTF-8
 # pip install PyExecJS
 # pip install bs4
+# pip install requests
 
 import urllib.parse
 import execjs
