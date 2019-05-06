@@ -1,3 +1,4 @@
+from small_gram.custom_error import FunctionValueError
 
 
 def add_blank_after_comma(txt):
@@ -61,7 +62,7 @@ def del_str_by_2char(s, co, ct, f=True):
             ca = s[ind_start: ind_two]
             return s.replace(ca, '')
     else:
-        print('No such substring in this string!')
+        print('\033[33;0m'+'No such substring in this string!')
         return s
 
 
@@ -111,12 +112,16 @@ def add_in_same_dir(di_fi, add, slash='/'):
     :param slash: 正斜杠"/"或者反斜杠"\"
     :return 一个文件名叫add的，与di_fi在同一个文件夹下的路径
     """
+    error_color = FunctionValueError.error_color['red']
     if slash != '/' and slash != '\\':
-        print('\033[31m%s is Invalid slash!\33[0m' % slash)
-        return False
+        # print('\033[31m%s is Invalid slash!\33[0m' % slash)
+        # return False
+        raise FunctionValueError('%s%s is Invalid slash!\33[0m' % (error_color, slash))
     if add[0] == '\\':
-        print('''\033[31mPlease use '/' but not '\\' to prevent bad things from happening!\33[0m''')
-        return False
+        # print('''\033[31mPlease use '/' but not '\\' to prevent bad things from happening!\33[0m''')
+        # return False
+        raise FunctionValueError(''''%sPlease use '/' but not %s to prevent bad things from happening!''' %
+                                 (error_color, add[0]))
     if add[0] == '/':
         add = add[1:]
 
@@ -132,13 +137,13 @@ def get_suffix(fi):
     return fi.split('/')[-1].split('.')[-1]
 
 
-# txt color
-tc = {
-    'red': '\033[31;0m',
-    'green': '\033[32;0m',
-    'yellow': '\033[33;0m',
-    'blue': '\033[34;0m'
-}
+# # txt color
+# tc = {
+#     'red': '\033[31;0m',
+#     'green': '\033[32;0m',
+#     'yellow': '\033[33;0m',
+#     'blue': '\033[34;0m'
+# }
 
 
 def get_name(s):
@@ -188,7 +193,7 @@ if __name__ == '__main__':
     # print(split_num_from_str(str2))
 
     dir2 = 'H:\DF_emotion\\xy\\'
-    # print(add_in_same_dir(dir2, '\ok', '3'))
+    # print(add_in_same_dir(dir2, '\\ok', '/'))
 
     # print(get_suffix(li2[0]))
 
@@ -197,5 +202,5 @@ if __name__ == '__main__':
     li_xxx = ['\xa0', '\xa1', '\xa2', '\xa3', '\xa4', '\xa5', '\xa6', '\xa7',
               '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf',
               '\ufffd', '\u2022']
-    for i3 in li_xxx:
-        print(i3)
+    # for i3 in li_xxx:
+    #     print(i3)

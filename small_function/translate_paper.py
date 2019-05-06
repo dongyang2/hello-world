@@ -8,6 +8,14 @@ import execjs
 import requests
 
 
+class FunctionValueError(Exception):
+    def __init__(self, info):
+        self.error_info = info
+
+    def __str__(self) -> str:
+        return '\033[33;0m'+self.error_info
+
+
 class ReturnTk:
 
     def __init__(self):
@@ -65,8 +73,7 @@ def open_url(url):
 
 def max_length(content):
     if len(content) > 4891:
-        print("翻译文本超过限制！")
-        return
+        raise FunctionValueError('{} 文本长度超过限制'.format(content))
 
 
 def output_result(parm, prt=False):

@@ -1,16 +1,47 @@
+# custom an error Class for small_gram
+# python 3
+# -*- coding: UTF-8 -*-
+
+
 class CustomError(Exception):
 
     def __init__(self, info):
         self.error_info = info
 
 
+class FunctionValueError(Exception):
+    """这个类一旦出现，就代表你传入的函数参数有问题"""
+    def __init__(self, info):
+        self.error_info = info
+
+    def __str__(self) -> str:
+        return self.error_color['yellow']+self.error_info
+
+    error_color = {'red': '\033[31;0m',
+                   'green': '\033[32;0m',
+                   'yellow': '\033[33;0m',
+                   'blue': '\033[34;0m'}
+
+
+def func_test(b):
+    if b == 1:
+        # raise CustomError
+        raise FunctionValueError('{} is not good.'.format(b))
+
+
 if __name__ == '__main__':
     import time
-    print('-'*16, 'Start', time.ctime(), '-'*16, '\n')
+    print('-'*15, 'Start', time.ctime(), '-'*15, '\n')
 
-    a = 1
-    if a == 1:
-        raise WindowsError('{} == 1!'.format(a))
+    # txt color
+    tc = {
+        'red': '\033[31;0m',
+        'green': '\033[32;0m',
+        'yellow': '\033[33;0m',
+        'blue': '\033[34;0m'
+    }
+
+    func_test(1)
 
     '''
     AttributeError 试图访问一个对象没有的属性，比如foo.x，但是foo没有属性x
@@ -37,5 +68,4 @@ if __name__ == '__main__':
      
     ValueError 传入一个调用者不期望的值，即使值的类型是正确的
     '''
-
-    print('\n', '-'*16, 'End', time.ctime(), '-'*16)
+    print('%s%s %s %s %s' % ('\n', '-'*16, 'End', time.ctime(), '-'*16))

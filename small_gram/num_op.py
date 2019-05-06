@@ -1,3 +1,5 @@
+from small_gram.custom_error import FunctionValueError
+
 def get_first_ratio(li, rat, rnd=True):
     """获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素
 
@@ -145,8 +147,9 @@ def get_min_li(li):
     :return: 最小元素的值，下标
     """
     if len(li) == 0:
-        print('The list has nothing.')
-        return False
+        raise FunctionValueError('The list has nothing.')
+        # print('The list has nothing.')
+        # return False
     m = li[0]
     sub = 0
     for ii, i in enumerate(li):
@@ -296,4 +299,4 @@ if __name__ == '__main__':
 
     # print(gen_random_order(10))
 
-    print(bubble_sort(c))
+    # print(bubble_sort(c))

@@ -24,7 +24,7 @@ import shutil
 from PIL import Image
 
 from small_gram import num_op, text_op
-from small_gram.text_op import tc
+from small_gram.custom_error import FunctionValueError
 
 
 def each_file_or_dir_name(path):
@@ -357,7 +357,9 @@ def mkdir(path):
         os.makedirs(path)
         # print (path+' 创建成功')
     else:
-        print(tc['yellow']+path+' 目录已存在')  # 如果目录存在则不创建，并提示目录已存在
+        # raise custom_error.FunctionValueError('%s 目录已存在' % path)
+        color = FunctionValueError.error_color['yellow']
+        print(color+path+' 目录已存在')  # 如果目录存在则不创建，并提示目录已存在
         return False
 
 
@@ -376,7 +378,8 @@ def move_file(from_path, to_dir_path):
     :param to_dir_path:   文件移动到的位置，必须是文件夹
     """
     if not os.path.isfile(from_path):
-        print("%s not exist!" % from_path)
+        color = FunctionValueError.error_color['yellow']
+        print("%s%s not exist!" % (color, from_path))
     else:
         if not os.path.exists(to_dir_path):
             os.makedirs(to_dir_path)  # 创建路径
