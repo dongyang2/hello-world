@@ -164,6 +164,17 @@ def del_the_elem(content, li):
     return content
 
 
+def zz_match(s, pat):
+    """利用re包来进行正则匹配，返回匹配的字符串"""
+    import re
+    search_result = re.search(pat, s)
+    if search_result is not None:
+        index1, index2 = search_result.span()
+        return s[index1:index2]
+    else:
+        raise FunctionValueError('No Match! Please retry your string or pattern.')
+
+
 if __name__ == '__main__':
     str1 = '''[10930,10318,10595,10972,7706,6756,9092,10551,9722,10913,11151,8186,6422, 
 6337,11649,11652,10310,12043,7937,6476,9662,9570,9981,9331,9449,6773,6304,9355, 
@@ -204,3 +215,5 @@ if __name__ == '__main__':
               '\ufffd', '\u2022']
     # for i3 in li_xxx:
     #     print(i3)
+
+    zz_match(str1, r'333')
