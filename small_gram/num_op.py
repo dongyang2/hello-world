@@ -1,5 +1,6 @@
 from small_gram.custom_error import FunctionValueError
 
+
 def get_first_ratio(li, rat, rnd=True):
     """获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素
 
