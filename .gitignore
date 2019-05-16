@@ -28,3 +28,5 @@ interview_q/PAT/计算train和test的内容重复率.py
 *.xml
 small_function/__pycache__/
 language_process/hi_tensorflow/output/*
+language_process/__pycache__/
+language_process/hi_tensorflow/__pycache__/

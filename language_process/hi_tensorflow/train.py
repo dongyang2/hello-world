@@ -35,7 +35,7 @@ class PTBModel(object):
         inputs = tf.nn.embedding_lookup(embedding, self.input_data)
         if is_training:
             inputs = tf.nn.dropout(inputs, self.EMBEDDING_KEEP_PROB)
-            
+
     HIDDEN_SIZE = 300
     NUM_LAYER = 2
     VOCAB_SIZE = 10000
