@@ -64,7 +64,7 @@ f_y = lr.predict(future_data_num.reshape(-1, 1))
 target = future_data_num[f_y < y_target+1]
 print(transform(num=target[0]))
 
-new_x = np.append(x,future_data_num)  # 补充的后面的线条的横坐标
+new_x = np.append(x, future_data_num)  # 补充的后面的线条的横坐标
 fig = plt.figure()
 plt.plot(x, y, 'r.', markersize=12)
 plt.plot(new_x, lr.predict(new_x[:, np.newaxis]), 'b-')
