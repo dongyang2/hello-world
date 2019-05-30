@@ -7,6 +7,7 @@ from operator import itemgetter
 
 
 def make_mapping_table(path, to_path):
+    # 按照词频顺序将单词映射为数字，并将该映射表保存为文件
     counter = collections.Counter()
     with codecs.open(path, 'r', 'utf-8') as f:
         for line in f:
@@ -17,7 +18,7 @@ def make_mapping_table(path, to_path):
     sort_word_to_cnt = sorted(counter.items(), key=itemgetter(1), reverse=True)
     sorted_word = [x[0] for x in sort_word_to_cnt]
 
-    # 将句子结束符加入词汇映射表表
+    # 将句子结束符加入词汇映射表
     sorted_word = ['<eos>'] + sorted_word
     with codecs.open(to_path, 'w', 'utf-8') as fo:
         for word in sorted_word:
@@ -51,7 +52,7 @@ if __name__ == '__main__':
     RAW_DATA = config.data_path['train']
     VOCAB = config.vocab_output_path['vocab']
 
-    # make_mapping_table(RAW_DATA, VOCAB)
+    make_mapping_table(RAW_DATA, VOCAB)
 
     VOCAB_OUTPUT_TRAIN = config.vocab_output_path['train_vocab']
 
