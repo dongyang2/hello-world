@@ -52,6 +52,18 @@ if __name__ == '__main__':
     RAW_DATA = config.data_path['train']
     VOCAB = config.vocab_output_path['vocab']
 
+    # counter = collections.Counter()
+    #
+    # with codecs.open(RAW_DATA, 'r', 'utf-8') as f:
+    #     for line in f.readlines()[:10]:
+    #         print(line)
+    #         print(line.strip())
+    #         for word in line.strip().split(' '):
+    #             counter[word] += 1
+    #             print(word)
+    #         print(counter)
+    #         print('-*-'*30)
+
     make_mapping_table(RAW_DATA, VOCAB)
 
     VOCAB_OUTPUT_TRAIN = config.vocab_output_path['train_vocab']
