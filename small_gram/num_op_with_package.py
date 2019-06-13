@@ -1,4 +1,4 @@
-# 调用包实现的number operation
+# 调用第三方包实现的number operation
 # Python 3
 # coding: UTF-8
 

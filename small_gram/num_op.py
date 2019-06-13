@@ -239,6 +239,25 @@ def bubble_sort(li):
     return li
 
 
+def position_in_li(li, elem):
+    """寻找li中完整elem的位置"""
+    len_e = len(elem)
+    len_li = len(li)
+    tmp = []
+    for i in range(len_li):
+        if li[i] == elem[0]:
+            boolean = True
+            for e in range(len_e-1):
+                if i+e+1 < len_li:
+                    if li[i+e+1] != elem[e+1]:
+                        boolean = False
+                else:  # 超过数组范围
+                    boolean = False
+            if boolean is True:
+                tmp.append((i, i+len_e))
+    return tmp
+
+
 if __name__ == '__main__':
     li1 = [1, 3, 45, 6, 4, 9, 2]
     # print(li1[-3:])
@@ -301,3 +320,10 @@ if __name__ == '__main__':
     # print(gen_random_order(10))
 
     # print(bubble_sort(c))
+
+    li7 = ['0', '0', '1', '2', '3', '0', '0', '0', '1', '0', '2', '3', '0', '0', '1', '1', '2', '3', '1']
+    s1 = '123'
+    p1 = position_in_li(li7, s1)
+    # print(p1)
+    for p2 in p1:
+        print(li7[p2[0]: p2[1]])

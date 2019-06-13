@@ -4,9 +4,9 @@ from .file_op import read_file, mkdir, is_rectangle, is_rectangle_byte, divide_f
     read_file_li, ergodic_dir, write_csv, move_file, add_suffix_for_dir, get_picture, ergodic_all_file, \
     read_file_to_str, search_by_name
 from .num_op import get_first_ratio, li_precision_control, get_min_2d_list, get_size_top_n_li, get_li_size, slice_li, \
-    get_min_li, get_shi, flatten_li, unique, merge_core, gen_random_order
+    get_min_li, get_shi, flatten_li, unique, merge_core, gen_random_order, position_in_li
 from .text_op import add_blank_after_comma, get_last_dir_name, get_dir, del_str_by_2char, split_num_from_str, \
-    add_in_same_dir, get_suffix, get_name, del_the_elem
+    add_in_same_dir, get_suffix, get_name, del_the_elem, get_match_index
 
 __all__ = ['file_op',
            'date_op',
@@ -44,6 +44,7 @@ __all__ = ['file_op',
            'li_precision_control',  # 精度控制，将多维列表中所有元素都进行统一的精度控制
            'slice_li',              # 按比例切分序列
            'unique',                # 一维列表内元素去重
+           'position_in_li',        # 寻找li中完整elem的位置
 
            # text_op
            'add_blank_after_comma',  # 在逗号后面加空格
@@ -55,4 +56,5 @@ __all__ = ['file_op',
            'get_name',               # 输入是路径，返回名字和后缀
            'get_suffix',             # 获得一个文件的后缀名
            'split_num_from_str',     # 返回字符串中的数字与只包含字母的子字符串
+           'get_match_index',        # 找到所有符合pat的字符串的下标
            ]

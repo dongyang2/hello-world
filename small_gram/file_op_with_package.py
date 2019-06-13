@@ -1,4 +1,4 @@
-# 带包的file operation
+# 调用第三方包的file operation
 # Python 3
 # coding: UTF-8
 import pickle
