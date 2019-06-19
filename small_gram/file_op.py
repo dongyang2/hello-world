@@ -21,8 +21,6 @@
 import os
 import shutil
 
-from PIL import Image
-
 from small_gram import num_op, text_op
 from small_gram.custom_error import FunctionValueError
 
@@ -305,6 +303,7 @@ def read_pix_old(file):
 
 def save_pic(ar, path):
     """将数据存为图片，ar是numpy.uint8数组"""
+    from PIL import Image
     im_gr = Image.fromarray(ar)
     try:
         im_gr.save(path)
