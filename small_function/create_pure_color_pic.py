@@ -1,9 +1,19 @@
+# 生成纯色的照片。Windows自带画图无法建立大图片。
+# pip install mumpy
+# pip install matplotlib
+# utf-8
+
+
 def draw(w, h, color, path):
     import numpy as np
     import matplotlib.image as img
 
     rgb = []
-    for digit in color_point[color]:
+    if color in color_point.keys():
+        rgb_value = color_point[color]
+    else:
+        rgb_value = color.split(',')
+    for digit in rgb_value:
         rgb.append(np.full([w, h, 1], digit, dtype=np.uint8))
     pic = np.concatenate(rgb, axis=2)
 
@@ -39,19 +49,21 @@ def main():
 
     parser = argparse.ArgumentParser(description='生成纯色图片。')
     parser.add_argument('--out', '-o', help='Output directory.', default='E:/下载/')
-    parser.add_argument('--file_name', '-n', help='File name.', default='pic.jpg')
-    parser.add_argument('--color', help='Color you pick.', choices=color_point.keys())
+    # parser.add_argument('--file_name', '-n', help='File name.', default='pic.jpg')
+    parser.add_argument('--color', help='You can pick the color in the list. {}\n'
+                                        'Or you could specify the color in the format \"255,255,255\".'
+                        .format(color_point.keys()), type=str)
     parser.add_argument('--width', '-w', help='Width of picture.', type=int)
     parser.add_argument('--height', '-he', help='Height of picture.', type=int)
+    parser.add_argument('--suffix', '-s', help='Suffix of file.', type=str, choices=['jpg', 'png'], default='jpg')
 
     args = parser.parse_args()
 
     height = args.height
     width = args.width
-    file_name = args.file_name
-    out_dir = args.out
+    file_name = '{}{}_w{}_h{}.{}'.format(args.out, args.color, args.width, args.height, args.suffix)
     color = args.color
-    draw(height, width, color, out_dir + file_name)
+    draw(height, width, color, file_name)
 
 
 if __name__ == "__main__":
