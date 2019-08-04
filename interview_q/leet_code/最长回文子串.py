@@ -43,6 +43,7 @@ def longest_palindrome(s: str):
 
 
 def is_pal(s: str):
+    """判断是否是回文字符串，其实这个不太好。见“回文数.py”文件"""
     len_s = len(s)
     mid = int((len_s + 1) / 2)
     if len_s % 2 == 1:

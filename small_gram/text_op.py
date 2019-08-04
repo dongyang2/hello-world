@@ -95,7 +95,7 @@ def regular_fil_nam(fil_nam):
 
 
 def split_num_from_str(s):
-    """
+    """ 把数字从字符串中删除
     :return: 返回字符串中的数字与只包含字母的子字符串
     """
     import re
@@ -187,6 +187,16 @@ def get_match_index(s, pat):
     for i in index_li:
         li.append(i.span())
     return li
+
+
+def str_reverse(s: str):
+    """翻转字符串"""
+    if len(s) == 0:
+        raise ValueError('请输入非空字符串')
+    tmp_s = ''
+    for s_i in s[::-1]:
+        tmp_s += s_i
+    return tmp_s
 
 
 if __name__ == '__main__':

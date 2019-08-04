@@ -258,6 +258,14 @@ def position_in_li(li, elem):
     return tmp
 
 
+def bool_int32(i: int):
+    """判断是否在int32范围内"""
+    if i < pow(-2, 31) or i > pow(2, 31)-1:
+        return False
+    else:
+        return True
+
+
 if __name__ == '__main__':
     li1 = [1, 3, 45, 6, 4, 9, 2]
     # print(li1[-3:])
