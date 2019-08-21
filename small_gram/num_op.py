@@ -227,18 +227,6 @@ def gen_random_order(num, seed=None):
     return li
 
 
-def bubble_sort(li):
-    """冒泡排序。遍历n次列表，每一次确定第i（1<i<=n）大的数。每一次遍历过程中，最大的数总是会冒泡到最后一个。"""
-    n = len(li)
-    for i in range(n-1):
-        for j in range(n-i-1):
-            if li[j] >= li[j+1]:
-                tmp = li[j]
-                li[j] = li[j+1]
-                li[j+1] = tmp
-    return li
-
-
 def position_in_li(li, elem):
     """寻找li中完整elem的位置"""
     len_e = len(elem)

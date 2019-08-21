@@ -4,6 +4,7 @@ _windows/
 codestyles/
 resource/
 **/__pycache__/
+.vscode/
 
 *.h5
 *.json

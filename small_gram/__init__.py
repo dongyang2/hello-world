@@ -34,7 +34,7 @@ __all__ = ['file_op',
 
            # num_op
            'flatten_li',            # 把多维列表各元素放入一个一维列表
-           'gen_random_order',      # 获得一个随机的顺序，比如gen_random_order(10)就得到随机的十个数，互补重复，且在[0,9]区间内
+           'gen_random_order',      # 获得一个随机的顺序。如输入10就得到在[0,9]区间内的随机的十个互不重复的数
            'get_first_ratio',       # 获得一个一维列表前(只看位置不看大小)几成（百分之几十）的所有元素
            'get_li_size',           # 返回列表中各元素的长度
            'get_min_2d_list',       # 获得二维列表中最小元素的值和下标
