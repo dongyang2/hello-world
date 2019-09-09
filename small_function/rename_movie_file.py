@@ -47,6 +47,7 @@ def regular_fil_nam(fil_nam, ds):
     remove_website = del_str_by_2char(fil_nam, 'www', 'com')
     remove_website = del_str_by_2char(remove_website, 'www', 'cc')
     remove_website = del_str_by_2char(remove_website, 'www', 'Cc')
+    remove_website = del_str_by_2char(remove_website, 'www', 'co')
     remove_website = del_str_by_2char(remove_website, 'www', 'tv')
     remove_website = del_str_by_2char(remove_website, 'www', 'net')
     remove_website = del_str_by_2char(remove_website, 'www', '转载')
