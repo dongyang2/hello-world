@@ -15,7 +15,7 @@ def match(s: str, p: str, i=0, j=0, m=None):
         # 字符串跑完了但是pattern没跑完
         if j < lp - 1:
             if p[j + 1] == '*':
-                return match(s,p,i,j+2,m='忽')
+                return match(s, p, i, j + 2, m='忽')
         return False
 
     # if i == ls-1 and j == lp-1 and p[j]!='*':
@@ -30,8 +30,8 @@ def match(s: str, p: str, i=0, j=0, m=None):
             if p[j] == s[i] or (p[j] == '.' and i != ls):
                 # print('匹配上了')
                 # 进入有限状态机的下一个状态 或者 停在当前状态 或者 忽略‘*’
-                return match(s, p, i + 1, j + 2, m='下个状态') or match(s, p, i + 1, j, m='状态停留') or match(s, p, i, j + 2,
-                                                                                                       m='忽略')
+                return match(s, p, i + 1, j + 2, m='下个状态') or match(s, p, i + 1, j,
+                                                                    m='状态停留') or match(s, p, i, j + 2, m='忽略')
                 # if s[i + 1] == p[j]:
                 #     return match(s, p,  i + 1, j, m='停留') or match(s, p, i, j + 2, m='忽略')
                 # else:
@@ -55,11 +55,11 @@ def del_redundant_star(s: str):
     tmp_s = ''
     bool_r = False
     for k in range(ls):
-        if s[k] == '*' and k < ls-1:
-            if s[k-1] == s[k+1]:
-                if k < ls-2:
-                    if s[k+2] == '*':
-                        tmp_s = s[:k-1]+s[k+1:]
+        if s[k] == '*' and k < ls - 1:
+            if s[k - 1] == s[k + 1]:
+                if k < ls - 2:
+                    if s[k + 2] == '*':
+                        tmp_s = s[:k - 1] + s[k + 1:]
                         bool_r = True
 
     if bool_r is True:

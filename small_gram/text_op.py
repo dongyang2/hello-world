@@ -199,6 +199,16 @@ def str_reverse(s: str):
     return tmp_s
 
 
+def get_abc(lower_case=True):
+    """获得a到z"""
+    if lower_case:
+        c = 97
+    else:
+        c = 65
+    li = [chr(c+x) for x in range(26)]
+    return li
+
+
 if __name__ == '__main__':
     str1 = '''[10930,10318,10595,10972,7706,6756,9092,10551,9722,10913,11151,8186,6422, 
 6337,11649,11652,10310,12043,7937,6476,9662,9570,9981,9331,9449,6773,6304,9355, 
@@ -240,4 +250,7 @@ if __name__ == '__main__':
     # for i3 in li_xxx:
     #     print(i3)
 
-    zz_match(str1, r'333')
+    # zz_match(str1, r'333')
+
+    print(get_abc(False))
+
