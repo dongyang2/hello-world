@@ -24,7 +24,7 @@ def quik_sort(li, p, r):
 def partition(li, p, r):
     x = li[r]
     i = p-1
-    for j in range(p, r-1):
+    for j in range(p, r):
         if li[j] <= x:
             i += 1
             li[i], li[j] = li[j], li[i]
@@ -32,9 +32,9 @@ def partition(li, p, r):
     return i+1
 
 
-
 def main():
     c = [-10, -5, 0, 5, 3, 10, 15, -20, 25]
+    # c = [2,8,7,1,3,5,6,4]
     quik_sort(c, 0, len(c)-1)
     print(c)
 
