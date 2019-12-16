@@ -5,8 +5,7 @@ import os
 
 
 def each_file_or_dir_name(path):
-    """ 遍历指定目录，显示目录下的所有文件或目录名
-    """
+    """ 遍历指定目录，显示目录下的所有文件或目录名"""
     path_dir = os.listdir(path)
     di_fi = []
     for di_or_fi in path_dir:
@@ -44,55 +43,83 @@ def del_char(s, c):
 
 def regular_fil_nam(fil_nam, ds):
     """把影视作品的文件名规范化"""
-    remove_website = del_str_by_2char(fil_nam, 'www', 'com')
-    remove_website = del_str_by_2char(remove_website, 'www', 'cc')
-    remove_website = del_str_by_2char(remove_website, 'www', 'Cc')
-    remove_website = del_str_by_2char(remove_website, 'www', 'co')
-    remove_website = del_str_by_2char(remove_website, 'www', 'tv')
-    remove_website = del_str_by_2char(remove_website, 'www', 'net')
-    remove_website = del_str_by_2char(remove_website, 'www', '转载')
-    li_fil = remove_website.split('.')
+
+    # 删除字幕组
+    prefix = ['-', '[', '.']
+    for i in prefix:
+        fil_nam = del_str_by_2char(fil_nam, i, '字幕组')
+        fil_nam = del_str_by_2char(fil_nam, i, '影视')
+
+    # 删除网站名字
+    fil_nam = del_str_by_2char(fil_nam, 'www', '转载')
+    website_suffix = ['com', 'cc', 'co', 'tv', 'net']
+    for i in website_suffix:
+        tmp_li = [i]
+        upper_word('', i, tmp_li)
+        for j in tmp_li:
+            fil_nam = del_str_by_2char(fil_nam, 'www', j)
+        # print('aaa', fil_nam)
+
+    # 20191216 找到的新规律
+    for i in ds['清晰度']:
+        fil_nam = del_str_by_2char(fil_nam, i, '.', rt=True, f=0)
+
+    # 删除x264
+    fil_nam = del_str_by_2char(fil_nam, 'x264', '.')
+
+    li_fil = fil_nam.split('.')
     nam = ' '.join(li_fil[:-1])
     suffix = li_fil[-1]
     # print(suffix, '|||', nam)
-    remove_captions_group = del_str_by_2char(nam, '-', '字幕组')  # 去除字幕组
-    remove_cap_gro2 = del_str_by_2char(remove_captions_group, '[', '字幕组')
-    nam_final = remove_cap_gro2
-    for i in ds:
-        # print(num)
-        nam_final = nam_final.replace(i, '')
-        # print(remove_website)
 
-    if nam_final:
-        if nam_final[0] == ' ':  # 去除开头的空格
-            nam_final = nam_final[1:]
-        if nam_final[-1] == ' ':  # 去除结尾的空格
-            nam_final = nam_final[:-1]
-        if nam_final[0] == '-':  # 去除开头的短杠
-            nam_final = nam_final[1:]
-        return nam_final+'.'+suffix
-    
-    else:  # 这里考虑到了没有文件后缀的情况
-        return suffix
+    # 按库去除各项元素
+    for i in ds['清晰度']:
+        for j in ds['字幕']:
+            nam = nam.replace(i+j, '')
+    for i in ds['字幕']:
+        nam = nam.replace(i, '')
+    for i in ds['杂项']:
+        nam = nam.replace(i, '')
+
+    nam_final = nam
+    if nam_final[0] == ' ':  # 去除开头的空格
+        nam_final = nam_final[1:]
+    if nam_final[-1] == ' ':  # 去除结尾的空格
+        nam_final = nam_final[:-1]
+    if nam_final[0] == '-':  # 去除开头的短杠
+        nam_final = nam_final[1:]
+    return nam_final+'.'+suffix
 
 
-def del_str_by_2char(s, co, ct, f=True):
+def del_str_by_2char(s, co, ct, ro=False, rt=False, f=2):
     """删除一个字符串中被2个子字符串包围的所有字符
-    f=True删除指定的那两个子字符串
-    f=False不删除指定的那两个子字符串
+    f=0     仅删除s中的co
+    f=1     仅删除s中的ct
+    f=2     删除s中的co和ct
+    f=3     不删除co，也不删除ct
+
+    ro      是否从后往前寻找co
+    rt      是否从后往前寻找ct
     """
     if co in s and ct in s:
-        ind_one = s.find(co)
-        ind_two = s.find(ct)
-        if f is True:
-            ind_end = ind_two+len(ct)
-            ca = s[ind_one: ind_end]
-            # print(ca)
-            return s.replace(ca, '')
-        else:
-            ind_start = ind_one+len(co)
-            ca = s[ind_start: ind_two]
-            return s.replace(ca, '')
+        ind1 = s.find(co)
+        if ro is True:
+            ind1 = s.rfind(co)
+        ind2 = s.find(ct, ind1)
+        if rt is True:
+            ind2 = s.rfind(ct)
+        # print('ind1 = {}, ind2 = {}'.format(ind1, ind2))
+
+        if f == 1:
+            ind1 = ind1+len(co)
+            ind2 = ind2+len(ct)
+        elif f == 2:
+            ind2 = ind2+len(ct)
+        elif f == 3:
+            ind1 = ind1+len(co)
+        ca = s[ind1: ind2]
+        # print('--ca--', ca)
+        return s.replace(ca, '')
     else:
         # print('No such substring in this string!')
         return s
@@ -105,35 +132,105 @@ def ergodic_and_regular(path, ds):
     path_dir = os.listdir(path)
     for di_or_fi in path_dir:
         # each_path = os.path.join('%s/%s' % (path, di_or_fi))
-        new_name = regular_fil_nam(di_or_fi, ds)
-        os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
+        suffix = di_or_fi.split('.')[-1]
+        if is_movie(suffix) is True:
+            new_name = regular_fil_nam(di_or_fi, ds)
+            os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
+
+
+def is_caption(s):
+    # 根据规律判定是否是字幕说明
+    zimu = ['字幕', '双字', '中字', '双语']
+    for i in zimu:
+        if i in s:
+            return True
+    return False
+
+
+def is_movie(s: str):
+    # 根据后缀判断是否是电影文件
+    movie_suffix = ['mkv', 'mp4', 'rmvb', 'qmv', 'mov', 'flv']
+    if s.lower() in movie_suffix:
+        return True
+    else:
+        return False
+
+
+def upper_word(p, s, li):
+    # 遍历所有大写的方式。原来就是二叉树的遍历啊。
+    # li.append(p+s)
+    s1u = s[0].upper()+s[1:]
+    if len(s) > 1:
+        li.append(p+s1u)
+        upper_word(p+s[0], s[1:], li)
+        upper_word(p+s[0].upper(), s[1:], li)
+    else:
+        li.append(p+s.upper())
+    return s1u
+
+
+def test():
+    sl = ['闪电侠.The.Flash.S06E04.中英字幕.HDTVrip.720P-人人影视.mp4',
+          'www.be457y4jehwahw.com.兰开斯特之王.BD.1080p.中英双字幕.mkv',
+          'www.srAHNBr3eqh4weyh4.com.闪电侠第六季第03集中英双字.mkv',
+          'The.Flash.2014.S06E05.720p.HDTV.x264-SVA[eztv].mkv',
+          '脉冲.impulse.s01e01.720p.Classic字幕组.mp4',
+          '神奇女侠BD国英双语双字.电影天堂.www.3j5h4j2.com.mkv',
+          'www.b3wh4h3.com.攀登者.HD.1080p.国语中英双字.mp4',
+          'www.n34h3qh.com.神奇女侠：血脉.BD.1080p.中英双字幕.mkv',
+          'www.n34hqhgh.com.狮子王.BD.1080p.国粤英三语双字.mkv',
+          '[www.n3qh4h3qh.com转载]社交网络DVD中英双字.rmvb',
+          '【6v电影www.n3qygq.com】蜀山传.720p.国粤双语.BD中字.mkv',
+          '中转停留.720p.HD中字[最新电影www.nq3h4yq3.tv].mp4',
+          '十年日 本www n3qyh3qyh Co.mp4']
+
+    for i in sl:
+        new_name = regular_fil_nam(i, dic)
+        print(new_name)
+
+
+def main():
+    # path1 = 'H:/hello world resource/zhangxuan_resource'
+    # path2 = 'D:/下载/'
+
+    ergodic_and_regular(os.getcwd(), dic)
 
 
 if __name__ == '__main__':
-    path1 = 'H:/hello world resource/zhangxuan_resource'
-    path2 = 'D:/下载/'
 
-    s_set = ['韩版中英双字幕', '中英双字幕',
-             '修正特效中英双字',
-             'BD国语中字1280高清', 'BD国语中字', 'HD国语中字',
-             'BD中英双字',
-             '国语中字', '韩语中字', 'BD中字', 'bd中字',
-             '中英双字', '国英双语',
-             '国英双语双字',
-             '国粤双语',
-             '1280X720', '1280x720', '720p', '720P','1080p',
-             '1080P',
-             '1920x1080', '1920X1080',
-             '1280高清', '1024高清',  '1280超清',
-             'KO_CN', 'TSKS', 'x264-PublicHD', 'PRiME',
-             '[', ']', '(', ')', '【', '】',
-             'x264-WiKi', 'x264-HDS',
-             'HDTVrip', 'HDTV', 'x264', 'X264', 'BluRay',
-             'AAC', 'DTS',
-             '无水印', '特效',
-             'lol电影天堂', '阳光电影', '66影视', '迅播影院',
-             '电影天堂', '迅雷下载', '最新电影', '6v电影',
-             '2Audio', '2audio',
-             'BD', 'HD', '中字', '  ']  # 这里两个空格最好放在最后面
-
-    ergodic_and_regular(os.getcwd(), s_set)
+    dic = {
+        '杂项':
+        [
+            '1280X720', '1280x720', '720p', '720P', '1080p',
+            '1080P',
+            '1920x1080', '1920X1080',
+            '1280高清', '1024高清', '1280超清',
+            'KO_CN', 'TSKS', 'x264-PublicHD', 'PRiME',
+            '[', ']', '(', ')', '【', '】',
+            'x264-WiKi', 'x264-HDS',
+            'HDTVrip', 'HDTV', 'x264', 'X264', 'BluRay',
+            'AAC', 'DTS',
+            '无水印', '特效',
+            'lol电影天堂', '阳光电影', '66影视', '迅播影院',
+            '电影天堂', '迅雷下载', '最新电影', '6v电影',
+            '人人影视',
+            '2Audio', '2audio', 'eztv',
+            'DVD',
+            '  '
+        ],  # 这里两个空格最好放在最后面
+        '字幕':
+        [
+            '双字幕', '中英', '韩版',
+            '双字', '修正特效',
+            '中字', '国语', '韩语',
+            '三语', '国粤英', '英国粤', '国英粤',
+            '双语', '国英', '国粤',
+            '字幕',
+        ],
+        '清晰度':
+        [
+            'HD', 'BD', 'bd', 'hd'
+        ]
+    }
+    # main()
+    test()
