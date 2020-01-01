@@ -232,5 +232,5 @@ if __name__ == '__main__':
             'HD', 'BD', 'bd', 'hd'
         ]
     }
-    # main()
-    test()
+    main()
+    # test()
