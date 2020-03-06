@@ -61,8 +61,11 @@ def regular_fil_nam(fil_nam, ds):
         # print('aaa', fil_nam)
 
     # 20191216 找到的新规律
-    for i in ds['清晰度']:
-        fil_nam = del_str_by_2char(fil_nam, i, '.', rt=True, f=0)
+    for i in ds['来源']:
+        tmp_li = [i]
+        upper_word('', i, tmp_li)
+        for j in tmp_li:
+            fil_nam = del_str_by_2char(fil_nam, j, '.', rt=True, f=0)
 
     # 删除x264
     fil_nam = del_str_by_2char(fil_nam, 'x264', '.')
@@ -73,7 +76,7 @@ def regular_fil_nam(fil_nam, ds):
     # print(suffix, '|||', nam)
 
     # 按库去除各项元素
-    for i in ds['清晰度']:
+    for i in ds['来源']:
         for j in ds['字幕']:
             nam = nam.replace(i+j, '')
     for i in ds['字幕']:
@@ -166,23 +169,24 @@ def upper_word(p, s, li):
         upper_word(p+s[0].upper(), s[1:], li)
     else:
         li.append(p+s.upper())
-    return s1u
+    # return s1u
 
 
 def test():
-    sl = ['闪电侠.The.Flash.S06E04.中英字幕.HDTVrip.720P-人人影视.mp4',
-          'www.be457y4jehwahw.com.兰开斯特之王.BD.1080p.中英双字幕.mkv',
-          'www.srAHNBr3eqh4weyh4.com.闪电侠第六季第03集中英双字.mkv',
-          'The.Flash.2014.S06E05.720p.HDTV.x264-SVA[eztv].mkv',
-          '脉冲.impulse.s01e01.720p.Classic字幕组.mp4',
-          '神奇女侠BD国英双语双字.电影天堂.www.3j5h4j2.com.mkv',
-          'www.b3wh4h3.com.攀登者.HD.1080p.国语中英双字.mp4',
-          'www.n34h3qh.com.神奇女侠：血脉.BD.1080p.中英双字幕.mkv',
-          'www.n34hqhgh.com.狮子王.BD.1080p.国粤英三语双字.mkv',
-          '[www.n3qh4h3qh.com转载]社交网络DVD中英双字.rmvb',
-          '【6v电影www.n3qygq.com】蜀山传.720p.国粤双语.BD中字.mkv',
-          '中转停留.720p.HD中字[最新电影www.nq3h4yq3.tv].mp4',
-          '十年日 本www n3qyh3qyh Co.mp4']
+    sl = ["闪电侠.The.Flash.S06E04.中英字幕.HDTVrip.720P-人人影视.mp4",
+          "www.be457y4jehwahw.com.兰开斯特之王.BD.1080p.中英双字幕.mkv",
+          "www.srAHNBr3eqh4weyh4.com.闪电侠第六季第03集中英双字.mkv",
+          "The.Flash.2014.S06E05.720p.HDTV.x264-SVA[eztv].mkv",
+          "脉冲.impulse.s01e01.720p.Classic字幕组.mp4",
+          "神奇女侠BD国英双语双字.电影天堂.www.3j5h4j2.com.mkv",
+          "www.b3wh4h3.com.攀登者.HD.1080p.国语中英双字.mp4",
+          "www.n34h3qh.com.神奇女侠：血脉.BD.1080p.中英双字幕.mkv",
+          "www.n34hqhgh.com.狮子王.BD.1080p.国粤英三语双字.mkv",
+          "[www.n3qh4h3qh.com转载]社交网络DVD中英双字.rmvb",
+          "【6v电影www.n3qygq.com】蜀山传.720p.国粤双语.BD中字.mkv",
+          "中转停留.720p.HD中字[最新电影www.nq3h4yq3.tv].mp4",
+          "十年日 本www n3qyh3qyh Co.mp4",
+          "韦科惨案.Waco.E02.中英字幕.WEB.720p-人人影视.mp4"]
 
     for i in sl:
         new_name = regular_fil_nam(i, dic)
@@ -207,8 +211,8 @@ if __name__ == '__main__':
             '1280高清', '1024高清', '1280超清',
             'KO_CN', 'TSKS', 'x264-PublicHD', 'PRiME',
             '[', ']', '(', ')', '【', '】',
-            'x264-WiKi', 'x264-HDS',
-            'HDTVrip', 'HDTV', 'x264', 'X264', 'BluRay',
+            'x264-WiKi', 'x264-HDS', 'BluRay',
+            'HDTVrip', 'HDTV', 'x264', 'X264',
             'AAC', 'DTS',
             '无水印', '特效',
             'lol电影天堂', '阳光电影', '66影视', '迅播影院',
@@ -227,9 +231,9 @@ if __name__ == '__main__':
             '双语', '国英', '国粤',
             '字幕',
         ],
-        '清晰度':
+        '来源':
         [
-            'HD', 'BD', 'bd', 'hd'
+            'HD', 'BD', 'WEB',
         ]
     }
     main()

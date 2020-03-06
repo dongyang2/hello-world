@@ -14,28 +14,40 @@ def bubble_sort(li):
     return li
 
 
-def quik_sort(li, p, r):
+def quick_sort(li, p, r):
+    """算法导论 快速排序 递归部分"""
     if p < r:
         q = partition(li, p, r)
-        quik_sort(li, p, q-1)
-        quik_sort(li, q+1, r)
+        quick_sort(li, p, q - 1)
+        quick_sort(li, q + 1, r)
 
 
-def partition(li, p, r):
-    x = li[r]
-    i = p-1
-    for j in range(p, r):
-        if li[j] <= x:
+def partition(li, start, end):
+    """算法导论 快速排序 划分部分"""
+    i = start-1
+    for j in range(start, end):
+        if li[j] <= li[end]:
             i += 1
             li[i], li[j] = li[j], li[i]
-    li[r], li[i+1] = li[i+1], li[r]
+    li[end], li[i+1] = li[i+1], li[end]
     return i+1
+
+
+def partition_by_start(li, start, end):
+    """把开始元素作为对比元素的划分方法，根据partition改编"""
+    i = start
+    for j in range(start+1, end):
+        if li[j] <= li[start]:
+            i += 1
+            li[i], li[j] = li[j], li[i]
+    li[start], li[i] = li[i], li[start]
+    return i
 
 
 def main():
     c = [-10, -5, 0, 5, 3, 10, 15, -20, 25]
-    # c = [2,8,7,1,3,5,6,4]
-    quik_sort(c, 0, len(c)-1)
+    # c = [2, 8, 7, 1, 3, 5, 6, 4]
+    quick_sort(c, 0, len(c) - 1)
     print(c)
 
     
