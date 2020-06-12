@@ -1,5 +1,5 @@
+# coding: utf-8
 #! python3
-# encoding=utf-8
 # require python-docx
 
 from docx import Document

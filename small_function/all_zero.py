@@ -1,3 +1,5 @@
+# coding: utf-8
+
 def all_zero(path):
     import numpy as np
     wno = np.loadtxt(path, delimiter=',', encoding='utf-8', dtype=str)

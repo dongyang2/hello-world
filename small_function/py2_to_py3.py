@@ -1,3 +1,4 @@
+# coding: utf-8
 # 将python2文件转为python3文件，最常见的就是print bla~bla~bla~ 了，还有修改一些库的导入，可以持续更新
 # urllib2可以直接通过替换成urllib.request来用，与此同时，urlib.encode要换成from urllib.parse import urlencode
 

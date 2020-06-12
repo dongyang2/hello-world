@@ -1,5 +1,5 @@
+# coding: utf-8
 # python3.6
-# utf-8
 # author: github.com/dongyang2
 import os
 
@@ -69,6 +69,9 @@ def regular_fil_nam(fil_nam, ds):
 
     # 删除x264
     fil_nam = del_str_by_2char(fil_nam, 'x264', '.')
+
+    # 20200413
+    fil_nam = del_str_by_2char(fil_nam, "BluRay", ".")
 
     li_fil = fil_nam.split('.')
     nam = ' '.join(li_fil[:-1])
@@ -186,7 +189,8 @@ def test():
           "【6v电影www.n3qygq.com】蜀山传.720p.国粤双语.BD中字.mkv",
           "中转停留.720p.HD中字[最新电影www.nq3h4yq3.tv].mp4",
           "十年日 本www n3qyh3qyh Co.mp4",
-          "韦科惨案.Waco.E02.中英字幕.WEB.720p-人人影视.mp4"]
+          "韦科惨案.Waco.E02.中英字幕.WEB.720p-人人影视.mp4",
+          "[小调网-www.xiaodiao.com]雷神奇侠BD中英双字.rmvb"]
 
     for i in sl:
         new_name = regular_fil_nam(i, dic)
@@ -217,7 +221,7 @@ if __name__ == '__main__':
             '无水印', '特效',
             'lol电影天堂', '阳光电影', '66影视', '迅播影院',
             '电影天堂', '迅雷下载', '最新电影', '6v电影',
-            '人人影视',
+            '人人影视', '小调网',
             '2Audio', '2audio', 'eztv',
             'DVD',
             '  '

@@ -1,3 +1,4 @@
+# coding: utf-8
 # Author: github.com/Dongyang2
 # 用来把pdf转为txt的小程序
 # pip install pdfminer3k

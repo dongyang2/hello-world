@@ -26,7 +26,7 @@ def n_queens(n):
 
 
 def ergodic_tree(board, floor, ans):
-    """遍历这颗树有两个终止条件，一是棋盘到最后一行了，二是没有可以摆的位置了。"""
+    """遍历这颗树有两个终止条件，一是棋盘到最后一行了（有解），二是没有可以摆的位置了。（无解）"""
     if "." in board[floor + 1]:
         n = len(board)
         if floor+1 == n-1:  # 到最后一层了

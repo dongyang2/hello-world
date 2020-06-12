@@ -1,4 +1,4 @@
-﻿# UTF-8
+﻿# coding: utf-8
 # pip install PyExecJS
 # pip install bs4
 # pip install requests

@@ -1,3 +1,4 @@
+# coding: utf-8
 # 深圳地铁线路选择，部署到手机用pydroid
 
 import networkx

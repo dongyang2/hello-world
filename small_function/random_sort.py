@@ -1,3 +1,4 @@
+# coding: utf-8
 # 这个程序必须要一个输入列表，打印这个输入列表的乱序输出且带有序号
 # from small_gram import gen_random_order
 

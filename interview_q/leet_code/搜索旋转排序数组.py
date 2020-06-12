@@ -58,7 +58,7 @@ def get_index(li, key):
         return find_elem_by_half(li, key, start, end)
     else:
         min_ind = find_min_by_half(li)
-        if li[start] > key >li[end]:
+        if li[start] > key > li[end]:
             return -1
         elif key > li[start]:
             return find_elem_by_half(li, key, start, min_ind-1)

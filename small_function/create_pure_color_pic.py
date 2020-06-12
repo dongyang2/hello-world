@@ -1,7 +1,7 @@
+# coding: utf-8
 # 生成纯色的照片。Windows自带画图无法建立大图片。
 # pip install mumpy
 # pip install matplotlib
-# utf-8
 
 
 def draw(w, h, color, path):

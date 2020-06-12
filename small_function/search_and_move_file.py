@@ -1,3 +1,4 @@
+# coding: utf-8
 # 按名称搜索文件
 import argparse
 import os

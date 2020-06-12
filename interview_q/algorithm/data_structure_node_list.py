@@ -4,7 +4,7 @@
 
 
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int):
         self.val = x
         self.next = None
 
@@ -75,6 +75,37 @@ def reverse_a_node_list(nl: ListNode, n):
     return init_node.next
 
 
+def len_node_list(node: ListNode):
+    """返回链表长度"""
+    if node is None:
+        return None
+    count = 0
+    while node is not None:
+        count += 1
+        node = node.next
+    return count
+
+
+def clear_sorted_node_list(head: ListNode):
+    """给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。"""
+    if head is None:
+        return head
+    if head.next is None:
+        return head
+    init_val = head.val-1
+    init_node1 = ListNode(init_val)
+    init_node1.next = head
+
+    while head.next is not None:
+        tmp = head.next
+        if head.val == tmp.val:
+            head.next = tmp.next
+        else:
+            head = tmp
+
+    return init_node1.next
+
+
 def main():
     # node = build_node_list(5)
     li = [1, 2, 3, 4, 5]
@@ -82,6 +113,7 @@ def main():
     # if node is None:
     #     print('none.')
     ergodic_node_list(node, sep='->')
+    print(len_node_list(node))
 
 
 if __name__ == '__main__':
