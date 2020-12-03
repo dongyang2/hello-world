@@ -51,17 +51,17 @@ def regular_fil_nam(fil_nam, ds):
         fil_nam = del_str_by_2char(fil_nam, i, '影视')
 
     # 删除网站名字
-    fil_nam = del_str_by_2char(fil_nam, 'www', '转载')
-    website_suffix = ['com', 'cc', 'co', 'tv', 'net']
+    fil_nam = del_str_by_2char(fil_nam, "www", "转载")
+    website_suffix = ["com", "cc", "co", "tv", "net", "xyz"]
     for i in website_suffix:
         tmp_li = [i]
-        upper_word('', i, tmp_li)
+        upper_word("", i, tmp_li)
         for j in tmp_li:
-            fil_nam = del_str_by_2char(fil_nam, 'www', j)
+            fil_nam = del_str_by_2char(fil_nam, "www", j)
         # print('aaa', fil_nam)
 
     # 20191216 找到的新规律
-    for i in ds['来源']:
+    for i in ds['编码']:
         tmp_li = [i]
         upper_word('', i, tmp_li)
         for j in tmp_li:
@@ -79,7 +79,7 @@ def regular_fil_nam(fil_nam, ds):
     # print(suffix, '|||', nam)
 
     # 按库去除各项元素
-    for i in ds['来源']:
+    for i in ds['编码']:
         for j in ds['字幕']:
             nam = nam.replace(i+j, '')
     for i in ds['字幕']:
@@ -190,7 +190,10 @@ def test():
           "中转停留.720p.HD中字[最新电影www.nq3h4yq3.tv].mp4",
           "十年日 本www n3qyh3qyh Co.mp4",
           "韦科惨案.Waco.E02.中英字幕.WEB.720p-人人影视.mp4",
-          "[小调网-www.xiaodiao.com]雷神奇侠BD中英双字.rmvb"]
+          "[小调网-www.xiaodiao.com]雷神奇侠BD中英双字.rmvb",
+          "梦幻天堂·龙网(www.LWgod.xyz).两只老虎.葛优赵薇2019.mp4",
+          "【6v电影域名被盗,新地址www.6vhao.com】幸福终点站.720p.国英双语.BD中英双字.mp4",
+          "阳光灿烂的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv"]
 
     for i in sl:
         new_name = regular_fil_nam(i, dic)
@@ -207,37 +210,38 @@ def main():
 if __name__ == '__main__':
 
     dic = {
-        '杂项':
+        "杂项":
         [
-            '1280X720', '1280x720', '720p', '720P', '1080p',
-            '1080P',
-            '1920x1080', '1920X1080',
-            '1280高清', '1024高清', '1280超清',
-            'KO_CN', 'TSKS', 'x264-PublicHD', 'PRiME',
-            '[', ']', '(', ')', '【', '】',
-            'x264-WiKi', 'x264-HDS', 'BluRay',
-            'HDTVrip', 'HDTV', 'x264', 'X264',
-            'AAC', 'DTS',
-            '无水印', '特效',
-            'lol电影天堂', '阳光电影', '66影视', '迅播影院',
-            '电影天堂', '迅雷下载', '最新电影', '6v电影',
-            '人人影视', '小调网',
-            '2Audio', '2audio', 'eztv',
-            'DVD',
-            '  '
+            "1280X720", "1280x720", "720p", "720P", "1080p",
+            "1080P",
+            "1920x1080", "1920X1080",
+            "1280高清", "1024高清", "1280超清",
+            "KO_CN", "TSKS", "x264-PublicHD", "PRiME",
+            "[", "]", "(", ")", "【", "】",
+            "x264-WiKi", "x264-HDS", "BluRay",
+            "HDTVrip", "HDTV",
+            "x264", "X264", "DVDrip",
+            "AAC", "DTS",
+            "无水印", "特效",
+            "lol电影天堂", "阳光电影", "66影视", "迅播影院",
+            "电影天堂", "迅雷下载", "最新电影", "6v电影",
+            "人人影视", "小调网", "梦幻天堂·龙网",  "域名被盗,新地址",
+            "2Audio", "2audio", "eztv",
+            "DVD",
+            "  "
         ],  # 这里两个空格最好放在最后面
-        '字幕':
+        "字幕":
         [
-            '双字幕', '中英', '韩版',
-            '双字', '修正特效',
-            '中字', '国语', '韩语',
-            '三语', '国粤英', '英国粤', '国英粤',
-            '双语', '国英', '国粤',
-            '字幕',
+            "双字幕", "中英", "韩版",
+            "双字", "修正特效",
+            "中字", "国语", "韩语",
+            "三语", "国粤英", "英国粤", "国英粤",
+            "双语", "国英", "国粤",
+            "字幕",
         ],
-        '来源':
+        "编码":
         [
-            'HD', 'BD', 'WEB',
+            "HD", "BD", "WEB", "AC3"
         ]
     }
     main()
