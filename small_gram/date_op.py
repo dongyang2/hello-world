@@ -72,6 +72,14 @@ def get_now_time(pat=None, cd=' ', ct=':', c=' ', num_mon=False, abb=True):
         return c.join([d_new, t_new])
 
 
+def start_time():
+    print('-*-' * 5, ' start ', time.ctime(), '-*-' * 5, '\n')
+
+
+def end_time():
+    print('\n', '-*-' * 5, ' end ', time.ctime(), '-*-' * 5)
+
+
 if __name__ == '__main__':
     time_stamp = datetime.datetime.now()
     print(time_stamp.strftime('%Y.%m.%d %H:%M:%S'))
