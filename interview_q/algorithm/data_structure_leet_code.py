@@ -16,7 +16,7 @@ def ergodic_tree_mid(node: TreeNode, li: list):
         ergodic_tree_mid(node.left, li)
 
     li.append(node.val)
-    if node.left is None and node.right is None:
+    if node.left is None and node.right is None:  # 叶子结点
         return
 
     if node.right is not None:

@@ -1,5 +1,6 @@
 # https://leetcode-cn.com/problems/two-sum/
 # utf-8
+# 思路：利用查找代替遍历。
 
 
 def two_sum(li: list, target: int):
@@ -18,6 +19,34 @@ def two_sum(li: list, target: int):
                 return [i, li.index(cha)]
 
     return None
+
+
+def two_sum_new(li: list, target: int):
+    """(2022.11.8版) 只拿数字，不拿下标，所以不能用于力扣提交，但可以用于后续四数之和"""
+    li.sort()
+    len_li = len(li)
+
+    answer_li = []
+    for i in range(len_li):
+        if i > 0:
+            if nums[i] == nums[i-1]:
+                continue
+        sub = target - li[i]
+        tmp = li[i + 1:]
+        if sub in tmp:
+            m = li.count(sub)
+            last_ind = 0
+            for _ in range(m):
+                if last_ind+1 < len_li:
+                    k = li.index(sub, last_ind+1)
+                    if k > i:
+                        if [nums[i], nums[k]] not in answer_li:
+                            answer_li.append([nums[i], nums[k]])
+                    last_ind = k
+                else:
+                    break
+
+    return answer_li
 
 
 if __name__ == '__main__':
@@ -824,4 +853,6 @@ if __name__ == '__main__':
             25144, 25146, 25148, 25150, 25152, 25154, 25156, 25158, 25160, 25162, 25164, 25166, 25168, 25170,
             25172, 25174, 25176, 25178, 25180, 25182, 25184, 25186, 25188, 25190, 25192, 25194, 25196]
 
-    print(two_sum(nums, 16021))
+    nums = [2 for _ in range(10000)]
+    target = 4
+    print(two_sum_new(nums, target))
