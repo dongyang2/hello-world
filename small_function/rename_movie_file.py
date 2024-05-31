@@ -53,7 +53,7 @@ def regular_fil_nam(fil_nam, ds):
     # 删除网站名字
     fil_nam = del_str_by_2char(fil_nam, "www", "转载")
     fil_nam = del_str_by_2char(fil_nam, "dy.", "com")
-    website_suffix = ["com", "cc", "co", "tv", "net", "xyz"]
+    website_suffix = ["com", "cc", "co", "tv", "net", "xyz", "me"]
     for i in website_suffix:
         tmp_li = [i]
         upper_word("", i, tmp_li)
@@ -179,12 +179,12 @@ def upper_word(p, s, li):
 
 def test():
     sl = ["闪电侠.The.Flash.S06E04.中英字幕.HDTVrip.720P-人人影视.mp4",
-          "www.be457y4jehwahw.com.兰开斯特之王.BD.1080p.中英双字幕.mkv",
+          "茶啊二中.1080p.BD国语中字[最新电影www.dygangs.me].mp4",
           "www.srAHNBr3eqh4weyh4.com.闪电侠第六季第03集中英双字.mkv",
           "The.Flash.2014.S06E05.720p.HDTV.x264-SVA[eztv].mkv",
           "脉冲.impulse.s01e01.720p.Classic字幕组.mp4",
           "神奇女侠BD国英双语双字.电影天堂.www.3j5h4j2.com.mkv",
-          "www.b3wh4h3.com.攀登者.HD.1080p.国语中英双字.mp4",
+          "nz.1080p.BD修正中英双字[最新电影www.dygangs.me].mp4",
           "www.n34h3qh.com.神奇女侠：血脉.BD.1080p.中英双字幕.mkv",
           "www.n34hqhgh.com.狮子王.BD.1080p.国粤英三语双字.mkv",
           "[www.n3qh4h3qh.com转载]社交网络DVD中英双字.rmvb",
@@ -247,5 +247,5 @@ if __name__ == '__main__':
             "HD", "BD", "WEB", "AC3"
         ]
     }
-    main()
-    # test()
+    # main()
+    test()
