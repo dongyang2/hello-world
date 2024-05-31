@@ -60,7 +60,7 @@ def read_file_influx_db(filename, encode):
 
 
 def read_file(path):
-    """读取文件内容，返回二维数组"""
+    """读取文件内容，返回一维数组"""
     with open(path, 'r', encoding='utf-8') as f_open:
         file_content = []
         for each_line in f_open:
@@ -191,7 +191,7 @@ def write_file(content, path, w_type):
         f = open(path, 'w', encoding='utf-8')
     if w_type == '1D list':
         for i in content:
-            f.write(i)
+            f.write(i+'\n')
     elif w_type == '2D list':
         for h, i in enumerate(content):
             for j in i:
@@ -450,6 +450,16 @@ def read_file_to_str(path):
         for each_line in f_open:
             file_content += each_line
         return file_content
+
+
+def change_split_char(inp_file, out_file, new_s: str, old_s="\t"):
+    """将文件的每行分隔符修改为指定分隔符，默认文件分隔符为\t"""
+    f = open(out_file, 'w', encoding='utf-8')
+    with open(inp_file, 'r', encoding='utf-8') as f_open:
+        for each_line in f_open:
+            li = each_line.split(old_s)
+            f.write(new_s.join(li))
+    f.close()
 
 
 if __name__ == '__main__':

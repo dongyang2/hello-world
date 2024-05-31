@@ -37,10 +37,12 @@ def draw_bar(data: dict, title_name=""):
     # 设置字体，虽然感觉只改sans-serif，但应该够了
     plt.rcParams['font.sans-serif'] = ['SimHei']
     plt.title(title_name)
+
     plt.bar(data.keys(), data.values())
     # plt.xlabel("分段", fontdict=font)  # xlabel 指对x轴的介绍
     for key in data.keys():
         plt.text(key, data[key], data[key], ha='center', fontdict=font)
+
     plt.show()
 
 
@@ -104,6 +106,16 @@ def draw_parallel_bar(data: list, x_tick, label, scale, title_name=""):
             plt.text(x_cor[k], y_cor[k]/scale[i], y_cor[k], ha='center', fontdict=font)
     plt.yticks([])  # 因为使用了尺度缩放，所以不显示y轴坐标
     plt.legend()  # 显示对每个柱子的说明，就是把label中的名字与图里的柱子对应起来的小说明
+    plt.show()
+
+
+def draw_pie(data:dict,  title_name=""):
+    plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置字体，虽然感觉只改sans-serif，但应该够了
+    plt.title(title_name)
+
+    li = [str(key)+": "+str(data[key]) for key in data.keys()]
+    plt.pie(data.values(), labels=li)
+
     plt.show()
 
 

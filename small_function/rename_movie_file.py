@@ -52,6 +52,7 @@ def regular_fil_nam(fil_nam, ds):
 
     # 删除网站名字
     fil_nam = del_str_by_2char(fil_nam, "www", "转载")
+    fil_nam = del_str_by_2char(fil_nam, "dy.", "com")
     website_suffix = ["com", "cc", "co", "tv", "net", "xyz"]
     for i in website_suffix:
         tmp_li = [i]
@@ -94,6 +95,7 @@ def regular_fil_nam(fil_nam, ds):
         nam_final = nam_final[:-1]
     if nam_final[0] == '-':  # 去除开头的短杠
         nam_final = nam_final[1:]
+
     return nam_final+'.'+suffix
 
 
@@ -193,7 +195,8 @@ def test():
           "[小调网-www.xiaodiao.com]雷神奇侠BD中英双字.rmvb",
           "梦幻天堂·龙网(www.LWgod.xyz).两只老虎.葛优赵薇2019.mp4",
           "【6v电影域名被盗,新地址www.6vhao.com】幸福终点站.720p.国英双语.BD中英双字.mp4",
-          "阳光灿烂的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv"]
+          "阳光灿烂的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv",
+          "阳光电影dy.ygdy8.com.保你平安.2023.HD.1080P.国语中英双字.mp4"]
 
     for i in sl:
         new_name = regular_fil_nam(i, dic)
