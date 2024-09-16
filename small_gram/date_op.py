@@ -43,7 +43,7 @@ def get_now_time(pat=None, cd=' ', ct=':', c=' ', num_mon=False, abb=True):
         if abb is True and int(month) < 10:
             month = month[1]
     if abb is not True and int(day) < 10:
-        day = '0'+day
+        day = '0' + day
 
     if pat is None:
         d_new = cd.join([year, month, day])
@@ -80,14 +80,21 @@ def end_time():
     print('\n', '-*-' * 5, ' end ', time.ctime(), '-*-' * 5)
 
 
+def timestamp_str_to_datetime_str(t: str):
+    """把字符串类型的时间戳转换为字符串类型的日期"""
+    t = int(t) / 1000 if len(t) == 13 else int(t)
+    date = datetime.datetime.fromtimestamp(int(t)).strftime("%Y%m%d_%H_%M_%S")  # str
+    return date
+
+
 if __name__ == '__main__':
     time_stamp = datetime.datetime.now()
     print(time_stamp.strftime('%Y.%m.%d %H:%M:%S'))
     print(time.ctime())
-    print('\n', '-'*16, 'End', time.ctime(), '-'*16)
-    print('{}{} {} {} {}'.format('\n', '-'*16, 'End', time.ctime(), '-'*16))
-    print('-'*15, 'Start', time.ctime(), '-'*15, '\n')
+    print('\n', '-' * 16, 'End', time.ctime(), '-' * 16)
+    print('{}{} {} {} {}'.format('\n', '-' * 16, 'End', time.ctime(), '-' * 16))
+    print('-' * 15, 'Start', time.ctime(), '-' * 15, '\n')
 
     print(get_now_time('mon day h min', cd='-', num_mon=True, abb=False))
 
-    print('%s%s %s %s %s' % ('\n', '-'*16, 'End', time.ctime(), '-'*16))
+    print('%s%s %s %s %s' % ('\n', '-' * 16, 'End', time.ctime(), '-' * 16))

@@ -142,6 +142,7 @@ def ergodic_and_regular(path, ds):
         # each_path = os.path.join('%s/%s' % (path, di_or_fi))
         suffix = di_or_fi.split('.')[-1]
         if is_movie(suffix) is True:
+            print("原文件名-"+di_or_fi)
             new_name = regular_fil_nam(di_or_fi, ds)
             os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
 
@@ -247,5 +248,5 @@ if __name__ == '__main__':
             "HD", "BD", "WEB", "AC3"
         ]
     }
-    # main()
-    test()
+    main()
+    # test()
