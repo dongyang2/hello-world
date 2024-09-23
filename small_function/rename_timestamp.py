@@ -1,5 +1,5 @@
-# coding: utf-8
-# python3.6
+#!python3
+# -*- coding: utf-8 -*-
 # author: github.com/dongyang2
 import os
 from datetime import datetime

@@ -42,7 +42,7 @@ def main():
     cnt = 0
     num_limit=22
     for c in p_li:
-        num = sum([dic3[k] for k in c])
+        num = sum([dic2[k] for k in c])
         if num < num_limit:
             print(f"{c} {num}")
             cnt +=1
