@@ -3,16 +3,17 @@
 # 用来把pdf转为txt的小程序
 # pip install pdfminer3k
 
-from pdfminer.pdfinterp import PDFResourceManager, process_pdf
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
 from io import StringIO
 from io import open
 import os
 import re
 
 
-def read_pdf(file):
+def read_pdf_via_pdfminer(file):
+    from pdfminer.pdfinterp import PDFResourceManager, process_pdf
+    from pdfminer.converter import TextConverter
+    from pdfminer.layout import LAParams
+
     rsrc = PDFResourceManager()
     ret_str = StringIO()
     lparam = LAParams()
@@ -24,6 +25,16 @@ def read_pdf(file):
     content = ret_str.getvalue()
     ret_str.close()
     return content
+
+
+def read_pdf_via_PyPDF2(file):
+    import PyPDF2
+
+    pdf_reader = PyPDF2.PdfReader(file)
+    text = ''
+    for page_num in range(len(pdf_reader.pages)):
+        text += pdf_reader.pages[page_num].extract_text()
+    return text
 
 
 def write_txt(file, content):
@@ -103,7 +114,7 @@ def read_pdf_real(path):
              '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf',
              '\ufffd', '\u2022']
     with open(path, mode='rb') as f:
-        txt = read_pdf(f)
+        txt = read_pdf_via_pdfminer(f)
         txt = del_xax(txt, li_xx)
         # print(len(txt))
         abs_mode = re.compile('abstract', re.I)  # 忽略大小写
@@ -131,59 +142,71 @@ def del_xax(content, li):
     return content
 
 
+def references_statistic(s):
+    """统计参考文献"""
+    tmp_s = ""
+    record = True
+    dic = dict()
+    for c in s:
+        if c == "[":
+            record = True
+        elif c == "]":
+            for x in tmp_s.split(","):
+                if x.strip().isdigit():
+                    add_elem_to_dict(dic, x.strip())
+
+            record = False
+            tmp_s = ""
+        else:
+            if record:
+                tmp_s += c
+            else:
+                continue
+    # print(dic)
+    print(sorted(dic.items(), key=lambda a:a[1], reverse=True))
+
+
+def add_elem_to_dict(d: dict, e: str):
+    if e in d:
+        d[e] += 1
+    else:
+        d[e] = 1
+
+
 if __name__ == '__main__':
     import argparse
     import warnings
     # import sys
     # sys.getdefaultencoding()
     warnings.filterwarnings('ignore')
-    str1 = u'D:/文档/info secu'
 
-    # pdfFile = urlopen(path1)
-    # pdfFile.close()
-    # li = each_file_or_dir_name(str1)
-    # for num in li:
-    #     path2 = num[:-3] + 'txt'
-    #     with open(num, 'rb') as pdf_file:
-    #         # print(chardet.detect(pdf_file.read()))
-    #         outputString = read_pdf(pdf_file)
-    #         write_txt(path2)
-
-    # str3 = ''''''
-    # print(del_enter(str3))
-
-    path1 = 'E:/下载/cvprw15.pdf'
-
-    # print(judge_title('5. Conclusions'))
-
-    # ptext = 'abc'
-    # text = 'ABCd'
-    # # p = re.compile(ptext, re.IGNORECASE)
-    # p = re.compile(ptext, re.I) #for short
-    # r = p.match(text)
-    # print(r)
-    # r2 = re.match(ptext, text, re.IGNORECASE)
-    # print(r2)
-    # r3 = p.search(text)
-    # print(r3.start())
-
-    # li_xx = ['\xa0', '\xa1', '\xa2', '\xa3', '\xa4', '\xa5', '\xa6', '\xa7',
-    #          '\xa8', '\xa9', '\xaa', '\xab', '\xac', '\xad', '\xae', '\xaf']
-    # s4 = '''abcjdefg,hijklmjn'''
-    # s5 = del_xax(s4, ['j'])
-    # print(s5)
+    tool_li = ["miner", "pypdf2"]
 
     parser = argparse.ArgumentParser(description='Read PDF')
-
-    parser.add_argument('input', metavar='input', help='The input pdf file')
-    parser.add_argument('--out', '-o', metavar='output_dir', help='Output directory.', default='E:/下载/')
+    parser.add_argument('input', help='The input pdf file')
+    parser.add_argument('--out', help=f'output file', default="E:\下载/00.txt")
+    parser.add_argument('--tool', help=f'{tool_li}, which tool you choose.', default='pypdf2')
+    parser.add_argument('--count_reference', help=f'Do reference count or not.', default=False)
     args = parser.parse_args()
 
-    inp = args.input
+    inp, tool, out_file, count_reference = args.input, args.tool, args.out, args.count_reference
 
     if os.path.exists(inp):  # 先判断是否为文件
-        article = read_pdf_real(inp)
-        print(article)
+        if tool == "miner":
+            article = read_pdf_real(inp)
+        elif tool == "pypdf2":
+            article = read_pdf_via_PyPDF2(inp)
+        else:
+            article = None
+            print(f"tool must in {tool_li}")
+
+        if article:
+            if count_reference:
+                references_statistic(article)
+
+            with open(out_file, "w", encoding="utf-8") as f:
+                f.write(article)
+
     elif isinstance(inp, str):  # 不是文件就按照一段PDF样式的字符串处理输入
         out = del_enter(inp)
         print(out)
