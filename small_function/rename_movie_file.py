@@ -197,7 +197,8 @@ def test():
           "梦幻天堂·龙网(www.LWgod.xyz).两只老虎.葛优赵薇2019.mp4",
           "【6v电影域名被盗,新地址www.6vhao.com】幸福终点站.720p.国英双语.BD中英双字.mp4",
           "阳光灿烂的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv",
-          "阳光电影dy.ygdy8.com.保你平安.2023.HD.1080P.国语中英双字.mp4"]
+          "阳光电影dy.ygdy8.com.保你平安.2023.HD.1080P.国语中英双字.mp4",
+          "[GM-Team][国漫][剑来][Jian Lai][2024][10][HEVC][GB][4K].mp4"]
 
     for i in sl:
         new_name = regular_fil_nam(i, dic)
@@ -213,7 +214,7 @@ def main():
 
 if __name__ == '__main__':
 
-    dic = {
+    dic = {  # 直接去除的元素
         "杂项":
         [
             "1280X720", "1280x720", "720p", "720P", "1080p",
@@ -231,7 +232,7 @@ if __name__ == '__main__':
             "电影天堂", "迅雷下载", "最新电影", "6v电影",
             "人人影视", "小调网", "梦幻天堂·龙网",  "域名被盗,新地址",
             "2Audio", "2audio", "eztv",
-            "DVD",
+            "DVD", "GM-Team", "2160p", "4K",
             "  "
         ],  # 这里两个空格最好放在最后面
         "字幕":
@@ -245,8 +246,8 @@ if __name__ == '__main__':
         ],
         "编码":
         [
-            "HD", "BD", "WEB", "AC3"
+            "HD", "BD", "WEB", "AC3", "HEVC"
         ]
     }
-    main()
-    # test()
+    # main()
+    test()
