@@ -1,6 +1,9 @@
-# coding: utf-8
-# python3.6
+# -*- coding: utf-8 -*-
 # author: github.com/dongyang2
+# log:
+#   2025.8.2
+#       1. 增加 重命名的同时删除.torrent文件 的功能
+#       2. 增加 改名提示，如果文件名被修改，会显示旧名称和新名词
 import os
 
 
@@ -82,7 +85,7 @@ def regular_fil_nam(fil_nam, ds):
     # 按库去除各项元素
     for i in ds['编码']:
         for j in ds['字幕']:
-            nam = nam.replace(i+j, '')
+            nam = nam.replace(i + j, '')
     for i in ds['字幕']:
         nam = nam.replace(i, '')
     for i in ds['杂项']:
@@ -96,7 +99,7 @@ def regular_fil_nam(fil_nam, ds):
     if nam_final[0] == '-':  # 去除开头的短杠
         nam_final = nam_final[1:]
 
-    return nam_final+'.'+suffix
+    return nam_final + '.' + suffix
 
 
 def del_str_by_2char(s, co, ct, ro=False, rt=False, f=2):
@@ -119,12 +122,12 @@ def del_str_by_2char(s, co, ct, ro=False, rt=False, f=2):
         # print('ind1 = {}, ind2 = {}'.format(ind1, ind2))
 
         if f == 1:
-            ind1 = ind1+len(co)
-            ind2 = ind2+len(ct)
+            ind1 = ind1 + len(co)
+            ind2 = ind2 + len(ct)
         elif f == 2:
-            ind2 = ind2+len(ct)
+            ind2 = ind2 + len(ct)
         elif f == 3:
-            ind1 = ind1+len(co)
+            ind1 = ind1 + len(co)
         ca = s[ind1: ind2]
         # print('--ca--', ca)
         return s.replace(ca, '')
@@ -142,9 +145,14 @@ def ergodic_and_regular(path, ds):
         # each_path = os.path.join('%s/%s' % (path, di_or_fi))
         suffix = di_or_fi.split('.')[-1]
         if is_movie(suffix) is True:
-            print("原文件名-"+di_or_fi)
             new_name = regular_fil_nam(di_or_fi, ds)
-            os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
+            if new_name != di_or_fi:
+                print(f"旧文件名 {di_or_fi}\t->\t新文件名 {new_name}")
+                os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
+
+        if suffix.lower() == "torrent":
+            print(f"将要删除种子文件\t{di_or_fi}")
+            os.remove(di_or_fi)
 
 
 def is_caption(s):
@@ -168,19 +176,19 @@ def is_movie(s: str):
 def upper_word(p, s, li):
     # 遍历所有大写的方式。原来就是二叉树的遍历啊。
     # li.append(p+s)
-    s1u = s[0].upper()+s[1:]
+    s1u = s[0].upper() + s[1:]
     if len(s) > 1:
-        li.append(p+s1u)
-        upper_word(p+s[0], s[1:], li)
-        upper_word(p+s[0].upper(), s[1:], li)
+        li.append(p + s1u)
+        upper_word(p + s[0], s[1:], li)
+        upper_word(p + s[0].upper(), s[1:], li)
     else:
-        li.append(p+s.upper())
+        li.append(p + s.upper())
     # return s1u
 
 
 def test():
     sl = ["闪电侠.The.Flash.S06E04.中英字幕.HDTVrip.720P-人人影视.mp4",
-          "茶啊二中.1080p.BD国语中字[最新电影www.dygangs.me].mp4",
+          "什么啊中.1080p.BD国语中字[最新电影www.dygangs.me].mp4",
           "www.srAHNBr3eqh4weyh4.com.闪电侠第六季第03集中英双字.mkv",
           "The.Flash.2014.S06E05.720p.HDTV.x264-SVA[eztv].mkv",
           "脉冲.impulse.s01e01.720p.Classic字幕组.mp4",
@@ -194,11 +202,12 @@ def test():
           "十年日 本www n3qyh3qyh Co.mp4",
           "韦科惨案.Waco.E02.中英字幕.WEB.720p-人人影视.mp4",
           "[小调网-www.xiaodiao.com]雷神奇侠BD中英双字.rmvb",
-          "梦幻天堂·龙网(www.LWgod.xyz).两只老虎.葛优赵薇2019.mp4",
+          "梦幻天堂·龙网(www.LWgod.xyz).五只老虎.演员名单2019.mp4",
           "【6v电影域名被盗,新地址www.6vhao.com】幸福终点站.720p.国英双语.BD中英双字.mp4",
-          "阳光灿烂的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv",
-          "阳光电影dy.ygdy8.com.保你平安.2023.HD.1080P.国语中英双字.mp4",
-          "[GM-Team][国漫][剑来][Jian Lai][2024][10][HEVC][GB][4K].mp4"]
+          "太阳底下的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv",
+          "阳光电影dy.ygdy8.com.为你平安.2023.HD.1080P.国语中英双字.mp4",
+          "[GM-Team][国漫][我吃土豆][Jian Lai][2024][10][HEVC][GB][4K].mp4",
+          ]
 
     for i in sl:
         new_name = regular_fil_nam(i, dic)
@@ -213,41 +222,40 @@ def main():
 
 
 if __name__ == '__main__':
-
-    dic = {  # 直接去除的元素
+    dic = {
         "杂项":
-        [
-            "1280X720", "1280x720", "720p", "720P", "1080p",
-            "1080P",
-            "1920x1080", "1920X1080",
-            "1280高清", "1024高清", "1280超清",
-            "KO_CN", "TSKS", "x264-PublicHD", "PRiME",
-            "[", "]", "(", ")", "【", "】",
-            "x264-WiKi", "x264-HDS", "BluRay",
-            "HDTVrip", "HDTV",
-            "x264", "X264", "DVDrip",
-            "AAC", "DTS",
-            "无水印", "特效",
-            "lol电影天堂", "阳光电影", "66影视", "迅播影院",
-            "电影天堂", "迅雷下载", "最新电影", "6v电影",
-            "人人影视", "小调网", "梦幻天堂·龙网",  "域名被盗,新地址",
-            "2Audio", "2audio", "eztv",
-            "DVD", "GM-Team", "2160p", "4K",
-            "  "
-        ],  # 这里两个空格最好放在最后面
+            [
+                "1280X720", "1280x720", "720p", "720P", "1080p",
+                "1080P",
+                "1920x1080", "1920X1080",
+                "1280高清", "1024高清", "1280超清",
+                "KO_CN", "TSKS", "x264-PublicHD", "PRiME",
+                "[", "]", "(", ")", "【", "】",
+                "x264-WiKi", "x264-HDS", "BluRay",
+                "HDTVrip", "HDTV",
+                "x264", "X264", "DVDrip",
+                "AAC", "DTS",
+                "无水印", "特效",
+                "lol电影天堂", "阳光电影", "66影视", "迅播影院",
+                "电影天堂", "迅雷下载", "最新电影", "6v电影",
+                "人人影视", "小调网", "梦幻天堂·龙网", "域名被盗,新地址",
+                "2Audio", "2audio", "eztv",
+                "DVD", "GM-Team", "2160p", "4K",
+                "  "
+            ],  # 这里两个空格最好放在最后面
         "字幕":
-        [
-            "双字幕", "中英", "韩版",
-            "双字", "修正特效",
-            "中字", "国语", "韩语",
-            "三语", "国粤英", "英国粤", "国英粤",
-            "双语", "国英", "国粤",
-            "字幕",
-        ],
+            [
+                "双字幕", "中英", "韩版",
+                "双字", "修正特效",
+                "中字", "国语", "韩语",
+                "三语", "国粤英", "英国粤", "国英粤",
+                "双语", "国英", "国粤",
+                "字幕",
+            ],
         "编码":
-        [
-            "HD", "BD", "WEB", "AC3", "HEVC"
-        ]
+            [
+                "HD", "BD", "WEB", "AC3", "HEVC"
+            ]
     }
     # main()
     test()
