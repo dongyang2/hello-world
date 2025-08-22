@@ -189,6 +189,20 @@ def get_match_index(s, pat):
     return li
 
 
+def re_match_multiple(s, pat) -> list:
+    """利用re包来进行多次正则匹配，返回匹配的字符串"""
+    import re
+    search_result = 1
+    li = []
+    while search_result:
+        search_result = re.search(pat, s)
+        if search_result is not None:
+            index1, index2 = search_result.span()
+            li.append( s[index1:index2])
+            s = s[index2+1:]
+    return li
+
+
 def str_reverse(s: str):
     """翻转字符串"""
     if len(s) == 0:
@@ -207,6 +221,11 @@ def get_abc(lower_case=True):
         c = 65
     li = [chr(c+x) for x in range(26)]
     return li
+
+
+def find_all_index(text:str, substring:str) -> list:
+    """Python里没有找到 子串 所有下标的函数，官方只有 re.findall()返回所有匹配的串"""
+    return [i for i in range(len(text)) if text.startswith(substring, i)]
 
 
 if __name__ == '__main__':
@@ -253,4 +272,10 @@ if __name__ == '__main__':
     # zz_match(str1, r'333')
 
     print(get_abc(False))
+
+    lo = """
+    ['THOUGHT: The query involves identifying a specific term used in a Physics and Society article from August 11, 2016, that is also present in a figure from an AI regulation paper submitted to arXiv.org in June 2022. To answer this, I need to first locate the figure from the AI regulation paper and then cross-reference the terms used in the Physics and Society article. The key is to identify the common term that describes a type of society.\n\nSearch: ["AI regulation paper arXiv June 2022 figure three axes labels"]', 'THOUGHT: The query is asking for the five-digit zip codes of locations where a specific fish species, popularized by the movie *Finding Nemo*, was found as a nonnative species before 2020. The fish in question is the clownfish (*Amphiprion ocellaris*). To answer this, I need to find the nonnative locations of this species before 2020 and extract their zip codes.\n\nSearch: ["clownfish nonnative locations before 2020 zip codes"]']
+    """
+    pattern = r"Search.*\]"
+    print(re_match_multiple(lo, pattern))
 
