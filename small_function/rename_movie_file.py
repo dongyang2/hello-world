@@ -4,18 +4,11 @@
 #   2025.8.2
 #       1. 增加 重命名的同时删除.torrent文件 的功能
 #       2. 增加 改名提示，如果文件名被修改，会显示旧名称和新名词
+#   2025.11.23
+#       1. 增加 进行命名清理前，可选目录 的功能
+#       （在此之前，每次要修改某目录的文件名，需要手动复制粘贴这个文件，挪来挪去很麻烦，现在此文件在一个地方即可修改整个硬盘里任意文件夹的文件名）
+
 import os
-
-
-def each_file_or_dir_name(path):
-    """ 遍历指定目录，显示目录下的所有文件或目录名"""
-    path_dir = os.listdir(path)
-    di_fi = []
-    for di_or_fi in path_dir:
-        each_path = os.path.join('%s/%s' % (path, di_or_fi))
-        print(each_path)
-        di_fi.append(each_path)
-    return di_fi
 
 
 def ergodic_dir(path):
@@ -30,7 +23,7 @@ def ergodic_dir(path):
     di_fi = []
     for di_or_fi in path_dir:
         each_path = os.path.join('%s/%s' % (path, di_or_fi))
-        print(di_or_fi)
+        # print(di_or_fi)
         di_fi.append(each_path)
     return di_fi
 
@@ -207,6 +200,7 @@ def test():
           "太阳底下的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv",
           "阳光电影dy.ygdy8.com.为你平安.2023.HD.1080P.国语中英双字.mp4",
           "[GM-Team][国漫][我吃土豆][Jian Lai][2024][10][HEVC][GB][4K].mp4",
+          "GT赛车：极速狂飙.mp4",
           ]
 
     for i in sl:
@@ -215,10 +209,37 @@ def test():
 
 
 def main():
-    # path1 = 'H:/hello world resource/zhangxuan_resource'
-    # path2 = 'D:/下载/'
+    # ergodic_and_regular(os.getcwd(), dic)
 
-    ergodic_and_regular(os.getcwd(), dic)
+    cur_path = os.getcwd()
+    dirs = [cur_path]
+    print(f"当前可选路径\n0. {dirs[0]}/")
+    cnt = 1
+    for p in ergodic_dir(cur_path):
+        if os.path.isdir(p):
+            dirs.append(p)
+            print(f"{cnt}. {p}/")
+            cnt += 1
+    print("a. 手动输入完整路径(支持直接粘贴完整路径)\n请输入要进行命名清理的目录：", end="")
+    user_inp1 = input().strip()
+    if user_inp1 == 'a':
+        print(f"你的选择是 - {user_inp1}, 请输入完整路径（例如 E:/视频/电影/）：", end="")
+        user_inp2 = input().strip()
+        if os.path.isdir(user_inp2):
+            ergodic_and_regular(user_inp2, dic)
+        else:
+            print("❌ 输入的路径无效或不是目录，请重试。")
+    elif user_inp1.isdigit():
+        if int(user_inp1) < len(dirs):
+            print(f"你的选择是 - {user_inp1}, {dirs[int(user_inp1)]}\n")
+            ergodic_and_regular(dirs[int(user_inp1)], dic)
+        else:
+            print("❌ 无效选项，请输入上述数字或 a，或直接粘贴有效的完整路径。")
+    elif os.path.isabs(user_inp1) and os.path.isdir(user_inp1):        # 用户直接粘贴了完整路径
+        print(f"你的选择是 - 直接输入了完整有效的路径, {user_inp1}\n")
+        ergodic_and_regular(user_inp1, dic)
+    else:
+        print("❌ 无效选项，请输入上述数字或 a，或直接粘贴有效的完整路径。")
 
 
 if __name__ == '__main__':
@@ -257,5 +278,5 @@ if __name__ == '__main__':
                 "HD", "BD", "WEB", "AC3", "HEVC"
             ]
     }
-    # main()
-    test()
+    main()
+    # test()
