@@ -187,19 +187,8 @@ def main():
 
     model_name = "gemini-3-pro-preview"
     # model_name = "gpt-5"
-    q = """ 帮我润色论文，符合acl标准。
-修改 Limitations，在保持专业性的基础上，帮我去除一些内容，大概20~30个单词左右。
-
-Despite its demonstrated effectiveness, the proposed framework has several limitations that warrant discussion.
-
-First, while the audit-driven design improves reasoning stability and output correctness, it introduces additional inference overhead due to iterative validation. Although this overhead is moderate in our current implementation and remains practical for local deployment, the latency may become non-negligible in time-critical applications or when deeper audit loops are required. Future work may explore early-exit strategies or adaptive auditing policies to balance efficiency and verification rigor.
-
-Second, the effectiveness of the Audit Pipeline depends on the evaluative capability of the underlying language model. When the Judge model exhibits limited reasoning or discrimination ability, the quality of validation may degrade, potentially allowing subtle errors to pass or rejecting correct but unconventional reasoning paths. While our experiments show that this issue can be mitigated by allocating stronger models to the Judge role, systematic strategies for judge calibration and robustness remain an open problem.
-
-% 我的RAG检索方法是相关性检索，而非维持概念的全局一致性。同时，我的记忆机制并不是跨任务记忆，虽然在 Question1 回答过程中会用到历史记忆，且会通过 搜索引擎或本地api 获取短期记忆，但是拼接之后就丢弃了，在 Question2 中若有和 Question1 子问题的相关内容，需要重新检索，这就是面向单任务而非多任务的设计。信息并没有进行显式的跨任务整合，只会在需要时进行相关性检索。
-Third, the proposed memory design is optimized for supporting coherent reasoning within individual tasks and does not aim to enforce global consistency across multiple tasks or long-term sessions. While relevance-based retrieval is effective for contextual grounding, extending the framework toward explicit cross-task memory consolidation remains an open direction.
-
-Finally, our evaluation primarily focuses on question answering and reasoning-centric benchmarks. While these tasks are representative of many agent-based applications, further validation on interactive, embodied, or continuously evolving environments would be necessary to fully assess the generality of the framework.
+    q = """ 
+调研一下是否有“基于对象存储的机器学习、智能原生：直接利用对象开展模型训练”主题的相关论文，以及论证下具体可行性。我个人觉得不太可行，请给出你的论证
     """
 
     online_openai(model_name,q)
