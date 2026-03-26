@@ -145,7 +145,7 @@ def ergodic_and_regular(path, ds):
 
         if suffix.lower() == "torrent":
             print(f"将要删除种子文件\t{di_or_fi}")
-            os.remove(di_or_fi)
+            os.remove(f"{path}/{di_or_fi}")
 
 
 def is_caption(s):
@@ -201,6 +201,9 @@ def test():
           "阳光电影dy.ygdy8.com.为你平安.2023.HD.1080P.国语中英双字.mp4",
           "[GM-Team][国漫][我吃土豆][Jian Lai][2024][10][HEVC][GB][4K].mp4",
           "GT赛车：极速狂飙.mp4",
+          "[GM-Team][国漫][刀来][Jian Lai][2024][10][HEVC][GB][4K].mp4",
+          "刀来15.2160p.HD国语中字无水印[电影港www.dygangs.me].mp4",
+          "刀来17[HEVC][GB][4K].mp4"
           ]
 
     for i in sl:
@@ -213,17 +216,17 @@ def main():
 
     cur_path = os.getcwd()
     dirs = [cur_path]
-    print(f"当前可选路径\n0. {dirs[0]}/")
+    print(f"当前目录下可选路径（可输入行首数字）\n\n0. {dirs[0]}/")
     cnt = 1
     for p in ergodic_dir(cur_path):
         if os.path.isdir(p):
             dirs.append(p)
             print(f"{cnt}. {p}/")
             cnt += 1
-    print("a. 手动输入完整路径(支持直接粘贴完整路径)\n请输入要进行命名清理的目录：", end="")
+    print("a. 手动输入完整路径(支持直接粘贴完整路径)\n\n请输入要进行命名清理的目录：")
     user_inp1 = input().strip()
     if user_inp1 == 'a':
-        print(f"你的选择是 - {user_inp1}, 请输入完整路径（例如 E:/视频/电影/）：", end="")
+        print(f"\n你的选择是 - [{user_inp1}], 请输入完整路径（例如 E:/视频/电影/）：", end="")
         user_inp2 = input().strip()
         if os.path.isdir(user_inp2):
             ergodic_and_regular(user_inp2, dic)
@@ -231,12 +234,12 @@ def main():
             print("❌ 输入的路径无效或不是目录，请重试。")
     elif user_inp1.isdigit():
         if int(user_inp1) < len(dirs):
-            print(f"你的选择是 - {user_inp1}, {dirs[int(user_inp1)]}\n")
+            print(f"\n你的选择是 - [{user_inp1}], {dirs[int(user_inp1)]}\n")
             ergodic_and_regular(dirs[int(user_inp1)], dic)
         else:
             print("❌ 无效选项，请输入上述数字或 a，或直接粘贴有效的完整路径。")
     elif os.path.isabs(user_inp1) and os.path.isdir(user_inp1):        # 用户直接粘贴了完整路径
-        print(f"你的选择是 - 直接输入了完整有效的路径, {user_inp1}\n")
+        print(f"\n你的选择是 - [手动输入了完整有效的路径], {user_inp1}\n")
         ergodic_and_regular(user_inp1, dic)
     else:
         print("❌ 无效选项，请输入上述数字或 a，或直接粘贴有效的完整路径。")

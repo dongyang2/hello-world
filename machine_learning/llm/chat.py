@@ -187,10 +187,19 @@ def main():
 
     model_name = "gemini-3-pro-preview"
     # model_name = "gpt-5"
+<<<<<<< HEAD
     q = """ 
 调研一下是否有“基于对象存储的机器学习、智能原生：直接利用对象开展模型训练”主题的相关论文，以及论证下具体可行性。我个人觉得不太可行，请给出你的论证
-    """
+=======
+#     q = """ 帮我润色论文，符合acl标准。
+# 修改 Limitations，在保持专业性的基础上，帮我去除一些内容，大概20~30个单词左右。
+#
+#    """
 
+    q = """
+    调研一下是否有“基于对象存储的机器学习、智能原生：直接利用对象开展模型训练”主题的相关论文，以及论证下具体可行性。我个人觉得不太可行，请给出你的论证
+>>>>>>> 991fdad (新增 讯飞输入法词库融合功能（small_function/merge_iflyme_user_dic）。修改llm/chat，rename_movie_file.py)
+    """
     online_openai(model_name,q)
     # online_gemini(model_name,"你好，介绍一下你自己")
 
