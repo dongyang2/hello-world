@@ -125,8 +125,8 @@ def draw_bar_dynamic(data: dict, save_path, title_name="", resolution=(1920, 108
     """
     font = {"family": "WenQuanYi Zen Hei"}  # Ubuntu字体 sudo apt install fonts-wqy-zenhei
     # 设置字体，虽然感觉只改sans-serif，但应该够了
-    # Ubuntu字体  sudo apt install fonts-noto-cjk
-    plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC', 'WenQuanYi Zen Hei']
+    # Ubuntu字体  sudo apt install -y fonts-wqy-microhei --no-upgrade
+    plt.rcParams['font.sans-serif'] = ["WenQuanYi Micro Hei", "WenQuanYi Zen Hei"]
     plt.clf()  # 清空当前画布
     plt.title(title_name)
 

@@ -87,14 +87,22 @@ def timestamp_str_to_datetime_str(t: str):
     return date
 
 
+def minutes_diff(t1, t2, fmt = "%Y-%m-%d %H:%M:%S"):
+    dt1 = datetime.datetime.strptime(t1, fmt)
+    dt2 = datetime.datetime.strptime(t2, fmt)
+    diff = abs(dt2 - dt1)
+    return int(diff.total_seconds() // 60)
+
+
 if __name__ == '__main__':
     time_stamp = datetime.datetime.now()
-    print(time_stamp.strftime('%Y.%m.%d %H:%M:%S'))
-    print(time.ctime())
-    print('\n', '-' * 16, 'End', time.ctime(), '-' * 16)
-    print('{}{} {} {} {}'.format('\n', '-' * 16, 'End', time.ctime(), '-' * 16))
-    print('-' * 15, 'Start', time.ctime(), '-' * 15, '\n')
-
-    print(get_now_time('mon day h min', cd='-', num_mon=True, abb=False))
-
-    print('%s%s %s %s %s' % ('\n', '-' * 16, 'End', time.ctime(), '-' * 16))
+    # print(time_stamp.strftime('%Y.%m.%d %H:%M:%S'))
+    # print(time.ctime())
+    # print('\n', '-' * 16, 'End', time.ctime(), '-' * 16)
+    # print('{}{} {} {} {}'.format('\n', '-' * 16, 'End', time.ctime(), '-' * 16))
+    # print('-' * 15, 'Start', time.ctime(), '-' * 15, '\n')
+    #
+    # print(get_now_time('mon day h min', cd='-', num_mon=True, abb=False))
+    #
+    # print('%s%s %s %s %s' % ('\n', '-' * 16, 'End', time.ctime(), '-' * 16))
+    print(minutes_diff("2026-05-21 22:32:41","2026-05-24 12:48:04"))
