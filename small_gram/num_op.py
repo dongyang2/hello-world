@@ -253,6 +253,12 @@ def bool_int32(i: int):
     else:
         return True
 
+def lnd(number: float, cut=3):
+    """Limit the Number of Decimal places。截断法，而非四舍五入法。"""
+    n,d = str(number).split(".")
+    d = d[:cut]
+    return f"{n}.{d}"
+
 
 if __name__ == '__main__':
     li1 = [1, 3, 45, 6, 4, 9, 2]
