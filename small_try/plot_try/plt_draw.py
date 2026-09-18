@@ -142,6 +142,32 @@ def draw_bar_dynamic(data: dict, save_path, title_name="", resolution=(1920, 108
 
     plt.savefig(save_path, dpi=dpi, bbox_inches='tight', transparent=False)
 
+def draw_stack_retangle(li,title,path):
+    """堆叠条形图
+    Args:
+        li: list[tuple]. tuple需为 （元素名称，元素占比）
+    """
+    n = len(li)
+    cmap = plt.colormaps['tab20']  # 自适应颜色：用 tab20 调色板，不够再循环
+    colors = [cmap(i % 20) for i in range(n)]
+
+    fig_width = max(10, n * 2.5)
+    fig, ax = plt.subplots(figsize=(fig_width, 2.5))
+    left = 0
+    for i, (k, v) in enumerate(li):  # k是名字，v是已算好的比例
+        ax.barh([0], [v], left=left, color=colors[i], edgecolor='black', height=0.6)
+        ax.text(left + v / 2, 0, f'{k}\n{v:.2%}', ha='center', va='center',
+                fontsize=min(11, max(7, 12 - n // 3)), color='white', weight='bold')
+        left += v
+
+    ax.set_xlim(0, 1)
+    ax.axis('off')  # 隐藏坐标轴，只留长矩形
+
+    ax.set_title(title, fontsize=14, pad=15)
+    plt.tight_layout()
+    plt.savefig(path, dpi=150, bbox_inches='tight')
+    plt.close()
+
 
 def main():
     # draw_bar({})
