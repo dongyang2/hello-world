@@ -96,7 +96,7 @@ def ergodic_and_rename_new(path):
         if "Screenshot" in name:
             new_name = del_prefix(name, "Screenshot")
         if t:
-            print(f"原文件名 - {new_name} 被判定为时间戳，将转化。")
+            print(f"原文件名 - {name} 被判定为时间戳，将转化。")
             new_name = trans_timestamp(name, t)
         if new_name != 0:
             print(f"""新文件名\t{new_name+ "." + suffix}""")
