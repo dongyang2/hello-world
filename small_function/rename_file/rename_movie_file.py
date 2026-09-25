@@ -1,0 +1,236 @@
+# -*- coding: utf-8 -*-
+# author: github.com/dongyang2
+# log:
+#   2025.8.2
+#       1. 增加 重命名的同时删除.torrent文件 的功能
+#       2. 增加 改名提示，如果文件名被修改，会显示旧名称和新名词
+#   2025.11.23
+#       1. 增加 进行命名清理前，可选目录 的功能
+#       （在此之前，每次要修改某目录的文件名，需要手动复制粘贴这个文件，挪来挪去很麻烦，现在此文件在一个地方即可修改整个硬盘里任意文件夹的文件名）
+#   2026.9.25
+#       1. 制作父类和子类，方便维护，更灵活，省代码量，更简洁。若是需要单文件运行，到时候把母类代码复制进来即可。
+
+
+import os
+
+from small_function.rename_file.rename import Rename
+
+
+def del_char(s, c):
+    """删除字符串中指定字符"""
+    s_new = ''
+    for i in s:
+        if i != c:
+            s_new += i
+    return s_new
+
+
+def del_str_by_2char(s, co, ct, ro=False, rt=False, f=2):
+    """删除一个字符串中被2个子字符串包围的所有字符
+    f=0     仅删除s中的co
+    f=1     仅删除s中的ct
+    f=2     删除s中的co和ct
+    f=3     不删除co，也不删除ct
+
+    ro      是否从后往前寻找co
+    rt      是否从后往前寻找ct
+    """
+    if co in s and ct in s:
+        ind1 = s.find(co)
+        if ro:
+            ind1 = s.rfind(co)
+        ind2 = s.find(ct, ind1)
+        if rt:
+            ind2 = s.rfind(ct)
+        # print('ind1 = {}, ind2 = {}'.format(ind1, ind2))
+
+        if f == 1:
+            ind1 = ind1 + len(co)
+            ind2 = ind2 + len(ct)
+        elif f == 2:
+            ind2 = ind2 + len(ct)
+        elif f == 3:
+            ind1 = ind1 + len(co)
+        ca = s[ind1: ind2]
+        # print('--ca--', ca)
+        return s.replace(ca, '')
+    else:
+        # print('No such substring in this string!')
+        return s
+
+
+def is_caption(s):
+    # 根据规律判定是否是字幕说明
+    zimu = ['字幕', '双字', '中字', '双语']
+    for i in zimu:
+        if i in s:
+            return True
+    return False
+
+
+def is_movie(s: str):
+    # 根据后缀判断是否是电影文件
+    movie_suffix = ['mkv', 'mp4', 'rmvb', 'qmv', 'mov', 'flv']
+    if s.lower() in movie_suffix:
+        return True
+    else:
+        return False
+
+
+def upper_word(p, s, li):
+    # 遍历所有大写的方式。原来就是二叉树的遍历啊。
+    # li.append(p+s)
+    s1u = s[0].upper() + s[1:]
+    if len(s) > 1:
+        li.append(p + s1u)
+        upper_word(p + s[0], s[1:], li)
+        upper_word(p + s[0].upper(), s[1:], li)
+    else:
+        li.append(p + s.upper())
+    # return s1u
+
+
+class RenameMovie(Rename):
+    def regular_fil_nam(self, fil_nam, ds):
+        """把影视作品的文件名规范化"""
+
+        # 删除字幕组
+        prefix = ['-', '[', '.']
+        for i in prefix:
+            fil_nam = del_str_by_2char(fil_nam, i, '字幕组')
+            fil_nam = del_str_by_2char(fil_nam, i, '影视')
+
+        # 删除网站名字
+        fil_nam = del_str_by_2char(fil_nam, "www", "转载")
+        fil_nam = del_str_by_2char(fil_nam, "dy.", "com")
+        website_suffix = ["com", "cc", "co", "tv", "net", "xyz", "me"]
+        for i in website_suffix:
+            tmp_li = [i]
+            upper_word("", i, tmp_li)
+            for j in tmp_li:
+                fil_nam = del_str_by_2char(fil_nam, "www", j)
+            # print('aaa', fil_nam)
+
+        # 20191216 找到的新规律
+        for i in ds['编码']:
+            tmp_li = [i]
+            upper_word('', i, tmp_li)
+            for j in tmp_li:
+                fil_nam = del_str_by_2char(fil_nam, j, '.', rt=True, f=0)
+
+        # 删除x264
+        fil_nam = del_str_by_2char(fil_nam, 'x264', '.')
+
+        # 20200413
+        fil_nam = del_str_by_2char(fil_nam, "BluRay", ".")
+
+        nam, suffix = self.get_final_part(fil_nam, ".")
+
+        # 按库去除各项元素
+        for i in ds['编码']:
+            for j in ds['字幕']:
+                nam = nam.replace(i + j, '')
+        for i in ds['字幕']:
+            nam = nam.replace(i, '')
+        for i in ds['杂项']:
+            nam = nam.replace(i, '')
+
+        nam_final = nam
+        if nam_final[0] == ' ':  # 去除开头的空格
+            nam_final = nam_final[1:]
+        if nam_final[-1] == ' ':  # 去除结尾的空格
+            nam_final = nam_final[:-1]
+        if nam_final[0] == '-':  # 去除开头的短杠
+            nam_final = nam_final[1:]
+
+        return nam_final + '.' + suffix
+
+    def ergodic_and_regular(self,path):   # 这里path是父类继承过来的
+        s = path[-1]
+        if s == '/':
+            path = path[:-1]
+        path_dir = os.listdir(path)
+        for di_or_fi in path_dir:
+            # each_path = os.path.join('%s/%s' % (path, di_or_fi))
+            suffix = di_or_fi.split('.')[-1]
+            if is_movie(suffix) is True:
+                new_name = self.regular_fil_nam(di_or_fi, dic)
+                if new_name != di_or_fi:
+                    print(f"旧文件名 {di_or_fi}\t->\t新文件名 {new_name}")
+                    os.rename('%s/%s' % (path, di_or_fi), '%s/%s' % (path, new_name))
+
+            if suffix.lower() == "torrent":
+                print(f"将要删除种子文件\t{di_or_fi}")
+                os.remove(f"{path}/{di_or_fi}")
+
+    def test(self):
+        sl = ["闪电侠.The.Flash.S06E04.中英字幕.HDTVrip.720P-人人影视.mp4",
+              "什么啊中.1080p.BD国语中字[最新电影www.dygangs.me].mp4",
+              "www.srAHNBr3eqh4weyh4.com.闪电侠第六季第03集中英双字.mkv",
+              "The.Flash.2014.S06E05.720p.HDTV.x264-SVA[eztv].mkv",
+              "脉冲.impulse.s01e01.720p.Classic字幕组.mp4",
+              "神奇女侠BD国英双语双字.电影天堂.www.3j5h4j2.com.mkv",
+              "nz.1080p.BD修正中英双字[最新电影www.dygangs.me].mp4",
+              "www.n34h3qh.com.神奇女侠：血脉.BD.1080p.中英双字幕.mkv",
+              "www.n34hqhgh.com.狮子王.BD.1080p.国粤英三语双字.mkv",
+              "[www.n3qh4h3qh.com转载]社交网络DVD中英双字.rmvb",
+              "【6v电影www.n3qygq.com】蜀山传.720p.国粤双语.BD中字.mkv",
+              "中转停留.720p.HD中字[最新电影www.nq3h4yq3.tv].mp4",
+              "十年日 本www n3qyh3qyh Co.mp4",
+              "韦科惨案.Waco.E02.中英字幕.WEB.720p-人人影视.mp4",
+              "[小调网-www.xiaodiao.com]雷神奇侠BD中英双字.rmvb",
+              "梦幻天堂·龙网(www.LWgod.xyz).五只老虎.演员名单2019.mp4",
+              "【6v电影域名被盗,新地址www.6vhao.com】幸福终点站.720p.国英双语.BD中英双字.mp4",
+              "太阳底下的日子.In.the.Heat.of.the.Sun.2004.国语中字.DVDrip.x264.AC3-圣城家园.mkv",
+              "阳光电影dy.ygdy8.com.为你平安.2023.HD.1080P.国语中英双字.mp4",
+              "[GM-Team][国漫][我吃土豆][Jian Lai][2024][10][HEVC][GB][4K].mp4",
+              "GT赛车：极速狂飙.mp4",
+              "[GM-Team][国漫][刀来][Jian Lai][2024][10][HEVC][GB][4K].mp4",
+              "刀来15.2160p.HD国语中字无水印[电影港www.dygangs.me].mp4",
+              "刀来17[HEVC][GB][4K].mp4"
+              ]
+
+        for i in sl:
+            new_name = self.regular_fil_nam(i, dic)
+            print(new_name)
+
+
+if __name__ == '__main__':
+    dic = {
+        "杂项":
+            [
+                "1280X720", "1280x720", "720p", "720P", "1080p",
+                "1080P",
+                "1920x1080", "1920X1080",
+                "1280高清", "1024高清", "1280超清",
+                "KO_CN", "TSKS", "x264-PublicHD", "PRiME",
+                "[", "]", "(", ")", "【", "】",
+                "x264-WiKi", "x264-HDS", "BluRay",
+                "HDTVrip", "HDTV",
+                "x264", "X264", "DVDrip",
+                "AAC", "DTS",
+                "无水印", "特效",
+                "lol电影天堂", "阳光电影", "66影视", "迅播影院",
+                "电影天堂", "迅雷下载", "最新电影", "6v电影",
+                "人人影视", "小调网", "梦幻天堂·龙网", "域名被盗,新地址",
+                "2Audio", "2audio", "eztv",
+                "DVD", "GM-Team", "2160p", "4K",
+                "  "
+            ],  # 这里两个空格最好放在最后面
+        "字幕":
+            [
+                "双字幕", "中英", "韩版",
+                "双字", "修正特效",
+                "中字", "国语", "韩语",
+                "三语", "国粤英", "英国粤", "国英粤",
+                "双语", "国英", "国粤",
+                "字幕",
+            ],
+        "编码":
+            [
+                "HD", "BD", "WEB", "AC3", "HEVC"
+            ]
+    }
+    r = RenameMovie()
+    r.entry()
+    # r.test()
